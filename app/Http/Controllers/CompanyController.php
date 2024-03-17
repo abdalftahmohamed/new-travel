@@ -1,0 +1,161 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Traits\ImageTrait;
+use App\Models\Attachment;
+use App\Models\AttachmentDocument;
+use App\Models\AttachmentImage;
+use App\Models\AttachmentVideo;
+use App\Models\City;
+use App\Models\Company;
+use App\Models\Country;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
+use PragmaRX\Countries\Package\Countries;
+
+
+class CompanyController extends Controller
+{
+
+    use ImageTrait;
+    public function index()
+    {
+        $companys=Company::get();
+        return view('pages.company.index', compact('companys'));
+    }
+
+
+    public function create()
+    {
+//        $countries = Countries::all()->pluck('name.common', 'cca2')->values()->toArray();
+        $countries =Country::all();
+//        $cities =City::all();
+        return view('pages.company.create',compact('countries'));
+    }
+
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|email|unique:companies',
+                'password' => ['required',Password::default()],
+                'phone' => 'nullable|string',
+                'address' => 'nullable|string',
+                'url' => 'nullable|url',
+                'status' => ['required', Rule::in([0,1])],
+//                'status' => 'required|in:supervisor,employee,not_employee',
+                'country_id' => 'nullable|integer|exists:countries,id',
+                'city_id' => 'nullable|integer|exists:cities,id',
+                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+            ]);
+            $validatedData['password'] = Hash::make($request->input('password'));
+
+            $company = Company::create($validatedData);
+            // Check if an image was provided
+            if ($request->hasFile('image_path')) {
+                $company_image = $this->saveImage($request->file('image_path'),'attachments/companys/'.$company->id);
+                $company->image_path = $company_image;
+                $company->save();
+            }
+
+            DB::commit();
+
+            session()->flash('message', 'Company Created Successfully');
+            return redirect()->route('admin.company.index');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+
+    }
+
+
+    public function show($id)
+    {
+        $company = Company::findOrFail($id);
+        $invoices = $company->invoices()->get();
+        $quotes = $company->quotes()->get();
+        $projects = $company->projects()->get();
+        return view('pages.company.show', compact('projects','invoices','quotes','company'));
+    }
+
+
+    public function edit($id)
+    {
+        $company = Company::findOrFail($id);
+        $countries = Country::all();
+        return view('pages.company.edit', compact('countries','company'));
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'name' => 'nullable|string',
+                'email' => 'nullable|email|unique:companies,email,'.$request->id,
+                'password' => ['nullable',Password::default()],
+                'phone' => 'nullable|string',
+                'address' => 'nullable|string',
+                'url' => 'nullable|url',
+                'status' => ['nullable', Rule::in([0,1])],
+                'country_id' => 'nullable|integer|exists:countries,id',
+                'city_id' => 'nullable|integer|exists:cities,id',
+                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+            ]);
+
+            if ($request->filled('password')) {
+                $validatedData['password'] = Hash::make($request->input('password'));
+            }
+            $company = Company::findOrFail($request->id);
+            $company->update($validatedData);
+            if ($request->hasFile('image_path')) {
+                $this->deleteFile('companys',$request->id);
+
+                $company_image = $this->saveImage($request->file('image_path'),'attachments/companys/'.$company->id);
+                $company->image_path = $company_image;
+                $company->save();
+            }
+
+            session()->flash('message', 'company Updated Successfully');
+            return redirect()->route('admin.company.index');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        try {
+            // Find the company by ID
+            $company = Company::findOrFail($request->id);
+            $this->deleteFile('companys',$request->id);
+
+            // Delete the company
+            $company->delete();
+            session()->flash('message', 'company Deleted Successfully');
+            return redirect()->route('admin.company.index');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function getCities($countryId)
+    {
+        $cities = City::where('country_id', $countryId)->get();
+
+        return response()->json(['cities' => $cities]);
+    }
+
+}

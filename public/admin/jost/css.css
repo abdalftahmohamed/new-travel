@@ -1,0 +1,47 @@
+.DocumentSection_section__3WaJL {
+    background-color: #fff;
+    /*width: 100%;*/
+    border-radius: 4px;
+    /*padding: 5px 50px;*/
+    /*margin-bottom: 20px; */
+}
+
+.DocumentSection_sectionTitle__1rl5y {
+    font-size: 30px; /* Adjust font size for the section title */
+    /*color: #484ADF; !* Set the color for the section title text *!*/
+    margin-bottom: 10px; /* Add some space below the section title */
+}
+
+
+.DocumentEditForm_icon__3iujO {
+    width: 50px; /* Adjust the width as needed */
+    height: 50px; /* Adjust the height as needed */
+    margin-right: 5px; /* Add some space to the right of the icon */
+    /* You can customize further based on your design preferences */
+}
+.DocumentEditScreen_titleDescription__2abbu {
+    font-size: 14px; /* Adjust font size for the description */
+    color: #333; /* Set the color for the description text */
+}
+.DocumentAttachments_icon__38lKa {
+    width: 20px; /* Adjust the width as needed */
+    height: 20px; /* Adjust the height as needed */
+    margin-right: 5px; /* Add some space to the right of the icon */
+    margin-bottom: 10px;
+    /* You can customize further based on your design preferences */
+}
+.FileSelector_fileSelector__3fyp6 {
+    margin-top: 15px; /* Add some space above the file selector */
+}
+
+.FileSelector_uploadButton__1jUnL {
+    /* Style for the upload button */
+    color: #484ADF;
+    border-color: #484ADF;
+}
+.buttonClient {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+/* You can customize further based on your design preferences */
