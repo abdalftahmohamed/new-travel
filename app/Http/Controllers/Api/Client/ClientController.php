@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\TripResource;
+use App\Http\Resources\ClientResource;
 use App\Http\Traits\ImageTrait;
 use App\Models\Trip;
 use Illuminate\Http\Request;
@@ -81,4 +83,16 @@ class ClientController extends Controller
     }
 
 
+    public function myFavoriteTrip()
+    {
+        $client = auth('clientApi')->user();
+        return response()->json([
+            'status' => true,
+            'message' => [
+                'en' => 'show All favorite successfully',
+                'ar' => 'تم عرض الرحلات للمفضله بنجاح',
+            ],
+            'data'=>TripResource::collection($client->favoriteTrips()->get())
+        ]);
+    }
 }

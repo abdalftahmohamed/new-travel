@@ -24,6 +24,7 @@ Route::group([
     Route::get('/user-profile', [\App\Http\Controllers\Api\Admin\AuthController::class, 'userProfile']);
 
 
+
     //country Routes
     Route::controller(\App\Http\Controllers\Api\Admin\CountryController::class)->prefix('country')->as('country.')->group(function () {
         Route::get('/', 'index');
@@ -56,30 +57,32 @@ Route::group([
     'middleware' => 'auth:clientApi',
     'prefix' => 'v1/client'
 ], function ($router) {
-    Route::post('/login', [\App\Http\Controllers\Api\Client\AuthClientController::class, 'login'])->withoutMiddleware('auth:clientApi');
-    Route::post('/register', [\App\Http\Controllers\Api\Client\AuthClientController::class, 'register'])->withoutMiddleware('auth:clientApi');
-    Route::post('/logout', [\App\Http\Controllers\Api\Client\AuthClientController::class, 'logout']);
-    Route::post('/refresh', [\App\Http\Controllers\Api\Client\AuthClientController::class, 'refresh']);
-    Route::get('/user-profile', [\App\Http\Controllers\Api\Client\AuthClientController::class, 'userProfile']);
+    #Auth
+    Route::controller(\App\Http\Controllers\Api\Client\AuthClientController::class)->group(function () {
+        Route::post('/login', 'login')->withoutMiddleware('auth:clientApi');
+        Route::post('/register', 'register')->withoutMiddleware('auth:clientApi');
+        Route::post('/logout', 'logout');
+        Route::post('/refresh', 'refresh');
+        Route::get('/user-profile', 'userProfile');
+    });
 
-    Route::post('forgetPassword',[\App\Http\Controllers\Api\Client\PasswordClientController::class, 'forgetPassword'])->withoutMiddleware(['auth:clientApi']);
-    Route::post('password/reset',[\App\Http\Controllers\Api\Client\PasswordClientController::class, 'reset'])->withoutMiddleware(['auth:clientApi']);
-    Route::post('password/confirm',[\App\Http\Controllers\Api\Client\PasswordClientController::class, 'confirm']);
-    Route::post('updatePassword',[\App\Http\Controllers\Api\Client\PasswordClientController::class, 'updatePassword']);
+    #password
+    Route::controller(\App\Http\Controllers\Api\Client\PasswordClientController::class)->group(function () {
+        Route::post('forgetPassword', 'forgetPassword')->withoutMiddleware('auth:clientApi');
+        Route::post('password/reset', 'reset')->withoutMiddleware('auth:clientApi');
+        Route::post('password/confirm', 'confirm');
+        Route::post('updatePassword', 'updatePassword');
+    });
+
+    #favorite
+    Route::controller(\App\Http\Controllers\Api\Client\ClientController::class)->group(function () {
+        Route::post('/favoriteTrip', 'favoriteTrip');
+        Route::post('/unFavoriteTrip', 'unFavoriteTrip');
+        Route::get('/myFavoriteTrip', 'myFavoriteTrip');
+    });
 
 
-    Route::post('/favoriteTrip', [\App\Http\Controllers\Api\Client\ClientController::class, 'favoriteTrip']);
-    Route::post('/unFavoriteTrip', [\App\Http\Controllers\Api\Client\ClientController::class, 'unFavoriteTrip']);
 
-
-//    //country Routes
-//    Route::controller(\App\Http\Controllers\Api\Admin\CountryController::class)->prefix('country')->as('country.')->group(function () {
-//        Route::get('/', 'index');
-//        Route::post('/store', 'store');
-//        Route::get('/show/{id}', 'show');
-//        Route::post('/update/{id}', 'update');
-//        Route::delete('/destroy/{id}', 'destroy');
-//    });
 
 });
 

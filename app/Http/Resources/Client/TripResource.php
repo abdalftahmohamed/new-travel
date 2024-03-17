@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\Home;
+namespace App\Http\Resources\Client;
 
+use App\Http\Resources\Home\ClientResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TripResource extends JsonResource
@@ -29,7 +30,7 @@ class TripResource extends JsonResource
 
         // Merge related data
         $relatedData = [
-            'clientFavourite' => ClientResource::collection($this->favoriteClients),
+//            'clientFavourite' => ClientResource::collection($this->favoriteClients),
         ];
 
         // Merge attributes and related data

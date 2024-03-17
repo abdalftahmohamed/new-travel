@@ -57,7 +57,7 @@ class PasswordClientController extends Controller
                     'en' => 'Invalid verification code. Please try again.',
                     'ar' => 'هذا الرمز غير صالح يرجي التحقق مره أحري',
                 ],
-            ], 502);
+            ], 400);
         }
 
         $token = auth('clientApi')->login($Client);
@@ -88,7 +88,7 @@ class PasswordClientController extends Controller
                     'en' => 'Invalid verification code. Please try again.',
                     'ar' => 'هذا الرمز غير صالح يرجي التحقق مره أحري',
                 ],
-            ], 502);
+            ], 400);
         }
         // Check if the token has expired
         $expirationTime = Carbon::parse($Client->expire_at);
@@ -99,7 +99,7 @@ class PasswordClientController extends Controller
                     'en' => 'The verification token has expired. Please request a new one.',
                     'ar' => 'انتهت صلاحية الرمز. يرجى طلب رمز جديد.',
                 ],
-            ], 502);
+            ], 400);
         }
 
         $Client->update([
@@ -121,7 +121,7 @@ class PasswordClientController extends Controller
     public function updatePassword(ConfirmRequest $request)
     {
         $user = auth('clientApi')->user();
-        if (Hash::check($request->old_password, $user->password)) {
+//        if (Hash::check($request->old_password, $user->password)) {
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
@@ -132,14 +132,14 @@ class PasswordClientController extends Controller
                 ],
                 'success' => true,
             ]);
-        }
-        return response([
-            'message' => [
-                'en' => 'you should enter the old password',
-                'ar' => 'من فضلك ادخل كلمة المرور القديمة',
-            ],
-            'success' => false,
-        ], 502);
+//        }
+//        return response([
+//            'message' => [
+//                'en' => 'you should enter the old password',
+//                'ar' => 'من فضلك ادخل كلمة المرور القديمة',
+//            ],
+//            'success' => false,
+//        ], 400);
 
     }
 
