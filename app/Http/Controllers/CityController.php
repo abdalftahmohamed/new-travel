@@ -36,12 +36,21 @@ class CityController extends Controller
 //        dd($request);
         DB::beginTransaction();
         try {
+            $validatedData1 = $request->validate([
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_or' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_or' => 'nullable|string',
+            ]);
             $validatedData = $request->validate([
-                'name' => 'required|string',
-                'description' => 'nullable|string',
                 'country_id' => 'nullable|integer|exists:countries,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
+
+            $validatedData['name']=['ar' => $request->name_ar, 'en' => $request->name_en, 'or' => $request->name_or];
+            $validatedData['description']=['ar' => $request->description_ar, 'en' => $request->description_en, 'or' => $request->description_or];
 
             $city = City::create($validatedData);
             // Check if an image was provided

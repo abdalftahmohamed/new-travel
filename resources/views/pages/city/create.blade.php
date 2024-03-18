@@ -108,17 +108,44 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-12">
-                                        <label>city description</label>
+                                        <label>city description ar</label>
                                         <div>
-                                            <textarea name="description" class="form-control" rows="5" placeholder="enter the description here ...">{{old('description')}}</textarea>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{old('description_ar')}}</textarea>
                                         </div>
-                                        @error('description')
+                                        @error('description_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>city description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>city description or</label>
+                                        <div>
+                                            <textarea name="description_or" class="form-control" rows="5" placeholder="enter the description or here ...">{{old('description_or')}}</textarea>
+                                        </div>
+                                        @error('description_or')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <hr>
                                 <hr>
