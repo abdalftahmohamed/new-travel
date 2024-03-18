@@ -60,9 +60,10 @@ class HomeController extends Controller
     }
 
 
-    public function trip()
+    public function trip($ar)
     {
         $trips = Trip::get();
+
         return response()->json([
             'status' => true,
             'message' => [
@@ -130,5 +131,58 @@ class HomeController extends Controller
     }
 
 
+    public function searchTrip(Request $request)
+    {
+        try {
+//            $r=Trip::findOrFail($request->name);
+            if (isset($request->name)){
+                $trip_search = Trip::where('status',1)->whereRaw("name LIKE ?", ['%'.$request->name.'%'])->get();
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'ar'=>'تم رجوع البانات بنجاح',
+                        'en'=>'data return successfully'
+                    ],
+                    'data'=>\App\Http\Resources\Home\TripResource::collection($trip_search)
+                ]);
+            }
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'ar'=>'لا توجد بيانات بهذا الاسم',
+                    'en'=>'not found any data'
+                ],
+            ], 501);
+        }
+    }
+
+    public function searchBlog(Request $request)
+    {
+        try {
+            if (isset($request->name)){
+                $blog_search = Blog::whereRaw("name LIKE ?", ['%'.$request->name.'%'])->get();
+                return response()->json([
+                    'status' => true,
+                    'message' => [
+                        'ar'=>'تم رجوع البانات بنجاح',
+                        'en'=>'data return successfully',
+//                        'or'=>'data return successfully',
+                    ],
+                    'data'=>\App\Http\Resources\Home\BlogResource::collection($blog_search)
+                ]);
+            }
+
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false,
+                'message' => [
+                    'ar'=>'لا توجد بيانات بهذا الاسم',
+                    'en'=>'not found any data'
+                ],
+            ], 404);
+        }
+    }
 
 }

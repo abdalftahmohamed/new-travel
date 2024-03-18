@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->longText('name')->nullable();
             $table->longText('description')->nullable();
             $table->string('image_path')->nullable();
             $table->string('logo_path')->nullable();
 
-            $table->string('cus_rating')->nullable();
+//            $table->string('cus_rating')->nullable();
 
             $table->bigInteger('company_id')->unsigned()->nullable();
             $table->foreign('company_id')->references('id')->on('companies')

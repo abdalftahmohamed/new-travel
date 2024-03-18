@@ -30,6 +30,7 @@ class TripResource extends JsonResource
         // Merge related data
         $relatedData = [
             'clientFavourite' => ClientResource::collection($this->favoriteClients),
+            'addresses' => $this->addresses,
         ];
 
         // Merge attributes and related data

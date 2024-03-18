@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "pragmarx/countries-laravel": "^0.7.0",
+        "spatie/laravel-translatable": "^6.6",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {

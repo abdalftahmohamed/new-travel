@@ -74,11 +74,31 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-12">
-                                        <label>the city name</label>
-                                        <input type="text" name="name" value="{{old('name')}}"
-                                               class="form-control" required placeholder="enter company name here..."/>
-                                        @error('name')
+                                    <div class="col-4">
+                                        <label>the city name ar</label>
+                                        <input type="text" name="name_ar" value="{{old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the city name en</label>
+                                        <input type="text" name="name_en" value="{{old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the city name or</label>
+                                        <input type="text" name="name_or" value="{{old('name_or')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_or')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>

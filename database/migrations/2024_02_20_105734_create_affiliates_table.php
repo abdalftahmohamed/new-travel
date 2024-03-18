@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('affiliates', function (Blueprint $table) {
             $table->id();
             $table->string('image_path')->nullable();
-            $table->string('name');
+            $table->longText('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('status')->default(true);
             $table->string('phone')->nullable();
             $table->string('date_of_birth')->nullable();
-            $table->string('address')->nullable();
+            $table->longText('address')->nullable();
             $table->string('discount')->nullable();
             $table->string('IBAN')->nullable();
             $table->string('swift_code')->nullable();

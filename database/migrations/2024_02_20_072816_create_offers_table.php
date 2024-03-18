@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->string('offer_date')->nullable();
+//            $table->string('offer_date')->nullable();
             $table->double('old_price',8,2)->nullable();
             $table->double('young_price',8,2)->nullable();
-            $table->string('name')->nullable();
+            $table->longText('name')->nullable();
             $table->longText('offer_description')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('cus_rating')->nullable();
+//            $table->string('cus_rating')->nullable();
             $table->string('country')->nullable();
             $table->string('city')->nullable();
             $table->bigInteger('company_id')->unsigned()->nullable();

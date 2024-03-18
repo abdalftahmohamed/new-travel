@@ -100,6 +100,8 @@ Route::group([
         Route::get('/show/{id}', 'show');
         Route::post('/update/{id}', 'update');
         Route::delete('/destroy/{id}', 'destroy');
+        Route::get('/searchTrip', 'searchTrip');
+        Route::get('/searchBlog', 'searchBlog');
     });
 
 });

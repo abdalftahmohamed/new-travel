@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->longText('name')->nullable();
             $table->longText('description')->nullable();
             $table->string('image_path')->nullable();
             $table->bigInteger('country_id')->unsigned()->nullable();

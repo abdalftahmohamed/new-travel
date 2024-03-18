@@ -21,7 +21,10 @@ class CountryResource extends JsonResource
         }
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => [
+                'ar'=>$this->name,
+                'en'=>$this->name,
+            ],
             'description' => $this->description,
             'image_path' => $this->image_path,
             'cities' =>CityResource::collection($this->cities)

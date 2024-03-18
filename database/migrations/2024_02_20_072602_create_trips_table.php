@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('trip_date')->nullable();
             $table->double('old_price',8,2)->nullable();
             $table->double('young_price',8,2)->nullable();
-            $table->string('name')->nullable();
+            $table->longText('name')->nullable();
             $table->string('image_path')->nullable();
             $table->longText('trip_description')->nullable();
             $table->boolean('status')->default(true);
-            $table->string('cus_rating')->nullable();
+//            $table->string('cus_rating')->nullable();
             $table->longText('location')->nullable();
             $table->enum('type',['Top Destinations','Best Trips','Best Offers','Popular Experiences'])->default('Popular Experiences');
 

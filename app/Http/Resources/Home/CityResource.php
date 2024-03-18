@@ -18,6 +18,17 @@ class CityResource extends JsonResource
         }else{
             $attributes['image_path'] =url(asset('admin/dist/img/no_image.jpg'));
         }
+//        $attributes['name']=[
+//        'ar'=>$this->name,
+//        'en'=>$this->name,
+//        ];
+//        $attributes['description']=[
+//            'ar'=>$this->description,
+//            'en'=>$this->description,
+//        ];
+
+
+
 
 //        // List of attributes to exclude
 //        $excludedAttributes = ['updated_at'];
