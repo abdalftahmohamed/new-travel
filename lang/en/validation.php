@@ -186,6 +186,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+         'trip_id'                 =>'trip' ,
+         'client_id'               => 'client',
+    ],
 
 ];

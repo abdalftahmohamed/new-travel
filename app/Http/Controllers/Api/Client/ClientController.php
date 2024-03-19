@@ -17,6 +17,9 @@ class ClientController extends Controller
     public function favoriteTrip(Request $request)
     {
         try {
+            $request->validate([
+                'trip_id' => 'nullable|integer|exists:trips,id',
+            ]);
             $trip_r = Trip::find($request->trip_id);
             if (!$trip_r) {
                 return response()->json([
@@ -44,60 +47,18 @@ class ClientController extends Controller
 
         } catch (\Throwable $ex) {
             return response()->json([
-                'message' => [
-                    'en' => 'Error System Please try again',
-                    'ar' => 'خطأ بالنظام',
-                ],
                 'status' => false,
-                'error' => $ex->getMessage()
+                'message' =>$ex->getMessage()
             ], 501);
         }
     }
-
-    public function unFavoriteTrip(Request $request)
-    {
-        try {
-            $trip_r = Trip::find($request->trip_id);
-            if (!$trip_r) {
-                return response()->json([
-                    'status' => false,
-                    'message' => [
-                        'en' => 'trip not found',
-                        'ar' => 'الرحلة غير موجوده',
-                    ],
-                ], 400);
-            }
-            $trip_successfully = auth('clientApi')->user()->favoriteTrips();
-            $trip_successfully->detach($request->trip_id);
-            return response()->json([
-                'status' => true,
-                'message' => [
-                    'en' => 'Not preferred successfully',
-                    'ar' => 'تم الازاله من المفضله بنجاح',
-                ],
-            ]);
-        } catch (\Throwable $ex) {
-            return response()->json([
-                'status' => false,
-                'message' => [
-                    'en' => 'Error System Please try again',
-                    'ar' => 'خطأ بالنظام',
-                ],
-                'error' => $ex->getMessage()
-            ], 501);
-        }
-    }
-
 
     public function myFavoriteTrip()
     {
         $client = auth('clientApi')->user();
         return response()->json([
             'status' => true,
-            'message' => [
-                'en' => 'show All favorite successfully',
-                'ar' => 'تم عرض الرحلات للمفضله بنجاح',
-            ],
+            'message' =>__('transMessage.messSuccess'),
             'data'=>TripResource::collection($client->favoriteTrips()->get())
         ]);
     }

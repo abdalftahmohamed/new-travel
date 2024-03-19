@@ -32,7 +32,7 @@ class TripResource extends JsonResource
             'oldPrice' => $this->old_price,
             'childPrice' => $this->young_price,
             'imagePath' => $this->image_path,
-            'department' => $this->department->name,
+            'department' => new DepartmentResource($this->department),
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageTripResource::collection($this->images),
             'clientFavourite' => $check,
