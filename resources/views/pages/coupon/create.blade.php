@@ -55,24 +55,24 @@
                                   enctype="multipart/form-data">
                                 @csrf
 
-                                <div class="row">
-                                    <!-- trip -->
-                                    <div class="col-12">
-                                        <label for="trip_id">trip</label>
-                                        <select id="trip_id" name="trip_id" class="form-control" required>
-                                            <option value="" disabled selected>Select Here</option>
-                                            @foreach($trips as $trip)
-                                                <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('trip_id')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <br>
+{{--                                <div class="row">--}}
+{{--                                    <!-- trip -->--}}
+{{--                                    <div class="col-12">--}}
+{{--                                        <label for="trip_id">trip</label>--}}
+{{--                                        <select id="trip_id" name="trip_id" class="form-control" required>--}}
+{{--                                            <option value="" disabled selected>Select Here</option>--}}
+{{--                                            @foreach($trips as $trip)--}}
+{{--                                                <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                        @error('trip_id')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                            <strong>{{ $message }}</strong>--}}
+{{--                                        </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <br>--}}
                                 <div class="row">
                                     <div class="col-12">
                                         <label>coupon name</label>

@@ -14,7 +14,7 @@ class Blog extends Model
 
     use HasTranslations;
 
-    public $translatable = ['name','trip_description'];
+    public $translatable = ['name','description'];
     public function company()
     {
         return $this->belongsTo(Company::class);
@@ -32,5 +32,11 @@ class Blog extends Model
     public function images()
     {
         return $this->hasMany(Image::class,'blog_id');
+    }
+
+
+    public function tripShow()
+    {
+        return $this->belongsToMany(Trip::class,'trips_blogs','blog_id','trip_id');
     }
 }

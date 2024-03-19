@@ -16,15 +16,15 @@ return new class extends Migration
 //            $table->string('offer_date')->nullable();
             $table->double('old_price',8,2)->nullable();
             $table->double('young_price',8,2)->nullable();
-            $table->longText('name')->nullable();
+            $table->text('name')->nullable();
             $table->longText('offer_description')->nullable();
             $table->boolean('status')->default(true);
 //            $table->string('cus_rating')->nullable();
-            $table->string('country')->nullable();
-            $table->string('city')->nullable();
-            $table->bigInteger('company_id')->unsigned()->nullable();
-            $table->foreign('company_id')->references('id')->on('companies')
-                ->onDelete('cascade')->onUpdate('cascade');
+//            $table->string('country')->nullable();
+//            $table->string('city')->nullable();
+//            $table->bigInteger('company_id')->unsigned()->nullable();
+//            $table->foreign('company_id')->references('id')->on('companies')
+//                ->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('trip_id')->unsigned()->nullable();
             $table->foreign('trip_id')->references('id')->on('trips')
                 ->onDelete('cascade')->onUpdate('cascade');

@@ -30,16 +30,36 @@ class OurPartnerController extends Controller
         return view('pages.ourPartner.create');
     }
 
+
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'name' => 'required|string',
-                'description' => 'nullable|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-            $ourPartner = OurPartner::create($validatedData);
+
+            $ourPartnerData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+            ];
+
+            $ourPartner = OurPartner::create($ourPartnerData);
+
             if ($request->hasFile('image_path')) {
                 $ourPartner_image = $this->saveImage($request->file('image_path'), 'attachments/ourPartners/' . $ourPartner->id);
                 $ourPartner->image_path = $ourPartner_image;
@@ -47,17 +67,17 @@ class OurPartnerController extends Controller
             }
 
             DB::commit();
+
             session()->flash('message', 'OurPartner Created Successfully');
             return redirect()->route('admin.ourPartner.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
-
 
     public function show($id)
     {

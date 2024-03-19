@@ -14,14 +14,14 @@ class AuthClientController extends Controller
 {
     use ImageTrait;
 
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->middleware('auth:clientApi', ['except' => ['login', 'register']]);
-    }
+//    /**
+//     * Create a new AuthController instance.
+//     *
+//     * @return void
+//     */
+//    public function __construct() {
+//        $this->middleware('auth:clientApi', ['except' => ['login', 'register']]);
+//    }
     /**
      * Get a JWT via given credentials.
      *
@@ -31,28 +31,30 @@ class AuthClientController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string|min:6',
-        ], [
-            'email.required' => [
-                'ar' => 'البريد الإلكتروني مطلوب',
-                'en' => 'The email field is required.'
-            ],
-            'email.email' => [
-                'ar' => 'يرجى إدخال بريد إلكتروني صالح.',
-                'en' => 'Please enter a valid email address.'
-            ],
-            'password.required' => [
-                'ar' => 'حقل كلمة المرور مطلوب.',
-                'en' => 'The password field is required.'
-            ],
-            'password.string' => [
-                'ar' => 'يرجى إدخال كلمة مرور صالحة.',
-                'en' => 'Please enter a valid password.'
-            ],
-            'password.min' => [
-                'ar' => 'يجب أن تتكون كلمة المرور من :min أحرف على الأقل.',
-                'en' => 'The password must be at least :min characters.'
-            ],
-        ]);
+        ]
+//            , [
+//            'email.required' => [
+//                'ar' => 'البريد الإلكتروني مطلوب',
+//                'en' => 'The email field is required.'
+//            ],
+//            'email.email' => [
+//                'ar' => 'يرجى إدخال بريد إلكتروني صالح.',
+//                'en' => 'Please enter a valid email address.'
+//            ],
+//            'password.required' => [
+//                'ar' => 'حقل كلمة المرور مطلوب.',
+//                'en' => 'The password field is required.'
+//            ],
+//            'password.string' => [
+//                'ar' => 'يرجى إدخال كلمة مرور صالحة.',
+//                'en' => 'Please enter a valid password.'
+//            ],
+//            'password.min' => [
+//                'ar' => 'يجب أن تتكون كلمة المرور من :min أحرف على الأقل.',
+//                'en' => 'The password must be at least :min characters.'
+//            ],
+//        ]
+        );
 
         if ($validator->fails()) {
             return response()->json([

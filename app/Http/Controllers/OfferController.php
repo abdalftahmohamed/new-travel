@@ -33,36 +33,43 @@ class OfferController extends Controller
         return view('pages.offer.create', compact('trips'));
     }
 
+
     public function store(Request $request)
     {
-//        return $request;
-//        dd($request->List_Image);
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'offer_date' => 'nullable|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'old_price' => 'nullable|string',
                 'young_price' => 'nullable|string',
-                'name' => 'nullable|string',
-                'offer_description' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
                 'trip_id' => 'nullable|integer|exists:trips,id',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-            $offer = Offer::create($validatedData);
 
+            $offerData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'offer_description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+                'old_price' => $validatedData['old_price'],
+                'young_price' => $validatedData['young_price'],
+                'status' => $validatedData['status'],
+                'trip_id' => $validatedData['trip_id']
+            ];
 
-            $addressLists = json_decode($request->input('List_Address'), true);
-            if ($addressLists !== null) {
-                foreach ($addressLists as $address) {
-                    $offer->addresses()->create([
-                        'name'=>$address['name_address'],
-                        'description'=>$address['description_address'],
-                    ]);
-                }
-            }
-
-
+            $offer = Offer::create($offerData);
             // insert img
             if ($request->hasfile('images')) {
                 foreach ($request->file('images') as $value) {
@@ -74,35 +81,27 @@ class OfferController extends Controller
                 }
             }
 
-//            $imageLists = json_decode($request->input('List_Image'), true);
-//            if ($imageLists !== null) {
-//                foreach ($imageLists as $image) {
-////                    dd($image['name_image']);
-////                     Check if an image was provided
-//                    if ($request->hasFile($image['name_image'])) {
-//                        $offer_image = $this->saveImage($request->file($image['name_image']), 'attachments/images/offer/' . $offer->id);
-//                        $offer->images()->create([
-//                            'image_path'=>$offer_image,
-//                            'description'=>$image['description_image'],
-//                        ]);
-//                    }
-//                }
-//            }
-
-
+            $addressLists = json_decode($request->input('List_Address'), true);
+            if ($addressLists !== null) {
+                foreach ($addressLists as $address) {
+                    $offer->addresses()->create([
+                        'name'=>['ar'=>$address['name_address_ar'],'en'=>$address['name_address_en'],'ur'=>$address['name_address_ur'],],
+                        'description'=>['ar'=>$address['description_address_ar'],'en'=>$address['description_address_en'],'ur'=>$address['description_address_ur'],],
+                    ]);
+                }
+            }
             DB::commit();
 
             session()->flash('message', 'Offer Created Successfully');
             return redirect()->route('admin.offer.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
-
 
     public function show($id)
     {

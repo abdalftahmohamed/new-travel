@@ -61,7 +61,6 @@
                                     <th>blog name</th>
                                     <th>blog description</th>
 {{--                                    <th>customer rating</th>--}}
-                                    <th>company</th>
                                     <th>image</th>
                                     <th>Show</th>
                                     <th>Actions</th>
@@ -74,7 +73,6 @@
                                         <td>{{$blog->name}}</td>
                                         <td>{{mb_substr($blog->description,0,40). '...'}}</td>
 {{--                                        <td>{{$blog->cus_rating}}</td>--}}
-                                        <td>{{$blog->company->name}}</td>
                                         <td>
                                             <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>

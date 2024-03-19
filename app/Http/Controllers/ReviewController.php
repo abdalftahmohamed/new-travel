@@ -35,22 +35,42 @@ class ReviewController extends Controller
         return view('pages.review.create', compact('offers','blogs','trips','clients'));
     }
 
+
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'name' => 'required|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'stars_numbers' => 'nullable|string',
-                'description' => 'nullable|string',
-                'client_id' => 'nullable|integer|exists:clients,id',
+                'client_id' => 'required|integer|exists:clients,id',
                 'trip_id' => 'nullable|integer|exists:trips,id',
                 'blog_id' => 'nullable|integer|exists:blogs,id',
                 'offer_id' => 'nullable|integer|exists:offers,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-            $review = Review::create($validatedData);
-            // Check if an image was provided
+
+            $reviewData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+                'country_id' => $validatedData['country_id']
+            ];
+
+            $review = Review::create($reviewData);
+
             if ($request->hasFile('image_path')) {
                 $review_image = $this->saveImage($request->file('image_path'), 'attachments/reviews/' . $review->id);
                 $review->image_path = $review_image;
@@ -58,16 +78,18 @@ class ReviewController extends Controller
             }
 
             DB::commit();
+
             session()->flash('message', 'Review Created Successfully');
             return redirect()->route('admin.review.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
+
 
 
     public function show($id)

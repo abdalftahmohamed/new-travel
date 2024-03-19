@@ -61,7 +61,7 @@
                                     <th>status</th>
                                     <th>department name</th>
                                     <th>department description</th>
-                                    <th>company</th>
+{{--                                    <th>company</th>--}}
                                     <th>image</th>
                                     <th>Show</th>
                                     <th>Actions</th>

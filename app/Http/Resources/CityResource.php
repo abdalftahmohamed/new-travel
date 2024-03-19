@@ -23,7 +23,7 @@ class CityResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'image_path' => $this->image_path,
+            'imagePath' => $this->image_path,
             'country_id' => $this->country_id,
         ];
     }

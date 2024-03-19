@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginClientRequest;
 use App\Http\Traits\ImageTrait;
+use App\Models\City;
 use App\Models\Company;
 use App\Models\Client;
 use App\Providers\RouteServiceProvider;
@@ -69,23 +70,45 @@ class ClientController extends Controller
         return view('pages.client.create', compact('companys'));
     }
 
+
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'name' => 'required|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
                 'email' => 'required|email|unique:clients',
                 'password' => ['required',Password::default()],
                 'phone' => 'nullable|string',
                 'address' => 'nullable|string',
                 'status' => ['required', Rule::in([0,1])],
-//                'company_id' => 'nullable|integer|exists:companies,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-            $validatedData['password'] = Hash::make($request->input('password'));
-            $client = Client::create($validatedData);
-            // Check if an image was provided
+
+            $clientData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'],
+                    'en' => $validatedData['address_en'],
+                    'ur' => $validatedData['address_ur']
+                ],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'phone' => $validatedData['phone'],
+                'status' => $validatedData['status'],
+            ];
+
+            $client = Client::create($clientData);
+
             if ($request->hasFile('image_path')) {
                 $client_image = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
                 $client->image_path = $client_image;
@@ -93,15 +116,16 @@ class ClientController extends Controller
             }
 
             DB::commit();
+
             session()->flash('message', 'Client Created Successfully');
             return redirect()->route('admin.client.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
 
 

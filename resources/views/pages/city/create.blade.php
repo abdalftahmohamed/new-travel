@@ -95,10 +95,10 @@
                                         @enderror
                                     </div>
                                     <div class="col-4">
-                                        <label>the city name or</label>
-                                        <input type="text" name="name_or" value="{{old('name_or')}}"
+                                        <label>the city name ur</label>
+                                        <input type="text" name="name_ur" value="{{old('name_ur')}}"
                                                class="form-control" required placeholder="enter company name_en here..."/>
-                                        @error('name_or')
+                                        @error('name_ur')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
@@ -119,7 +119,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <hr>
+                                <br>
                                 <div class="row">
                                     <div class="col-12">
                                         <label>city description en</label>
@@ -133,14 +133,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <hr>
+                                <br>
                                 <div class="row">
                                     <div class="col-12">
-                                        <label>city description or</label>
+                                        <label>city description ur</label>
                                         <div>
-                                            <textarea name="description_or" class="form-control" rows="5" placeholder="enter the description or here ...">{{old('description_or')}}</textarea>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{old('description_ur')}}</textarea>
                                         </div>
-                                        @error('description_or')
+                                        @error('description_ur')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>

@@ -33,35 +33,58 @@ class CompanyController extends Controller
 
     public function create()
     {
-//        $countries = Countries::all()->pluck('name.common', 'cca2')->values()->toArray();
         $countries =Country::all();
 //        $cities =City::all();
         return view('pages.company.create',compact('countries'));
     }
 
+
+
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'name' => 'required|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
                 'email' => 'required|email|unique:companies',
                 'password' => ['required',Password::default()],
                 'phone' => 'nullable|string',
-                'address' => 'nullable|string',
                 'url' => 'nullable|url',
                 'status' => ['required', Rule::in([0,1])],
-//                'status' => 'required|in:supervisor,employee,not_employee',
                 'country_id' => 'nullable|integer|exists:countries,id',
                 'city_id' => 'nullable|integer|exists:cities,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-            $validatedData['password'] = Hash::make($request->input('password'));
 
-            $company = Company::create($validatedData);
-            // Check if an image was provided
+            $companyData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'],
+                    'en' => $validatedData['address_en'],
+                    'ur' => $validatedData['address_ur']
+                ],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'phone' => $validatedData['phone'],
+                'url' => $validatedData['url'],
+                'status' => $validatedData['status'],
+                'country_id' => $validatedData['country_id'],
+                'city_id' => $validatedData['city_id'],
+            ];
+
+            $company = Company::create($companyData);
+
             if ($request->hasFile('image_path')) {
-                $company_image = $this->saveImage($request->file('image_path'),'attachments/companys/'.$company->id);
+                $company_image = $this->saveImage($request->file('image_path'), 'attachments/companys/' . $company->id);
                 $company->image_path = $company_image;
                 $company->save();
             }
@@ -71,12 +94,12 @@ class CompanyController extends Controller
             session()->flash('message', 'Company Created Successfully');
             return redirect()->route('admin.company.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
 
 

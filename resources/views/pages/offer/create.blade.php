@@ -116,18 +116,80 @@
                                     </div>
                                 </div>
                                 <br>
+
                                 <div class="row">
-                                    <div class="col-12">
-                                        <label>offer name</label>
-                                        <input type="text" name="name" value="{{old('name')}}"
-                                               class="form-control" required placeholder="enter offer name here..."/>
-                                        @error('name')
+                                    <div class="col-4">
+                                        <label>the offer name ar</label>
+                                        <input type="text" name="name_ar" value="{{old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
+                                    <div class="col-4">
+                                        <label>the offer name en</label>
+                                        <input type="text" name="name_en" value="{{old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the offer name ur</label>
+                                        <input type="text" name="name_ur" value="{{old('name_ur')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>offer description ar</label>
+                                        <div>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{old('description_ar')}}</textarea>
+                                        </div>
+                                        @error('description_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>offer description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>offer description ur</label>
+                                        <div>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{old('description_ur')}}</textarea>
+                                        </div>
+                                        @error('description_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="row">
@@ -169,7 +231,9 @@
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>name</th>
+                                                    <th>name ar</th>
+                                                    <th>name en</th>
+                                                    <th>name ur</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
@@ -179,9 +243,14 @@
                                                 <tr data-repeater-address>
                                                     <td data-repeater-index1>1</td>
                                                     <td>
-                                                        <input class="borderless-input" id="name_address" type="text" name="name_address"/>
+                                                        <input class="borderless-input" id="name_address_ar" type="text" name="name_address_ar"/>
                                                     </td>
-
+                                                    <td>
+                                                        <input class="borderless-input" id="name_address_en" type="text" name="name_address_en"/>
+                                                    </td>
+                                                    <td>
+                                                        <input class="borderless-input" id="name_address_ur" type="text" name="name_address_ur"/>
+                                                    </td>
                                                     <td>
                                                         <div class="margin">
                                                             <div class="btn-group">
@@ -192,12 +261,30 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <tr class="expandable-body">
-                                                    <td colspan="3">
+                                                <tr class="expandable-body" id="expandable-body1">
+                                                    <td colspan="5">
                                                         <p>
-                                                                <textarea id="description_address" name="description_address" class="borderless-textarea"
+                                                                <textarea id="description_address_ar" name="description_address_ar" class="borderless-textarea"
                                                                           rows="6"
-                                                                          placeholder="enter the description here ..."></textarea>
+                                                                          placeholder="enter the description ar here ..."></textarea>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="expandable-body" id="expandable-body2">
+                                                    <td colspan="5">
+                                                        <p>
+                                                                <textarea id="description_address_en" name="description_address_en" class="borderless-textarea"
+                                                                          rows="6"
+                                                                          placeholder="enter the description en here ..."></textarea>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="expandable-body" id="expandable-body3">
+                                                    <td colspan="5">
+                                                        <p>
+                                                                <textarea id="description_address_ur" name="description_address_ur" class="borderless-textarea"
+                                                                          rows="6"
+                                                                          placeholder="enter the description ur here ..."></textarea>
                                                         </p>
                                                     </td>
                                                 </tr>
@@ -348,22 +435,6 @@
                                 <hr>
                                 <hr>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>Trip description</label>
-                                        <div>
-                                            <textarea name="offer_description" class="form-control" rows="5" placeholder="enter the offer_description here ...">{{old('offer_description')}}</textarea>
-                                        </div>
-                                        @error('offer_description')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-
-                                </div>
-                                <br>
-                                <br>
 
 
                                 <div class="mb-0">

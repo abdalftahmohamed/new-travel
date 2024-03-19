@@ -10,6 +10,7 @@ use App\Models\AttachmentVideo;
 use App\Models\Company;
 use App\Models\Blog;
 use App\Models\Country;
+use App\Models\Trip;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,25 +32,44 @@ class BlogController extends Controller
 
     public function create()
     {
-        $companys = Company::all();
-        return view('pages.blog.create', compact('companys'));
+        $trips = Trip::get();
+        return view('pages.blog.create', compact('trips'));
     }
 
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'name' => 'nullable|string',
-                'description' => 'nullable|string',
-                'company_id' => 'nullable|integer|exists:companies,id',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
+                'trip_id' => 'nullable|integer|exists:trips,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
                 'videos[]' => 'nullable|mimetypes:video/*|max:50048',
                 'documents[]' => 'nullable|mimes:pdf,doc,docx|max:50048',
             ]);
-            $blog = Blog::create($validatedData);
-            // Check if an image was provided
+
+            $blogData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+            ];
+
+            $blog = Blog::create($blogData);
+
+            $blog->tripShow()->syncWithoutDetaching($validatedData['trip_id']);
             if ($request->hasFile('image_path')) {
                 $blog_image = $this->saveImage($request->file('image_path'), 'attachments/blogs/' . $blog->id);
                 $blog->image_path = $blog_image;
@@ -104,23 +124,23 @@ class BlogController extends Controller
             if ($addressLists !== null) {
                 foreach ($addressLists as $address) {
                     $blog->addresses()->create([
-                        'name'=>$address['name_address'],
-                        'description'=>$address['description_address'],
+                        'name'=>['ar'=>$address['name_address_ar'],'en'=>$address['name_address_en'],'ur'=>$address['name_address_ur'],],
+                        'description'=>['ar'=>$address['description_address_ar'],'en'=>$address['description_address_en'],'ur'=>$address['description_address_ur'],],
                     ]);
                 }
             }
 
-
             DB::commit();
+
             session()->flash('message', 'Blog Created Successfully');
             return redirect()->route('admin.blog.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
 
 
@@ -137,8 +157,8 @@ class BlogController extends Controller
     public function edit($id)
     {
         $blog = Blog::findOrFail($id);
-        $companys = Company::all();
-        return view('pages.blog.edit', compact('companys','blog'));
+        $trips = Trip::get();
+        return view('pages.blog.edit', compact('trips','blog'));
     }
 
     public function update(Request $request)

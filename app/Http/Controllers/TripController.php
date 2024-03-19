@@ -34,45 +34,64 @@ class TripController extends Controller
         return view('pages.trip.create', compact('companys','departments'));
     }
 
+
     public function store(Request $request)
     {
-//        return $request;
-//        dd($request->List_Image);
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'trip_date' => 'nullable|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'old_price' => 'nullable|string',
                 'young_price' => 'nullable|string',
-                'name' => 'nullable|string',
                 'type' => 'nullable|string',
                 'location' => 'nullable|string',
-                'trip_description' => 'nullable|string',
-                'cus_rating' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
                 'department_id' => 'nullable|integer|exists:departments,id',
                 'company_id' => 'nullable|integer|exists:companies,id',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
-
             ]);
-            $trip = Trip::create($validatedData);
+
+            $tripData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'],
+                    'en' => $validatedData['address_en'],
+                    'ur' => $validatedData['address_ur']
+                ],
+                'trip_description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+                'old_price' => $validatedData['old_price'],
+                'young_price' => $validatedData['young_price'],
+                'type' => $validatedData['type'],
+                'location' => $validatedData['location'],
+                'status' => $validatedData['status'],
+                'department_id' => $validatedData['department_id'],
+                'company_id' => $validatedData['company_id'],
+            ];
+
+            $trip = Trip::create($tripData);
 
             if ($request->hasFile('image_path')) {
                 $trip_image = $this->saveImage($request->file('image_path'), 'attachments/trips/' . $trip->id);
                 $trip->image_path = $trip_image;
                 $trip->save();
             }
-            $addressLists = json_decode($request->input('List_Address'), true);
-            if ($addressLists !== null) {
-                foreach ($addressLists as $address) {
-                    $trip->addresses()->create([
-                        'name'=>$address['name_address'],
-                        'description'=>$address['description_address'],
-                    ]);
-                }
-            }
-
 
             // insert img
             if ($request->hasfile('images')) {
@@ -85,35 +104,28 @@ class TripController extends Controller
                 }
             }
 
-//            $imageLists = json_decode($request->input('List_Image'), true);
-//            if ($imageLists !== null) {
-//                foreach ($imageLists as $image) {
-////                    dd($image['name_image']);
-////                     Check if an image was provided
-//                    if ($request->hasFile($image['name_image'])) {
-//                        $trip_image = $this->saveImage($request->file($image['name_image']), 'attachments/images/trip/' . $trip->id);
-//                        $trip->images()->create([
-//                            'image_path'=>$trip_image,
-//                            'description'=>$image['description_image'],
-//                        ]);
-//                    }
-//                }
-//            }
-
+            $addressLists = json_decode($request->input('List_Address'), true);
+            if ($addressLists !== null) {
+                foreach ($addressLists as $address) {
+                    $trip->addresses()->create([
+                        'name'=>['ar'=>$address['name_address_ar'],'en'=>$address['name_address_en'],'ur'=>$address['name_address_ur'],],
+                        'description'=>['ar'=>$address['description_address_ar'],'en'=>$address['description_address_en'],'ur'=>$address['description_address_ur'],],
+                    ]);
+                }
+            }
 
             DB::commit();
 
             session()->flash('message', 'Trip Created Successfully');
             return redirect()->route('admin.trip.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
-
 
     public function show($id)
     {

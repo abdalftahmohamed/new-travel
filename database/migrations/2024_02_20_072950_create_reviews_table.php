@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->longText('name')->nullable();
+            $table->text('name')->nullable();
             $table->integer('stars_numbers')->nullable();
             $table->longText('description')->nullable();
             $table->string('image_path')->nullable();

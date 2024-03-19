@@ -13,7 +13,7 @@ class Trip extends Model
 
     use HasTranslations;
 
-    public $translatable = ['name','trip_description'];
+    public $translatable = ['name','trip_description','address'];
 
     public function company()
     {
@@ -44,6 +44,11 @@ class Trip extends Model
     public function favoriteClients()
     {
         return $this->belongsToMany(Client::class,'trips_clients_favorites','trip_id','client_id');
+    }
+
+    public function blogShow()
+    {
+        return $this->belongsToMany(Blog::class,'trips_blogs','trip_id','blog_id');
     }
 
 }

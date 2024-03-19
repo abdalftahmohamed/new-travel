@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/lang/{lang}',[\App\Http\Controllers\LanguageController::class,'change']);
+
+
 Route::get('/',[\App\Http\Controllers\HomeController::class,'home'])->name('home');
 Route::get('/blog',[\App\Http\Controllers\HomeController::class,'blog'])->name('blog');
 Route::get('/showTravelCity/{city_id}',[\App\Http\Controllers\HomeController::class,'showTravelCity'])->name('showTravelCity');

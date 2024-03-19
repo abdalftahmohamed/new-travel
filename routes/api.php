@@ -54,7 +54,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'auth:clientApi',
+    'middleware' => ['auth:clientApi','api_localization'],
     'prefix' => 'v1/client'
 ], function ($router) {
     #Auth
@@ -92,7 +92,7 @@ Route::group([
 
     //country Routes
     Route::controller(\App\Http\Controllers\Api\Client\HomeController::class)->group(function () {
-        Route::get('/', 'index');
+        Route::get('/', 'index')->middleware('api_localization');
         Route::get('/trips', 'trip');
         Route::get('/blogs', 'blog');
         Route::get('/offers', 'offer');

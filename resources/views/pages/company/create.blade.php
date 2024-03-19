@@ -89,22 +89,78 @@
 
                                 <br>
                                 <div class="row">
-                                    <div class="col-6">
-                                        <label>company name</label>
-                                        <input type="text" name="name" value="{{old('name')}}"
-                                               class="form-control" required placeholder="enter company name here..."/>
-                                        @error('name')
+                                    <div class="col-12">
+                                        <label>company email</label>
+                                        <input type="email" name="email" value="{{old('email')}}"
+                                               class="form-control" required placeholder="enter company email here..."/>
+                                        @error('email')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
+                                </div>
+                                <br>
 
-                                    <div class="col-6">
-                                        <label>company email</label>
-                                        <input type="email" name="email" value="{{old('email')}}"
-                                               class="form-control" required placeholder="enter company email here..."/>
-                                        @error('email')
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>the company name ar</label>
+                                        <input type="text" name="name_ar" value="{{old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the company name en</label>
+                                        <input type="text" name="name_en" value="{{old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the company name ur</label>
+                                        <input type="text" name="name_ur" value="{{old('name_ur')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>the company address ar</label>
+                                        <input type="text" name="address_ar" value="{{old('address_ar')}}"
+                                               class="form-control" required placeholder="enter company address_ar here..."/>
+                                        @error('address_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the company address en</label>
+                                        <input type="text" name="address_en" value="{{old('address_en')}}"
+                                               class="form-control" required placeholder="enter company address_en here..."/>
+                                        @error('address_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the company address ur</label>
+                                        <input type="text" name="address_ur" value="{{old('address_ur')}}"
+                                               class="form-control" required placeholder="enter company address_en here..."/>
+                                        @error('address_ur')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
@@ -150,18 +206,6 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>company address</label>
-                                        <input type="text" name="address" value="{{old('address')}}"
-                                               class="form-control" required placeholder="enter company address here..."/>
-                                        @error('address')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                </div>
                                 <br>
                                 <div class="row">
                                     <div class="col-12">

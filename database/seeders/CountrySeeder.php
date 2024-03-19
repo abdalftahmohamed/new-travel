@@ -17,8 +17,8 @@ class CountrySeeder extends Seeder
     {
         $countrys = [
             [
-                'name' => 'United Arab Emirates',
-                'description' => 'United Arab Emirates is so great.',
+                'name' => ['ar' => 'الامارات العربية المتحدة', 'en' => 'United Arab Emirates', 'ur' => 'United Arab Emirates'],
+                'description' => ['ar' => 'الامارات دولة جميلة تمتاز بالاعمال الاستثماريه', 'en' => 'United Arab Emirates is so great.', 'ur' => 'United Arab Emirates is so great.'],
                 'image_path' => "flag1.jpg",
             ],
 //            [

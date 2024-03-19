@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\City;
-use App\Models\Country;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class CitySeeder extends Seeder
@@ -16,85 +14,59 @@ class CitySeeder extends Seeder
      */
     public function run()
     {
-        $citys = [
+        $cities = [
             [
                 'country_id' => 1,
-                'name' => 'Dubai',
-                'description' => 'Dubai is so great.',
+                'name' => ['ar' => 'دبي', 'en' => 'Dhabi', 'ur'=>'Dhabi'],
+                'description' => ['ar' => 'دبي مدينة جميلة تمتاز بالأعمال الاستثمارية', 'en' => 'Dubai is so great.', 'ur'=>'Dubai is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Abu Dhabi',
-                'description' => 'Abu Dhabi is so great.',
+                'name' => ['ar' => 'أبو ظبي', 'en' => 'Abu Dhabi', 'ur'=>'Abu Dhabi'],
+                'description' => ['ar' => 'أبو ظبي مدينة جميلة جداً', 'en' => 'Abu Dhabi is so great.', 'ur'=>'Abu Dhabi is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Al Ain',
-                'description' => 'Al Ain is so great.',
+                'name' => ['ar' => 'العين', 'en' => 'Al Ain', 'ur'=>'Al Ain'],
+                'description' => ['ar' => 'العين مدينة جميلة جداً', 'en' => 'Al Ain is so great.', 'ur'=>'Al Ain is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Fujairah',
-                'description' => 'Fujairah is so great.',
+                'name' => ['ar' => 'الفجيرة', 'en' => 'Fujairah', 'ur'=>'Fujairah'],
+                'description' => ['ar' => 'الفجيرة مدينة جميلة جداً', 'en' => 'Fujairah is so great.', 'ur'=>'Fujairah is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Sharjah',
-                'description' => 'Sharjah is so great.',
+                'name' => ['ar' => 'الشارقة', 'en' => 'Sharjah', 'ur'=>'Sharjah'],
+                'description' => ['ar' => 'الشارقة مدينة جميلة جداً', 'en' => 'Sharjah is so great.', 'ur'=>'Sharjah is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Ajman',
-                'description' => 'Ajman is so great.',
+                'name' => ['ar' => 'عجمان', 'en' => 'Ajman', 'ur'=>'Ajman'],
+                'description' => ['ar' => 'عجمان مدينة جميلة جداً', 'en' => 'Ajman is so great.', 'ur'=>'Ajman is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Ras Al Khaimah',
-                'description' => 'Ras Al Khaimah is so great.',
+                'name' => ['ar' => 'رأس الخيمة', 'en' => 'Ras Al Khaimah', 'ur'=>'Ras Al Khaimah'],
+                'description' => ['ar' => 'رأس الخيمة مدينة جميلة جداً', 'en' => 'Ras Al Khaimah is so great.', 'ur'=>'Ras Al Khaimah is so great.'],
                 'image_path' => "flag1.jpg",
             ],
             [
                 'country_id' => 1,
-                'name' => 'Umm al-Quwain',
-                'description' => 'Umm al-Quwain is so great.',
+                'name' => ['ar' => 'أم القيوين', 'en' => 'Umm al-Quwain', 'ur'=>'Umm al-Quwain'],
+                'description' => ['ar' => 'أم القيوين مدينة جميلة جداً', 'en' => 'Umm al-Quwain is so great.', 'ur'=>'Umm al-Quwain is so great.'],
                 'image_path' => "flag1.jpg",
             ],
-
-//            [
-//                'country_id' => 2,
-//                'name' => 'Cairo',
-//                'description' => 'Cairo is so great.',
-//                'image_path' => "flag2.jpg",
-//            ],
-//            [
-//                'country_id' => 2,
-//                'name' => 'Nasr City',
-//                'description' => 'Nasr City is so great.',
-//                'image_path' => "flag2.jpg",
-//            ],
-//            [
-//                'country_id' => 2,
-//                'name' => 'ElMansoura City',
-//                'description' => 'ElMansoura City is so great.',
-//                'image_path' => "flag2.jpg",
-//            ],
-//            [
-//                'country_id' => 2,
-//                'name' => '6 October City',
-//                'description' => '6 October City is so great.',
-//                'image_path' => "flag2.jpg",
-//            ],
         ];
 
-        foreach ($citys as $cityData) {
+        foreach ($cities as $cityData) {
             City::create($cityData);
         }
-
     }
 }

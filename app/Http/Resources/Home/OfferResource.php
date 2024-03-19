@@ -2,37 +2,27 @@
 
 namespace App\Http\Resources\Home;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OfferResource extends JsonResource
 {
-
-    public function toArray($request)
+    public function toArray(Request $request): array
     {
-
-        // Get all attributes of the model
-        $attributes = $this->getAttributes();
-
-//        if ($attributes['image_path'] !== null){
-//            $attributes['image_path'] = url('attachments/offers/'.$attributes['id'].'/'. $attributes['image_path']);
-//        }else{
-//            $attributes['image_path'] =url(asset('admin/dist/img/no_image.jpg'));
-//        }
-
-        // List of attributes to exclude
-        $excludedAttributes = ['offer_date','status','cus_rating','company_id','city','country'];
-
-        // Remove excluded attributes from the array
-        foreach ($excludedAttributes as $attribute) {
-            unset($attributes[$attribute]);
+        if ($this->image_path !== null){
+            $this->image_path= url('attachments/offers/'.$this->id.'/'. $this->image_path);
+        }else{
+            $this->image_path=url(asset('admin/dist/img/no_image.jpg'));
         }
-
-        // Merge related data
-        $relatedData = [
-            'trip' => new TripResource($this->trip),
-        ];
-
-        // Merge attributes and related data
-        return array_merge($attributes, $relatedData);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->offer_description,
+            'oldPrice' => $this->old_price,
+            'childPrice' => $this->young_price,
+            'addresses' => AddressResource::collection($this->addresses),
+            'images' => ImageOfferResource::collection($this->images),
+            ];
     }
+
 }

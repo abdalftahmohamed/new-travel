@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->longText('name')->nullable();
+            $table->text('name')->nullable();
             $table->longText('description')->nullable();
             $table->string('image_path')->nullable();
             $table->timestamps();

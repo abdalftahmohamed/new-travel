@@ -31,21 +31,21 @@ class HomeController extends Controller
     use ImageTrait;
     public function index()
     {
-        $topDestinations = City::get();
-        $categories = Department::get();
-        $bestOffers = Trip::where('type','Best Offers')->get();
-        $BestTripstrips = Trip::where('type','Best Trips')->get();
-        $PopularExperiencetrips = Trip::where('type','Popular Experiences')->get();
-        $blogs=Blog::get();
-        $ourPartners=OurPartner::get();
+//        $topDestinations = City::latest()->take(5)->get();
+        #للحصول علي اخر خمس عناصر
+        $topDestinations = City::get()->slice(-9);
+
+        $categories = Department::get()->slice(-8);
+        $bestOffers = Trip::where('type','Best Offers')->get()->slice(-9);
+        $BestTripstrips = Trip::where('type','Best Trips')->get()->slice(-9);
+        $PopularExperiencetrips = Trip::where('type','Popular Experiences')->get()->slice(-9);
+        $blogs=Blog::get()->slice(-9);
+        $ourPartners=OurPartner::get()->slice(-9);
         $reviews = Review::whereIn('stars_numbers', [3, 4, 5])->get();
 
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'data successfully show',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' =>__('transMessage.messSuccess'),
             'data' => [
                 'topDestinations'=>CityResource::collection($topDestinations),
                 'categories'=>DepartmentResource::collection($categories),
@@ -66,10 +66,7 @@ class HomeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'data successfully show',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' =>__('transMessage.messSuccess'),
             'data' => [
                 'trips'=>TripResource::collection($trips),
             ]

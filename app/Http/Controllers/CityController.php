@@ -30,30 +30,78 @@ class CityController extends Controller
         return view('pages.city.create',compact('countries'));
     }
 
+//    public function store(Request $request)
+//    {
+//        DB::beginTransaction();
+//        try {
+//            $validatedData1 = $request->validate([
+//                'name_ar' => 'required|string',
+//                'name_en' => 'required|string',
+//                'name_ur' => 'required|string',
+//                'description_ar' => 'nullable|string',
+//                'description_en' => 'nullable|string',
+//                'description_ur' => 'nullable|string',
+//            ]);
+//            $validatedData = $request->validate([
+//                'country_id' => 'nullable|integer|exists:countries,id',
+//                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+//            ]);
+//
+//            $validatedData['name']=['ar' => $request->name_ar, 'en' => $request->name_en, 'ur' => $request->name_or];
+//            $validatedData['description']=['ar' => $request->description_ar, 'en' => $request->description_en, 'ur' => $request->description_or];
+//
+//            $city = City::create($validatedData);
+//            // Check if an image was provided
+//            if ($request->hasFile('image_path')) {
+//                $city_image = $this->saveImage($request->file('image_path'), 'attachments/citys/' . $city->id);
+//                $city->image_path = $city_image;
+//                $city->save();
+//            }
+//
+//            DB::commit();
+//
+//            session()->flash('message', 'City Created Successfully');
+//            return redirect()->route('admin.city.index');
+//        } catch (ValidationException $e) {
+//            return redirect()->back()->withErrors($e->errors())->withInput();
+//        } catch (Exception $e) {
+//            DB::rollback();
+//            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+//        }
+//
+//    }
+
     public function store(Request $request)
     {
-//        return $request;
-//        dd($request);
-        DB::beginTransaction();
         try {
-            $validatedData1 = $request->validate([
+            DB::beginTransaction();
+            $validatedData = $request->validate([
                 'name_ar' => 'required|string',
                 'name_en' => 'required|string',
-                'name_or' => 'required|string',
+                'name_ur' => 'required|string',
                 'description_ar' => 'nullable|string',
                 'description_en' => 'nullable|string',
-                'description_or' => 'nullable|string',
-            ]);
-            $validatedData = $request->validate([
+                'description_ur' => 'nullable|string',
                 'country_id' => 'nullable|integer|exists:countries,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            $validatedData['name']=['ar' => $request->name_ar, 'en' => $request->name_en, 'or' => $request->name_or];
-            $validatedData['description']=['ar' => $request->description_ar, 'en' => $request->description_en, 'or' => $request->description_or];
+            $cityData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+                'country_id' => $validatedData['country_id']
+            ];
 
-            $city = City::create($validatedData);
-            // Check if an image was provided
+            $city = City::create($cityData);
+
             if ($request->hasFile('image_path')) {
                 $city_image = $this->saveImage($request->file('image_path'), 'attachments/citys/' . $city->id);
                 $city->image_path = $city_image;
@@ -65,12 +113,12 @@ class CityController extends Controller
             session()->flash('message', 'City Created Successfully');
             return redirect()->route('admin.city.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
 
 

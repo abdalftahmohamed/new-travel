@@ -32,16 +32,35 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $validatedData = $request->validate([
-                'name' => 'required|string',
-                'description' => 'nullable|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'status' => 'nullable|integer',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-            $department = Department::create($validatedData);
-            // Check if an image was provided
+
+            $departmentData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'],
+                    'en' => $validatedData['description_en'],
+                    'ur' => $validatedData['description_ur']
+                ],
+                'status' => $validatedData['status']
+            ];
+
+            $department = Department::create($departmentData);
+
             if ($request->hasFile('image_path')) {
                 $department_image = $this->saveImage($request->file('image_path'), 'attachments/departments/' . $department->id);
                 $department->image_path = $department_image;
@@ -49,15 +68,16 @@ class DepartmentController extends Controller
             }
 
             DB::commit();
+
             session()->flash('message', 'Department Created Successfully');
             return redirect()->route('admin.department.index');
         } catch (ValidationException $e) {
+            DB::rollback();
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-
     }
 
 

@@ -31,7 +31,7 @@
         // Event handler for the "Add New Address" button
         $('input[data-repeater-create1]').on('click', function () {
 
-                // Clone the first row
+            // Clone the first row
             var newRow = $('#exampleTable1 #exampleModal1Label tr[data-repeater-address]:first').clone();
 
             // Set the counter value in the cloned row
@@ -41,16 +41,40 @@
             rowCounter++;
 
             // Clear input values in the cloned row
-            newRow.find('#name_address').val('');
+            newRow.find('#name_address_ar').val('');
+            newRow.find('#name_address_en').val('');
+            newRow.find('#name_address_ur').val('');
+
+
+            // // Append the cloned row to the table
+            // $('#exampleTable1 #exampleModal1Label').append(newRow);
+            //
+            // // Clone the expandable body row and append it after the cloned row
+            // var newExpandableBody1 = $('#exampleTable1 #exampleModal1Label #expandable-body1:first').clone();
+            // newExpandableBody1.find('#description_address_ar').val('');
+            // $('#exampleTable1 #exampleModal1Label').append(newExpandableBody1);
+            //
+            // var newExpandableBody2 = $('#exampleTable1 #exampleModal1Label #expandable-body2:first').clone();
+            // newExpandableBody2.find('#description_address_en').val('');
+            // $('#exampleTable1 #exampleModal1Label').append(newExpandableBody2);
+            //
+            // var newExpandableBody3 = $('#exampleTable1 #exampleModal1Label #expandable-body3:first').clone();
+            // newExpandableBody3.find('#description_address_ur').val('');
+            // $('#exampleTable1 #exampleModal1Label').append(newExpandableBody3);
 
 
             // Append the cloned row to the table
-            $('#exampleTable1 #exampleModal1Label').append(newRow);
+            $('#exampleModal1Label').append(newRow);
 
-            // Clone the expandable body row and append it after the cloned row
-            var newExpandableBody = $('#exampleTable1 #exampleModal1Label tr.expandable-body:first').clone();
-            newExpandableBody.find('#description_address').val('');
-            $('#exampleTable1 #exampleModal1Label').append(newExpandableBody);
+            // Clone and append expandable body rows for each language
+            var expandableBodies = ['#expandable-body1', '#expandable-body2', '#expandable-body3'];
+            var languages = ['ar', 'en', 'ur'];
+
+            for (var i = 0; i < expandableBodies.length; i++) {
+                var newExpandableBody = $('#exampleModal1Label ' + expandableBodies[i] + ':first').clone();
+                newExpandableBody.find('#description_address_' + languages[i]).val('');
+                $('#exampleModal1Label').append(newExpandableBody);
+            }
         });
 
         // Event handler for the "Delete" button
@@ -59,7 +83,9 @@
                 // Get the closest parent <tr> and remove it
                 var deletedRow = $(this).closest('tr');
                 deletedRow.slideUp(function () {
-                    $(this).next('tr.expandable-body').remove(); // Remove corresponding expandable body row
+                    $(this).next('#expandable-body1').remove(); // Remove corresponding expandable body row
+                    $(this).next('#expandable-body2').remove(); // Remove corresponding expandable body row
+                    $(this).next('#expandable-body3').remove(); // Remove corresponding expandable body row
                     $(this).remove(); // Remove the main row
                 });
             } else {
@@ -75,10 +101,13 @@
             // Iterate over each repeater item
             $('.repeater [data-repeater-address]').each(function () {
                 var addressData = {
-                    "name_address": $(this).find('[name="name_address"]').val(),
-                    "description_address": $(this).next('tr.expandable-body').find('[name="description_address"]').val(),
+                    "name_address_ar": $(this).find('[name="name_address_ar"]').val(),
+                    "name_address_en": $(this).find('[name="name_address_en"]').val(),
+                    "name_address_ur": $(this).find('[name="name_address_ur"]').val(),
+                    "description_address_ar": $(this).nextAll('.expandable-body').eq(0).find('[name="description_address_ar"]').val(),
+                    "description_address_en": $(this).nextAll('.expandable-body').eq(1).find('[name="description_address_en"]').val(),
+                    "description_address_ur": $(this).nextAll('.expandable-body').eq(2).find('[name="description_address_ur"]').val(),
                 };
-
                 formData.push(addressData);
             });
 
