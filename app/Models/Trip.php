@@ -20,6 +20,11 @@ class Trip extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
     public function addresses()
     {
         return $this->hasMany(Address::class,'trip_id');

@@ -8,20 +8,21 @@ use App\Http\Traits\ImageTrait;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthClientController extends Controller
 {
     use ImageTrait;
 
-//    /**
-//     * Create a new AuthController instance.
-//     *
-//     * @return void
-//     */
-//    public function __construct() {
-//        $this->middleware('auth:clientApi', ['except' => ['login', 'register']]);
-//    }
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->middleware('auth:clientApi', ['except' => ['login', 'register']]);
+    }
     /**
      * Get a JWT via given credentials.
      *
@@ -59,26 +60,20 @@ class AuthClientController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'status'=>false,
-                'errors' => $validator->errors(),
+                'message' => $validator->errors()->first(),
             ], 400);
         }
 
         if (! $token = auth('clientApi')->attempt($validator->validated())) {
             return response()->json([
                 'status'=>false,
-                'message'=>[
-                    'ar'=>'يوجد خطأ في الايميل او كلمة المرور',
-                    'en'=>'error with email or password',
-                ]
-            ], 401);
+                'message'=>__('transMessage.messErrorPassword'),
+            ], 400);
         }
         $client = auth('clientApi')->user();
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'User Show successfully',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' => __('transMessage.messSuccess'),
             'data' => [
                 'token_type' => 'bearer',
                 'access_token' => $token,
@@ -93,126 +88,72 @@ class AuthClientController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
-
-//        $validator = Validator::make($request->all(), [
-//            'name' => ['required', 'max:255'],
-//            'email.required' => 'required|string|max:150',
-//            'email.email' => 'email',
-//            'email.unique' => 'unique:clients',
-//            'password' => 'required|string|confirmed|min:6',
-//            'phone' => 'nullable|integer',
-//            'address' => 'nullable|string',
-//            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
-//        ]);
-//        if($validator->fails()){
-////            $errors = $validator->errors();
-//            if ($validator->messages()->get("name['required']")){
-//                return response()->json([
-//                    'ar'=>'من فضلك الاسم مطلوب',
-//                    'en'=>'name is required',
-//                ], 400);
-//            }
-//
-//            if ($validator->messages()->get('password')){
-//                return response()->json([
-//                    'ar'=>'يوجد خطأ في كلمة المرور',
-//                    'en'=>'password error please try again',
-//                ], 400);
-//            }
-//
-//            if ($validator->messages()->get('email.required')){
-//                return response()->json([
-//                    'ar'=>'يوجد خطأ في البريد الاليكتروني',
-//                    'en'=>'email error required please try again',
-//                ], 400);
-//            }
-//
-//            if ($validator->messages()->get('email.email')){
-//                return response()->json([
-//                    'ar'=>'يوجد خطأ في البريد الاليكتروني',
-//                    'en'=>'email error email please try again',
-//                ], 400);
-//            }
-//
-//            if ($validator->messages()->get('email.unique')){
-//                return response()->json([
-//                    'ar'=>'يوجد خطأ في البريد الاليكتروني',
-//                    'en'=>'email error unique please try again',
-//                ], 400);
-//            }
-//
-//            //            return response()->json($validator->errors(), 400);
-//
-//            return response()->json($validator->messages()->all(), 400);
-//        }
         try {
-            $validator = Validator::make($request->all(), [
-                'name' => ['required', 'max:255'],
+            $validatedData = $request->validate([
+                'name_ar' => ['required', 'max:255'],
+                'name_en' => ['required', 'max:255'],
+                'name_ur' => ['required', 'max:255'],
                 'email' => ['required', 'email', 'unique:clients', 'max:150'],
                 'password' => ['required', 'string', 'confirmed', 'min:6'],
-//            'password' => 'required|string|confirmed|min:6',
                 'phone' => 'nullable|integer',
-                'address' => 'nullable|string',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
-            ], [
-                'name.required' => ['ar' => 'من فضلك الاسم مطلوب', 'en' => 'Name is required'],
-                'name.max' => ['ar' => 'اسم طويل جدا', 'en' => 'Name is too long'],
-                'email.required' => ['ar' => 'يجب ادخال البريد الإلكتروني', 'en' => 'Email is required'],
-                'email.email' => ['ar' => 'صيغة البريد الإلكتروني غير صحيحة', 'en' => 'Invalid email format'],
-                'email.unique' => [
-                    'ar' => 'البريد الإلكتروني مستخدم مسبقا',
-                    'en' => 'This email is used'
-                ],
-                'password.required' => ['ar' => 'يجب ادخال كلمة المرور', 'en' => 'Password is required'],
-                'password.string' => ['ar' => 'يجب أن تحتوي كلمة المرور على الأقل 6 أحرف', 'en' => 'Password must be at least 6 characters long'],
-                'password.min' => ['ar' => 'يجب أن تحتوي كلمة المرور على الأقل 6 أحرف', 'en' => 'Password must be at least 6 characters long'],
-                'password.confirmed' => ['ar' => 'تأكيد كلمة المرور غير متطابق', 'en' => 'Password confirmation does not match'],
-                'phone.integer' => ['ar' => 'يجب أن يكون الهاتف رقمًا صحيحًا', 'en' => 'Phone must be a valid number'],
-                'address.string' => ['ar' => 'يجب أن يكون العنوان نصًا', 'en' => 'Address must be a string'],
-                'image_path.image' => ['ar' => 'الملف المرفق يجب أن يكون صورة', 'en' => 'Attached file must be an image'],
-                'image_path.mimes' => ['ar' => 'امتداد الملف غير مدعوم. يجب أن يكون jpeg أو png أو jpg أو gif', 'en' => 'File extension not supported. Should be jpeg, png, jpg, or gif'],
-                'image_path.max' => ['ar' => 'حجم الملف يجب أن لا يتجاوز 50048 كيلوبايت', 'en' => 'File size must not exceed 50048 kilobytes'],
             ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => false,
-                    'errors' => $validator->errors(),
-                ], 400);
-            }
+            // No need to check if validation fails as Laravel will automatically handle it
 
+            $clientData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'],
+                    'en' => $validatedData['address_en'],
+                    'ur' => $validatedData['address_ur']
+                ],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'phone' => $validatedData['phone'],
+                'status' => 1, // Assuming 'status' is always 1 for new registrations
+            ];
 
-            $client = Client::create(array_merge(
-                $validator->validated(),
-                ['password' => bcrypt($request->password)]
-            ));
+            $client = Client::create($clientData);
+
+            // If image is provided, save it
             if ($request->hasFile('image_path')) {
                 $client_image = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
                 $client->image_path = $client_image;
                 $client->save();
             }
 
-
+            // Generate token for the newly registered client
             $token = Auth::guard('clientApi')->login($client);
+
+            // Return response with success message and client data
             return response()->json([
                 'status' => true,
-                'message' => [
-                    'en'=>'User successfully registered',
-                    'ar'=>'تم التسجيل  بنجاح',
-                ],
+                'message' => __('transMessage.messSuccessRegister'),
                 'data' => [
                     'token_type' => 'bearer',
                     'access_token' => $token,
                     'expires_in' => auth('clientApi')->factory()->getTTL() * 1,
                     'client' => new ClientResource($client)
                 ]
-            ],201);
+            ], 201);
 
-        }catch (\Exception $exception){
-//            return $exception;
+        } catch (\Exception $exception) {
+            // Log or handle the exception appropriately
+            return response()->json([
+                'status' => false,
+                'message' => $exception->getMessage() // Optionally, include the exception message for debugging
+            ], 400);
         }
-
     }
+
 
     /**
      * Log the user out (Invalidate the token).
@@ -223,10 +164,7 @@ class AuthClientController extends Controller
         auth()->guard('clientApi')->logout();
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'User successfully signed out',
-                'ar'=>'تم التسجيل الخروج بنجاح',
-            ],
+            'message' =>__('transMessage.messSignedOut'),
         ]);
     }
     /**
@@ -241,10 +179,7 @@ class AuthClientController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'User Show successfully',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' => __('transMessage.messSuccess'),
             'data' => [
                 'token_type' => 'bearer',
                 'access_token' => $token,
@@ -261,10 +196,7 @@ class AuthClientController extends Controller
     public function userProfile() {
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'User Show successfully',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' => __('transMessage.messSuccess'),
             'data' => [
                 'client'=>new ClientResource(auth('clientApi')->user())
             ]

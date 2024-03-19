@@ -17,6 +17,7 @@ class ApiLocalization
      */
     public function handle(Request $request, Closure $next)
     {
+        #https://www.youtube.com/watch?v=_5O4hWpxR6M
         #api
         if ($request->hasHeader('Accept-Language')){
             App::setLocale($request->header('Accept-Language'));

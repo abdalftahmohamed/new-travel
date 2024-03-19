@@ -77,7 +77,6 @@ Route::group([
     #favorite
     Route::controller(\App\Http\Controllers\Api\Client\ClientController::class)->group(function () {
         Route::post('/favoriteTrip', 'favoriteTrip');
-        Route::post('/unFavoriteTrip', 'unFavoriteTrip');
         Route::get('/myFavoriteTrip', 'myFavoriteTrip');
     });
 
@@ -87,21 +86,26 @@ Route::group([
 });
 
 Route::group([
+    'middleware' => ['api_localization'],
     'prefix' => 'v1/home'
 ], function ($router) {
 
     //country Routes
     Route::controller(\App\Http\Controllers\Api\Client\HomeController::class)->group(function () {
-        Route::get('/', 'index')->middleware('api_localization');
+        Route::get('/', 'index');
+        Route::get('/searchTrip', 'searchTrip');
+        Route::get('/searchBlog', 'searchBlog');
+
+        Route::get('/topDestinations', 'topDestination');
+        Route::get('/categories', 'category');
+        Route::get('/bestOffers', 'bestOffer');
+        Route::get('/bestTrips', 'bestTrip');
+        Route::get('/popularExperiencetrips', 'popularExperiencetrip');
+        Route::get('/reviews', 'review');
         Route::get('/trips', 'trip');
         Route::get('/blogs', 'blog');
         Route::get('/offers', 'offer');
-        Route::post('/store', 'store');
-        Route::get('/show/{id}', 'show');
-        Route::post('/update/{id}', 'update');
-        Route::delete('/destroy/{id}', 'destroy');
-        Route::get('/searchTrip', 'searchTrip');
-        Route::get('/searchBlog', 'searchBlog');
+
     });
 
 });

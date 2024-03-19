@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Home;
 
+use App\Models\Client;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,6 +16,14 @@ class TripResource extends JsonResource
         }else{
             $this->image_path=url(asset('admin/dist/img/no_image.jpg'));
         }
+
+        $check = false;
+        if ($request->has('client_id')) {
+            $client = Client::find($request->client_id);
+            if ($client !== null) {
+                $check = $client->favoriteTrips->contains($this->id);
+            }
+        }
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -23,10 +32,10 @@ class TripResource extends JsonResource
             'oldPrice' => $this->old_price,
             'childPrice' => $this->young_price,
             'imagePath' => $this->image_path,
-            'department' => $this->department,
+            'department' => $this->department->name,
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageTripResource::collection($this->images),
-            'clientFavourite' => ClientResource::collection($this->favoriteClients),
+            'clientFavourite' => $check,
         ];
     }
 

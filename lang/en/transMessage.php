@@ -14,5 +14,12 @@ return [
     */
 
     'messSuccess' => 'data successfully show',
+    'messSuccessRegister' => 'Client successfully registered',
+    'messNotFound' => 'No data found with this name',
+    'messError' => 'An error occurred',
+    'messSignedOut' => 'Client successfully signed out',
+    'messErrorPassword' => 'error with email or password',
+    'messFavoriteTrip' => 'created favorite successfully',
+    'messUnFavoriteTrip' => 'created Un favorite successfully',
 
 ];

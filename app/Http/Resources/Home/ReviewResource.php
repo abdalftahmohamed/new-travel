@@ -19,7 +19,7 @@ class ReviewResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'imagePath' => $this->image_path,
-            'client' => $this->client,
+            'client' => new ClientResource($this->client),
         ];
     }
 

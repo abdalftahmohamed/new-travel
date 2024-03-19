@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\api\LimitRequest;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\Home\BlogResource;
 use App\Http\Resources\Home\CityResource;
@@ -36,11 +37,11 @@ class HomeController extends Controller
         $topDestinations = City::get()->slice(-9);
 
         $categories = Department::get()->slice(-8);
-        $bestOffers = Trip::where('type','Best Offers')->get()->slice(-9);
-        $BestTripstrips = Trip::where('type','Best Trips')->get()->slice(-9);
-        $PopularExperiencetrips = Trip::where('type','Popular Experiences')->get()->slice(-9);
+        $bestOffers = Trip::where([['status', 1],['type','Best Offers']])->get()->slice(-9);
+        $BestTripstrips = Trip::where([['status', 1],['type','Best Trips']])->get()->slice(-9);
+        $PopularExperiencetrips = Trip::where([['status', 1],['type','Popular Experiences']])->get()->slice(-9);
         $blogs=Blog::get()->slice(-9);
-        $ourPartners=OurPartner::get()->slice(-9);
+        $ourPartners=OurPartner::get();
         $reviews = Review::whereIn('stars_numbers', [3, 4, 5])->get();
 
         return response()->json([
@@ -59,127 +60,226 @@ class HomeController extends Controller
         ], 201);
     }
 
-
-    public function trip($ar)
+    public function topDestination(LimitRequest $request)
     {
-        $trips = Trip::get();
+        if ($request->filled(['start', 'limit'])) {
+            $topDestinations = City::whereBetween('id', [$request->start, $request->limit])->get();
+        }else{
+            $topDestinations = City::get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' =>__('transMessage.messSuccess'),
+            'data' => [
+                'topDestinations'=>CityResource::collection($topDestinations),
+            ]
+        ]);
+    }
 
+    public function category(LimitRequest $request)
+    {
+        if ($request->filled(['start', 'limit'])) {
+            $categories = Department::whereBetween('id', [$request->start, $request->limit])->get();
+        }else{
+            $categories = Department::get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' =>__('transMessage.messSuccess'),
+            'data' => [
+                'categories'=>DepartmentResource::collection($categories),
+            ]
+        ]);
+    }
+
+    public function review(LimitRequest $request)
+    {
+        if ($request->filled(['start', 'limit'])) {
+            $reviews = Review::whereBetween('id', [$request->start, $request->limit])->get();
+        }else{
+            $reviews = Review::get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' =>__('transMessage.messSuccess'),
+            'data' => [
+                'reviews'=>ReviewResource::collection($reviews),
+            ]
+        ]);
+    }
+
+    public function bestOffer(LimitRequest $request)
+    {
+        $query = Trip::where([['status', 1],['type','Best Offers']]);
+
+        if ($request->filled(['start', 'limit'])) {
+            $bestOffers = $query->whereBetween('id', [$request->start, $request->limit])->get();
+        }else{
+            $bestOffers = $query->get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' =>__('transMessage.messSuccess'),
+            'data' => [
+                'bestOffers'=>TripResource::collection($bestOffers),
+            ]
+        ]);
+    }
+
+    public function bestTrip(LimitRequest $request)
+    {
+        $query = Trip::where([['status', 1],['type','Best Trips']]);
+
+        if ($request->filled(['start', 'limit'])) {
+            $bestTrips = $query->whereBetween('id', [$request->start, $request->limit])->get();
+        }else{
+            $bestTrips = $query->get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' =>__('transMessage.messSuccess'),
+            'data' => [
+                'bestTrips'=>TripResource::collection($bestTrips),
+            ]
+        ]);
+    }
+
+    public function popularExperiencetrip(LimitRequest $request)
+    {
+        $query = Trip::where([['status', 1],['type','Popular Experiences']]);
+
+        if ($request->filled(['start', 'limit'])) {
+            $popularExperiencetrips = $query->whereBetween('id', [$request->start, $request->limit])->get();
+        }else{
+            $popularExperiencetrips = $query->get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' =>__('transMessage.messSuccess'),
+            'data' => [
+                'popularExperiencetrips'=>TripResource::collection($popularExperiencetrips),
+            ]
+        ]);
+    }
+
+    public function trip(LimitRequest $request)
+    {
+        $query = Trip::where('status', 1);
+
+        if ($request->filled('category_id')) {
+            $query->where('department_id',$request->category_id);
+        }
+
+        if ($request->filled(['start', 'limit'])) {
+            $query->whereBetween('id', [$request->start, $request->limit]);
+        }
+
+        $trips = $query->get();
         return response()->json([
             'status' => true,
             'message' =>__('transMessage.messSuccess'),
             'data' => [
                 'trips'=>TripResource::collection($trips),
             ]
-        ], 201);
+        ]);
     }
 
-    public function blog()
+    public function blog(LimitRequest $request)
     {
-        $blogs=Blog::get();
+        if ($request->filled(['start', 'limit'])) {
+            $query = Blog::whereBetween('id', [$request->start, $request->limit]);
+            $blogs = $query->get();
+        }else{
+            $blogs = Blog::get();
+        }
+
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'data successfully show',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' =>__('transMessage.messSuccess'),
             'data' => [
                 'blogs'=>BlogResource::collection($blogs),
             ]
-        ], 201);
+        ]);
     }
 
-    public function offer()
+    public function offer(LimitRequest $request)
     {
-        $offers=Offer::get();
+        if ($request->filled(['start', 'limit'])) {
+            $query = Offer::whereBetween('id', [$request->start, $request->limit]);
+            $offers = $query->get();
+        }else{
+            $offers = Offer::get();
+        }
         return response()->json([
             'status' => true,
-            'message' => [
-                'en'=>'data successfully show',
-                'ar'=>'تم عرض البيانات بنجاح',
-            ],
+            'message' =>__('transMessage.messSuccess'),
             'data' => [
                 'blogs'=>OfferResource::collection($offers),
             ]
-        ], 201);
+        ], 200);
     }
-
-    public function show($id)
-    {
-        try {
-            $country = Country::findOrFail($id);
-            return response()->json([
-                'status' => true,
-                'message' => 'Country retrieved successfully',
-                'data' => new CountryResource($country)
-            ], 200);
-        } catch (ModelNotFoundException) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Country not found',
-                'data' => []
-            ], 404);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Error occurred while retrieving country',
-                'data' => $exception->getMessage()
-            ], 500);
-        }
-    }
-
 
     public function searchTrip(Request $request)
     {
         try {
-//            $r=Trip::findOrFail($request->name);
-            if (isset($request->name)){
-                $trip_search = Trip::where('status',1)->whereRaw("name LIKE ?", ['%'.$request->name.'%'])->get();
+            $query = Trip::where('status', 1);
+
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->name . '%');
+            }
+
+            $trip_search = $query->get();
+
+            if ($trip_search->isEmpty()) {
                 return response()->json([
-                    'status' => true,
-                    'message' => [
-                        'ar'=>'تم رجوع البانات بنجاح',
-                        'en'=>'data return successfully'
-                    ],
-                    'data'=>\App\Http\Resources\Home\TripResource::collection($trip_search)
+                    'status' => false,
+                    'message' =>__('transMessage.messNotFound'),
+                    'data'=>[]
                 ]);
             }
 
-        }catch (\Exception $e){
+            return response()->json([
+                'status' => true,
+                'message' =>__('transMessage.messSuccess'),
+                'data' => \App\Http\Resources\Home\TripResource::collection($trip_search),
+            ]);
+
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => [
-                    'ar'=>'لا توجد بيانات بهذا الاسم',
-                    'en'=>'not found any data'
-                ],
-            ], 501);
+                'message' =>__('transMessage.messError'),
+            ], 500);
         }
     }
 
     public function searchBlog(Request $request)
     {
         try {
-            if (isset($request->name)){
-                $blog_search = Blog::whereRaw("name LIKE ?", ['%'.$request->name.'%'])->get();
+            $query = Blog::where('name', 'like', '%' . $request->name . '%');
+
+            $trip_search = $query->get();
+
+            if ($trip_search->isEmpty()) {
                 return response()->json([
-                    'status' => true,
-                    'message' => [
-                        'ar'=>'تم رجوع البانات بنجاح',
-                        'en'=>'data return successfully',
-//                        'or'=>'data return successfully',
-                    ],
-                    'data'=>\App\Http\Resources\Home\BlogResource::collection($blog_search)
-                ]);
+                    'status' => false,
+                    'message' =>__('transMessage.messNotFound'),
+                    'data'=>[]
+                ], 200);
             }
 
-        }catch (\Exception $e){
+            return response()->json([
+                'status' => true,
+                'message' =>__('transMessage.messSuccess'),
+                'data' => \App\Http\Resources\Home\BlogResource::collection($trip_search),
+            ]);
+
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => [
-                    'ar'=>'لا توجد بيانات بهذا الاسم',
-                    'en'=>'not found any data'
-                ],
-            ], 404);
+                'message' =>__('transMessage.messError'),
+            ], 500);
         }
     }
+
 
 }

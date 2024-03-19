@@ -28,14 +28,20 @@ class ClientController extends Controller
                 ], 400);
             }
             $trip_successfully = auth('clientApi')->user()->favoriteTrips();
-            $trip_successfully->syncWithoutDetaching($request->trip_id);
-            return response()->json([
-                'status' => true,
-                'message' => [
-                    'en' => 'created favorite successfully',
-                    'ar' => 'تم تسجيل الرحلة للمفضله بنجاح',
-                ],
-            ]);
+            if ($trip_successfully->exists()){
+                $trip_successfully->detach($request->trip_id);
+                return response()->json([
+                    'status' => true,
+                    'message' => __('transMessage.messUnFavoriteTrip'),
+                ]);
+            }else{
+                $trip_successfully->syncWithoutDetaching($request->trip_id);
+                return response()->json([
+                    'status' => true,
+                    'message' => __('transMessage.messFavoriteTrip'),
+                ]);
+            }
+
         } catch (\Throwable $ex) {
             return response()->json([
                 'message' => [

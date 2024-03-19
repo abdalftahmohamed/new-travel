@@ -5,11 +5,10 @@ namespace App\Http\Requests\api;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\Rules\Password as RulesPassword;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-class ConfirmRequest extends FormRequest
+class LimitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,18 +18,26 @@ class ConfirmRequest extends FormRequest
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         return [
-            'password' => ['required', 'confirmed', RulesPassword::defaults()],
+            'start'=>['nullable','integer'],
+            'limit'=>['nullable','integer']
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         $response = new JsonResponse([
             'status'=>false,
             'message'=> $validator->messages()->first(),
         ], 422);
+
         throw new ValidationException($validator,$response);
     }
 }
