@@ -7,6 +7,7 @@ use App\Http\Resources\ClientResource;
 use App\Http\Traits\ImageTrait;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -90,9 +91,9 @@ class AuthClientController extends Controller
     public function register(Request $request) {
         try {
             $validatedData = $request->validate([
-                'name_ar' => ['required', 'max:255'],
+                'name_ar' => ['nullable', 'max:255'],
                 'name_en' => ['required', 'max:255'],
-                'name_ur' => ['required', 'max:255'],
+                'name_ur' => ['nullable', 'max:255'],
                 'email' => ['required', 'email', 'unique:clients', 'max:150'],
                 'password' => ['required', 'string', 'confirmed', 'min:6'],
                 'phone' => 'nullable|integer',
@@ -106,19 +107,19 @@ class AuthClientController extends Controller
 
             $clientData = [
                 'name' => [
-                    'ar' => $validatedData['name_ar'],
+                    'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'] ,
                     'en' => $validatedData['name_en'],
-                    'ur' => $validatedData['name_ur']
+                    'ur' => $validatedData['name_ur'] ?? $validatedData['name_en']
                 ],
                 'address' => [
-                    'ar' => $validatedData['address_ar'],
+                    'ar' => $validatedData['address_ar'] ?? $validatedData['address_en'],
                     'en' => $validatedData['address_en'],
-                    'ur' => $validatedData['address_ur']
+                    'ur' => $validatedData['address_ur'] ?? $validatedData['address_en']
                 ],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'phone' => $validatedData['phone'],
-                'status' => 1, // Assuming 'status' is always 1 for new registrations
+//                'status' => 1,
             ];
 
             $client = Client::create($clientData);
@@ -153,6 +154,111 @@ class AuthClientController extends Controller
             ], 400);
         }
     }
+
+    /**
+     * Register a User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateProfile(Request $request) {
+        try {
+            $client = auth('clientApi')->user();
+            $validatedData = $request->validate([
+                'name_ar' => ['nullable', 'max:255'],
+                'name_en' => ['required', 'max:255'],
+                'name_ur' => ['nullable', 'max:255'],
+                'email' => ['required', 'email', 'unique:clients,email,'.$client->id, 'max:150'],
+                'password' => ['nullable', 'string', 'confirmed', 'min:6'],
+                'phone' => 'nullable|integer',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
+                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+            ]);
+            $clientData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur'] ?? $validatedData['name_en']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'] ?? $client->address['en'],
+                    'en' => $validatedData['address_en'] ?? $client->address['en'],
+                    'ur' => $validatedData['address_ur'] ?? $client->address['en']
+                ],
+                'email' => $validatedData['email'],
+                'phone' => $validatedData['phone'],
+            ];
+            if (isset($request->password)){
+                $clientData['password'] = Hash::make($validatedData['password']);
+            }
+            $client->update($clientData);
+
+            // If image is provided, save it
+            if ($request->hasFile('image_path')) {
+                $this->deleteFile('clients',$client->id);
+                $client_image = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
+                $client->image_path = $client_image;
+                $client->save();
+            }
+
+
+            // Return response with success message and client data
+            return response()->json([
+                'status' => true,
+                'message' => __('transMessage.messSuccessUpdated'),
+                'data' => [
+                    'client' => new ClientResource($client)
+                ]
+            ]);
+
+        } catch (\Exception $exception) {
+            // Log or handle the exception appropriately
+            return response()->json([
+                'status' => false,
+                'message' => $exception->getMessage() // Optionally, include the exception message for debugging
+            ], 400);
+        }
+    }
+
+    /**
+     * Register a User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteProfile() {
+        try {
+            $client = auth('clientApi')->user();
+            $this->deleteFile('clients',$client->id);
+            $client->delete();
+
+            // Return response with success message and client data
+            return response()->json([
+                'status' => true,
+                'message' => __('transMessage.messSuccessUpdated'),
+                'data' => [
+                    'client' => new ClientResource($client)
+                ]
+            ]);
+
+        } catch (\Exception $exception) {
+            // Log or handle the exception appropriately
+            return response()->json([
+                'status' => false,
+                'message' => $exception->getMessage() // Optionally, include the exception message for debugging
+            ], 400);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     /**

@@ -17,9 +17,11 @@ class ReviewResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'starsNumber' => $this->stars_numbers,
             'description' => $this->description,
             'imagePath' => $this->image_path,
             'client' => new ClientResource($this->client),
+            'trip' => new \App\Http\Resources\Client\TripResource($this->trip),
         ];
     }
 

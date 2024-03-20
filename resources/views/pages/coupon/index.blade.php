@@ -63,7 +63,6 @@
                                     <th>coupon amount</th>
                                     <th>coupon start</th>
                                     <th>coupon end</th>
-                                    <th>trip</th>
                                     <th>Show</th>
                                     <th>Actions</th>
                                 </tr>
@@ -83,7 +82,6 @@
                                         <td>{{$coupon->coupon_amount}}</td>
                                         <td>{{$coupon->coupon_start}}</td>
                                         <td>{{$coupon->coupon_end}}</td>
-                                        <td>{{$coupon->trip->name}}</td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.coupon.show', $coupon->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
                                                 <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

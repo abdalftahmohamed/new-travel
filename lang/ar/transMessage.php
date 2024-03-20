@@ -15,12 +15,22 @@ return [
 
     'messSuccess' => 'تم عرض البيانات بنجاح',
     'messSuccessRegister' => 'تم التسجيل  بنجاح',
+    'messSuccessSaved' => 'تم التسجيل  بنجاح',
+    'messSuccessUpdated' => 'تم التحديث بنجاح',
     'messNotFound' => 'لا توجد بيانات بهذا الاسم',
+    'messSuccessDeleted' => 'تم حذف البيانات بنجاح',
     'messError' => 'حدث خطأ ما',
     'messSignedOut' => 'تم التسجيل الخروج بنجاح',
     'messErrorPassword' => 'يوجد خطأ في الايميل او كلمة المرور',
     'messFavoriteTrip' => 'تم تسجيل الرحلة للمفضله بنجاح',
     'messUnFavoriteTrip' => 'تم الغاء الرحلة بنجاح من المفضلة',
+    'messSendEmail' => 'تم ارسال الرمز بنجاح',
+    'messFailedSendCode' => 'هذا الرمز غير صالح يرجي التحقق مره أحري',
+    'messToken' => 'التوكن',
+    'messExpirationTime' => 'انتهت صلاحية الرمز. يرجى طلب رمز جديد.',
+    'messResetPassword' => 'تم تغيير كلمة المرور بنجاح'
+
+
 
 
 

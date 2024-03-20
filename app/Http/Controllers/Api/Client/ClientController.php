@@ -7,6 +7,7 @@ use App\Http\Resources\Client\TripResource;
 use App\Http\Resources\ClientResource;
 use App\Http\Traits\ImageTrait;
 use App\Models\Trip;
+use App\Models\trips_clients_favorite;
 use Illuminate\Http\Request;
 
 
@@ -24,21 +25,20 @@ class ClientController extends Controller
             if (!$trip_r) {
                 return response()->json([
                     'status' => false,
-                    'message' => [
-                        'en' => 'trip not found',
-                        'ar' => 'الرحلة غير موجوده',
-                    ],
+                    'message' => __('transMessage.messNotFound'),
                 ], 400);
             }
-            $trip_successfully = auth('clientApi')->user()->favoriteTrips();
-            if ($trip_successfully->exists()){
-                $trip_successfully->detach($request->trip_id);
+            $client = auth('clientApi')->user();
+            #check in table if found
+            $trip_successfully = $client->favoriteTrips()->where('trip_id', $request->trip_id);
+            if ($trip_successfully->exists()) {
+                $client->favoriteTrips()->detach($request->trip_id);
                 return response()->json([
                     'status' => true,
                     'message' => __('transMessage.messUnFavoriteTrip'),
                 ]);
-            }else{
-                $trip_successfully->syncWithoutDetaching($request->trip_id);
+            } else {
+                $client->favoriteTrips()->syncWithoutDetaching($request->trip_id);
                 return response()->json([
                     'status' => true,
                     'message' => __('transMessage.messFavoriteTrip'),
@@ -48,8 +48,8 @@ class ClientController extends Controller
         } catch (\Throwable $ex) {
             return response()->json([
                 'status' => false,
-                'message' =>$ex->getMessage()
-            ], 501);
+                'message' => $ex->getMessage()
+            ],400);
         }
     }
 
@@ -58,8 +58,10 @@ class ClientController extends Controller
         $client = auth('clientApi')->user();
         return response()->json([
             'status' => true,
-            'message' =>__('transMessage.messSuccess'),
-            'data'=>TripResource::collection($client->favoriteTrips()->get())
+            'message' => __('transMessage.messSuccess'),
+            'data' => [
+                'trips'=>TripResource::collection($client->favoriteTrips()->get())
+            ]
         ]);
     }
 }

@@ -64,6 +64,7 @@ Route::group([
         Route::post('/logout', 'logout');
         Route::post('/refresh', 'refresh');
         Route::get('/user-profile', 'userProfile');
+        Route::post('/updateProfile', 'updateProfile');
     });
 
     #password
@@ -105,6 +106,8 @@ Route::group([
         Route::get('/trips', 'trip');
         Route::get('/blogs', 'blog');
         Route::get('/offers', 'offer');
+        Route::post('/subscriptionEmail', 'subscriptionEmail');
+        Route::post('/sendMessage', 'sendMessage');
 
     });
 

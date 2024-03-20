@@ -35,7 +35,7 @@ class TripResource extends JsonResource
             'department' => new DepartmentResource($this->department),
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageTripResource::collection($this->images),
-            'clientFavourite' => $check,
+            'isFavourite' => $check,
         ];
     }
 

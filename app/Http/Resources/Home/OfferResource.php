@@ -22,6 +22,7 @@ class OfferResource extends JsonResource
             'childPrice' => $this->young_price,
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageOfferResource::collection($this->images),
+            'trip' => new \App\Http\Resources\Client\TripResource($this->trip),
             ];
     }
 

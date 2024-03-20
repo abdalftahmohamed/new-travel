@@ -1,13 +1,29 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register.store') }}">
         @csrf
+
+{{--        <!-- Name -->--}}
+{{--        <div>--}}
+{{--            <x-input-label for="name_ar" :value="__('Name Ar')" />--}}
+{{--            <x-text-input id="name_ar" class="block mt-1 w-full" type="text" name="name_ar" :value="old('name_ar')" required autofocus autocomplete="name_ar" />--}}
+{{--            <x-input-error :messages="$errors->get('name_ar')" class="mt-2" />--}}
+{{--        </div>--}}
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="name_en" :value="__('Name En')" />
+            <x-text-input id="name_en" class="block mt-1 w-full" type="text" name="name_en" :value="old('name_en')" required autofocus autocomplete="name_en" />
+            <x-input-error :messages="$errors->get('name_en')" class="mt-2" />
         </div>
+
+{{--        <!-- Name -->--}}
+{{--        <div>--}}
+{{--            <x-input-label for="name_ur" :value="__('Name Ur')" />--}}
+{{--            <x-text-input id="name_ur" class="block mt-1 w-full" type="text" name="name_ur" :value="old('name_ur')" required autofocus autocomplete="name_ur" />--}}
+{{--            <x-input-error :messages="$errors->get('name_ur')" class="mt-2" />--}}
+{{--        </div>--}}
+
+
 
         <!-- Email Address -->
         <div class="mt-4">

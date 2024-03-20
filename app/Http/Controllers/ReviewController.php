@@ -66,9 +66,18 @@ class ReviewController extends Controller
                     'en' => $validatedData['description_en'],
                     'ur' => $validatedData['description_ur']
                 ],
-                'country_id' => $validatedData['country_id']
+                'stars_numbers' => $validatedData['stars_numbers'],
+                'client_id' => $validatedData['client_id'],
             ];
-
+            if (isset($request->trip_id)){
+                $reviewData['trip_id']=$validatedData['trip_id'];
+            }
+            if (isset($request->blog_id)){
+                $reviewData['blog_id']=$validatedData['blog_id'];
+            }
+            if (isset($request->offer_id)){
+                $reviewData['offer_id']=$validatedData['offer_id'];
+            }
             $review = Review::create($reviewData);
 
             if ($request->hasFile('image_path')) {

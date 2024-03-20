@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginClientRequest;
+use App\Http\Resources\ClientResource;
 use App\Http\Traits\ImageTrait;
 use App\Models\City;
 use App\Models\Company;
 use App\Models\Client;
 use App\Providers\RouteServiceProvider;
 use Exception;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,11 @@ class ClientController extends Controller
     public function createLogin()
     {
         return view('pages.client.login');
+    }
+
+    public function createRegister()
+    {
+        return view('client.auth.register');
     }
 
     public function storeLogin(LoginClientRequest $request)
@@ -198,5 +205,69 @@ class ClientController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function register(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'name_ar' => ['nullable', 'max:255'],
+                'name_en' => ['required', 'max:255'],
+                'name_ur' => ['nullable', 'max:255'],
+                'email' => ['required', 'email', 'unique:clients', 'max:150'],
+                'password' => ['required', 'string', 'confirmed', 'min:6'],
+                'phone' => 'nullable|integer',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
+                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+            ]);
+
+            // No need to check if validation fails as Laravel will automatically handle it
+
+            $clientData = [
+                'name' => [
+                    'ar' => $validatedData['name_en'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_en']
+                ],
+//                'address' => [
+//                    'ar' => $validatedData['address_ar'],
+//                    'en' => $validatedData['address_en'],
+//                    'ur' => $validatedData['address_ur']
+//                ],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+//                'phone' => $validatedData['phone'],
+//                'status' => 1, // Assuming 'status' is always 1 for new registrations
+            ];
+
+            $client = Client::create($clientData);
+
+            // If image is provided, save it
+            if ($request->hasFile('image_path')) {
+                $client_image = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
+                $client->image_path = $client_image;
+                $client->save();
+            }
+
+            event(new Registered($client));
+
+            auth('client')->login($client);
+
+            return redirect(RouteServiceProvider::CLIENT);
+
+        } catch (\Exception $exception) {
+            // Log or handle the exception appropriately
+            return response()->json([
+                'status' => false,
+                'message' => $exception->getMessage() // Optionally, include the exception message for debugging
+            ], 400);
+        }
+    }
+
 
 }

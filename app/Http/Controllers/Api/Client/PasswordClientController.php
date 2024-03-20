@@ -21,25 +21,18 @@ class PasswordClientController extends Controller
         if (!$codeInsert) {
             return response()->json([
                 'success' => false,
-                'message' => [
-                    'en' => 'Client Not Found',
-                    'ar' => 'لم يوجد مستخدم بهذا الحساب',
-                ],
-            ], 404);
+                'message' =>__('transMessage.messNotFound'),
+            ], 400);
         }
         $codeInsert->generateCode();
 
         #forget_password Email
         $codeInsert->notify(new ForgetPassword);
 
-
         return response()->json([
             'success' => true,
-            'message' => [
-                'en' => 'User successfully sent code check it',
-                'ar' => 'تم إرسال الرمز بنجاح',
-            ],
-        ], 201);
+            'message' =>__('transMessage.messSendEmail'),
+        ]);
     }
 
     public function reset(Request $request)
@@ -52,11 +45,8 @@ class PasswordClientController extends Controller
         $Client = Client::where([['email', $request->email], ['code', $request->code]])->first();
         if (!$Client) {
             return response()->json([
-                'success' => false,
-                'message' => [
-                    'en' => 'Invalid verification code. Please try again.',
-                    'ar' => 'هذا الرمز غير صالح يرجي التحقق مره أحري',
-                ],
+                'status' => false,
+                'message' =>__('transMessage.messFailedSendCode'),
             ], 400);
         }
 
@@ -67,13 +57,12 @@ class PasswordClientController extends Controller
             'code'=>null
         ]);
         return response()->json([
-            'success' => true,
-            'message' => [
-                'en' => 'Token',
-                'ar' => 'التوكـــن',
-            ],
-            'token' => $token,
-            'expire_at' => $currentDate->addMinutes(5)
+            'status' => true,
+            'message' =>__('transMessage.messToken'),
+            'data'=>[
+                'expire_at' => $currentDate->addMinutes(5),
+                'token' => $token,
+            ]
         ]);
 
     }
@@ -83,22 +72,16 @@ class PasswordClientController extends Controller
         $Client = auth('clientApi')->user();
         if (!$Client) {
             return response()->json([
-                'success' => false,
-                'message' => [
-                    'en' => 'Invalid verification code. Please try again.',
-                    'ar' => 'هذا الرمز غير صالح يرجي التحقق مره أحري',
-                ],
+                'status' => false,
+                'message' =>__('transMessage.messFailedSendCode'),
             ], 400);
         }
         // Check if the token has expired
         $expirationTime = Carbon::parse($Client->expire_at);
         if ($expirationTime->isPast()) {
             return response()->json([
-                'success' => false,
-                'message' => [
-                    'en' => 'The verification token has expired. Please request a new one.',
-                    'ar' => 'انتهت صلاحية الرمز. يرجى طلب رمز جديد.',
-                ],
+                'status' => false,
+                'message' => __('transMessage.messExpirationTime'),
             ], 400);
         }
 
@@ -108,12 +91,8 @@ class PasswordClientController extends Controller
             'expire_at' => null,
         ]);
         return response([
-            'success' => false,
-            'message' => [
-                'en' => 'Password reset successfully',
-                'ar' => 'تم تغيير كلمة المرور بنجاح',
-            ],
-
+            'status' => true,
+            'message' => __('transMessage.messResetPassword'),
         ]);
 
     }
@@ -126,11 +105,8 @@ class PasswordClientController extends Controller
                 'password' => Hash::make($request->password),
             ]);
             return response([
-                'message' => [
-                    'en' => 'Password update successfully',
-                    'ar' => 'تم تغيير كلمة المرور بنجاح',
-                ],
-                'success' => true,
+                'status' => true,
+                'message' => __('transMessage.messResetPassword'),
             ]);
 //        }
 //        return response([

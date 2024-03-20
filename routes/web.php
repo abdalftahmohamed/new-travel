@@ -189,6 +189,10 @@ Route::middleware(['auth:web', 'verified'])->prefix('admin')->as('admin.')->grou
 Route::get('client/login',[ClientController::class,'createLogin'])->withoutMiddleware('auth:client')->name('login.client');
 Route::post('client/login',[ClientController::class,'storeLogin'])->withoutMiddleware('auth:client')->name('login.store');
 
+Route::get('client/register',[ClientController::class,'createRegister'])->withoutMiddleware('auth:client')->name('register.client');
+Route::post('client/register',[ClientController::class,'register'])->withoutMiddleware('auth:client')->name('register.store');
+
+
 #client
 Route::middleware(['auth:client'])->prefix('client')->as('client.')->group(function () {
     Route::get('dashboard',[ClientController::class,'dashboard'])->name('dashboard');

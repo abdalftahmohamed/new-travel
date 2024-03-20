@@ -88,37 +88,37 @@
                                 </div>
                                 <br>
 
-                                <div class="row">
-                                    <!-- blog -->
-                                    <div class="col-6">
-                                        <label for="blog_id">blog</label>
-                                        <select id="blog_id" name="blog_id" class="form-control">
-                                            <option value="" disabled selected>Select Here</option>
-                                            @foreach($blogs as $blog)
-                                                <option value="{{ $blog->id }}" {{ old('blog_id') == $blog ? 'selected' : '' }}>{{ $blog->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('blog_id')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="offer_id">offer</label>
-                                        <select id="offer_id" name="offer_id" class="form-control" >
-                                            <option value="" disabled selected>Select Here</option>
-                                            @foreach($offers as $offer)
-                                                <option value="{{ $offer->id }}" {{ old('offer_id') == $offer ? 'selected' : '' }}>{{ $offer->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('offer_id')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
+{{--                                <div class="row">--}}
+{{--                                    <!-- blog -->--}}
+{{--                                    <div class="col-6">--}}
+{{--                                        <label for="blog_id">blog</label>--}}
+{{--                                        <select id="blog_id" name="blog_id" class="form-control">--}}
+{{--                                            <option value="" disabled selected>Select Here</option>--}}
+{{--                                            @foreach($blogs as $blog)--}}
+{{--                                                <option value="{{ $blog->id }}" {{ old('blog_id') == $blog ? 'selected' : '' }}>{{ $blog->name }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                        @error('blog_id')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                            <strong>{{ $message }}</strong>--}}
+{{--                                        </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-6">--}}
+{{--                                        <label for="offer_id">offer</label>--}}
+{{--                                        <select id="offer_id" name="offer_id" class="form-control" >--}}
+{{--                                            <option value="" disabled selected>Select Here</option>--}}
+{{--                                            @foreach($offers as $offer)--}}
+{{--                                                <option value="{{ $offer->id }}" {{ old('offer_id') == $offer ? 'selected' : '' }}>{{ $offer->name }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                        @error('offer_id')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                            <strong>{{ $message }}</strong>--}}
+{{--                                        </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <br>
 
 
