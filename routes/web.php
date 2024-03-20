@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/lang/{lang}',[\App\Http\Controllers\LanguageController::class,'change']);
 
 
+Route::get('/run-command/{command}',function ($command){
+    \Illuminate\Support\Facades\Artisan::call($command);
+    return 'Command "'.$command. '" executed.';
+})->middleware(['auth:web', 'verified','authenticate.command']);
+
 Route::get('/',[\App\Http\Controllers\HomeController::class,'home'])->name('home');
 Route::get('/blog',[\App\Http\Controllers\HomeController::class,'blog'])->name('blog');
 Route::get('/showTravelCity/{city_id}',[\App\Http\Controllers\HomeController::class,'showTravelCity'])->name('showTravelCity');
@@ -53,7 +58,7 @@ Route::get('/success/{checkout_id}', 'App\Http\Controllers\StripePaymentControll
 
 
 
-Route::middleware(['auth:web', 'verified'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth:web', 'verified','checkAdmin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.index');
     })->name('dashboard');

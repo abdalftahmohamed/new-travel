@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('old_price',8,2)->nullable();
             $table->double('young_price',8,2)->nullable();
             $table->text('name')->nullable();
+            $table->string('image_path')->nullable();
             $table->longText('offer_description')->nullable();
             $table->boolean('status')->default(true);
 //            $table->string('cus_rating')->nullable();

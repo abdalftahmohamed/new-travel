@@ -70,6 +70,12 @@ class OfferController extends Controller
             ];
 
             $offer = Offer::create($offerData);
+
+            if ($request->hasFile('image_path')) {
+                $offer_image = $this->saveImage($request->file('image_path'), 'attachments/offers/' . $offer->id);
+                $offer->image_path = $offer_image;
+                $offer->save();
+            }
             // insert img
             if ($request->hasfile('images')) {
                 foreach ($request->file('images') as $value) {
@@ -136,7 +142,12 @@ class OfferController extends Controller
 
             $offer = Offer::findOrFail($request->id);
             $offer->update($validatedData);
-
+            if ($request->hasFile('image_path')) {
+                $this->deleteFile('offers',$request->id);
+                $offer_image = $this->saveImage($request->file('image_path'), 'attachments/offers/' . $offer->id);
+                $offer->image_path = $offer_image;
+                $offer->save();
+            }
 
             session()->flash('message', 'offer Updated Successfully');
             return redirect()->route('admin.offer.index');
@@ -152,6 +163,7 @@ class OfferController extends Controller
         try {
             // Find the offer by ID
             $offer = Offer::findOrFail($request->id);
+            $this->deleteFile('offers',$request->id);
             $this->deleteFile('images/offers',$request->id);
 
             // Delete the offer

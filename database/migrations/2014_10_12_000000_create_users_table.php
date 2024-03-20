@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role')->nullable();
+            $table->string('check_command')->nullable();
             $table->longText('code')->nullable();
             $table->dateTime('expire_at')->nullable();
             $table->rememberToken();

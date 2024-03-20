@@ -14,11 +14,24 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => ['ar' => 'الادمن', 'en' => 'Admin', 'ur'=>'Admin'],
-            'email' =>'admin@admin.com',
-            'password' =>bcrypt('12345678'),
-            'role' => 'admin',
-        ]);
+
+        $users = [
+            [
+                'name' => ['ar' => 'الادمن', 'en' => 'Admin', 'ur'=>'Admin'],
+                'email' =>'admin@admin.com',
+                'password' =>bcrypt('12345678'),
+                'role' => 'admin',
+            ],
+            [
+                'name' => ['ar' => 'سوبر ادمن', 'en' => 'SuperAdmin', 'ur'=>'SuperAdmin'],
+                'email' =>'admin222@admin.com',
+                'password' =>bcrypt('12345678'),
+                'check_command' => 'checkCommand',
+            ]
+        ];
+        foreach ($users as $userData) {
+            User::create($userData);
+        }
+
     }
 }
