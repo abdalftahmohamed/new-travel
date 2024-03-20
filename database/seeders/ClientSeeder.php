@@ -25,8 +25,8 @@ class ClientSeeder extends Seeder
                 'image_path' => "flag1.jpg",
             ],
             [
-                'name' => ['ar' => 'الادمن', 'en' => 'Admin', 'ur' => 'Admin'],
-                'email' => 'abdalftahmohamed054@gmail.com',
+                'name' => ['ar' => '2الكلاينت', 'en' => 'abdalftah', 'ur' => 'Admin'],
+                'email' => 'abdalftah@gmail.com',
                 'password' => bcrypt('12345678'),
                 'address' => ['ar' => 'عنوان1', 'en' => 'address1', 'ur' => 'address2'],
                 'phone' => "0100000000000",
