@@ -142,16 +142,35 @@ class CityController extends Controller
 
     public function update(Request $request)
     {
+
         try {
+            $city = City::findOrFail($request->id);
             $validatedData = $request->validate([
-                'name' => 'nullable|string',
-                'description' => 'nullable|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'country_id' => 'nullable|integer|exists:countries,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            $city = City::findOrFail($request->id);
-            $city->update($validatedData);
+            $cityData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $city->getTranslation('name', 'ar'),
+                    'en' => $validatedData['name_en'] ?? $city->getTranslation('name', 'en'),
+                    'ur' => $validatedData['name_ur'] ?? $city->getTranslation('name', 'ur')
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'] ?? $city->getTranslation('description', 'ar'),
+                    'en' => $validatedData['description_en'] ?? $city->getTranslation('description', 'en'),
+                    'ur' => $validatedData['description_ur'] ?? $city->getTranslation('description', 'ur')
+                ],
+                'country_id' => $validatedData['country_id'] ?? $city->country_id
+            ];
+
+            $city->update($cityData);
 
             if ($request->hasFile('image_path')) {
                 $this->deleteFile('citys',$request->id);

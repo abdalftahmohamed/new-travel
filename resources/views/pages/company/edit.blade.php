@@ -200,51 +200,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <br>
-                                {{--                                des ar--}}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>company description ar</label>
-                                        <div>
-                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$company->getTranslation('description','ar'),old('description_ar')}}</textarea>
-                                        </div>
-                                        @error('description_ar')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <br>
-                                {{--                                des en--}}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>company description en</label>
-                                        <div>
-                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$company->getTranslation('description','en'),old('description_en')}}</textarea>
-                                        </div>
-                                        @error('description_en')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <br>
-                                {{--                                des ur--}}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>company description ur</label>
-                                        <div>
-                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$company->getTranslation('description','ur'),old('description_ur')}}</textarea>
-                                        </div>
-                                        @error('description_ur')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                </div>
                                 <hr>
                                 <hr>
 

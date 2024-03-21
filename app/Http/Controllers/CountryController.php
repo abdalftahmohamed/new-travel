@@ -99,15 +99,33 @@ class CountryController extends Controller
     public function update(Request $request)
     {
         try {
+            $country = Country::findOrFail($request->id);
+
             $validatedData = $request->validate([
-                'name' => 'nullable|string',
-                'description' => 'nullable|string',
+                'name_ar' => 'required|string',
+                'name_en' => 'required|string',
+                'name_ur' => 'required|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
+            $countryData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $country->getTranslation('name', 'ar'),
+                    'en' => $validatedData['name_en'] ?? $country->getTranslation('name', 'en'),
+                    'ur' => $validatedData['name_ur'] ?? $country->getTranslation('name', 'ur')
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'] ?? $country->getTranslation('description', 'ar'),
+                    'en' => $validatedData['description_en'] ?? $country->getTranslation('description', 'en'),
+                    'ur' => $validatedData['description_ur'] ?? $country->getTranslation('description', 'ur')
+                ],
+            ];
 
-            $country = Country::findOrFail($request->id);
-            $country->update($validatedData);
+
+            $country->update($countryData);
 
             if ($request->hasFile('image_path')) {
                 $this->deleteFile('countrys',$request->id);
