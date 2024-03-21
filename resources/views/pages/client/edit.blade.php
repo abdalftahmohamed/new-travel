@@ -48,18 +48,7 @@
                                 <input type="hidden" name="id" value="{{$client->id}}">
 
                                 <div class="row">
-                                    <div class="col-6">
-                                        <label>client name</label>
-                                        <input type="text" name="name" value="{{$client->name,old('name')}}"
-                                               class="form-control"  placeholder="enter client name here..."/>
-                                        @error('name')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <label>client email</label>
                                         <input type="email" name="email" value="{{$client->email,old('email')}}"
                                                class="form-control"  placeholder="enter client email here..."/>
@@ -105,12 +94,36 @@
                                     </div>
                                 </div>
                                 <br>
+
+
+
+                                {{--                                name --}}
                                 <div class="row">
-                                    <div class="col-12">
-                                        <label>client address</label>
-                                        <input type="text" name="address" value="{{$client->address,old('address')}}"
-                                               class="form-control"  placeholder="enter client address here..."/>
-                                        @error('address')
+                                    <div class="col-4">
+                                        <label>the client name ar</label>
+                                        <input type="text" name="name_ar" value="{{$client->getTranslation('name','ar'),old('name_ar')}}"
+                                               class="form-control" required placeholder="enter client name_ar here..."/>
+                                        @error('name_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the client name en</label>
+                                        <input type="text" name="name_en" value="{{$client->getTranslation('name','en'),old('name_en')}}"
+                                               class="form-control" required placeholder="enter client name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the client name ur</label>
+                                        <input type="text" name="name_ur" value="{{$client->getTranslation('name','ur'),old('name_ur')}}"
+                                               class="form-control" required placeholder="enter client name_en here..."/>
+                                        @error('name_ur')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
@@ -118,6 +131,44 @@
                                     </div>
                                 </div>
                                 <br>
+
+                                {{--                                address --}}
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>the client address ar</label>
+                                        <input type="text" name="address_ar" value="{{$client->getTranslation('address','ar'),old('address_ar')}}"
+                                               class="form-control"  placeholder="enter client address_ar here..."/>
+                                        @error('address_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the client address en</label>
+                                        <input type="text" name="address_en" value="{{$client->getTranslation('address','en'),old('address_en')}}"
+                                               class="form-control"  placeholder="enter client address_en here..."/>
+                                        @error('address_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the client address ur</label>
+                                        <input type="text" name="address_ur" value="{{$client->getTranslation('address','ur'),old('address_ur')}}"
+                                               class="form-control"  placeholder="enter client address_en here..."/>
+                                        @error('address_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <hr>
+
                                 <div class="row">
                                     <div class="col-12">
                                         <label>client status</label>

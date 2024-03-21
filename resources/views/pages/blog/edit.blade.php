@@ -69,16 +69,16 @@
                                 <input type="hidden" name="id" value="{{$blog->id}}">
 
                                 <div class="row">
-                                    <!-- company -->
+                                    <!-- trip -->
                                     <div class="col-12">
-                                        <label for="company_id">company</label>
-                                        <select id="company_id" name="company_id" class="form-control" >
-                                            <option value="" disabled selected>{{$blog->company->name ??"Select Here"}}</option>
-                                            @foreach($companys as $company)
-                                                <option value="{{ $company->id }}" {{ old('company') == $company ? 'selected' : '' }}>{{ $company->name }}</option>
+                                        <label for="trip_id">trip</label>
+                                        <select id="trip_id" name="trip_id" class="form-control" >
+                                            <option value="" disabled selected>{{$blog->trip->name ??"Select Here"}}</option>
+                                            @foreach($trips as $trip)
+                                                <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('company_id')
+                                        @error('trip_id')
                                         <span class="text-danger" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -86,36 +86,89 @@
                                     </div>
                                 </div>
                                 <br>
+
+
+                                {{--                                name --}}
                                 <div class="row">
-                                    <div class="col-12">
-                                        <label>blog name</label>
-                                        <input type="text" name="name" value="{{$blog->name,old('name')}}"
-                                               class="form-control"  placeholder="enter blog name here..."/>
-                                        @error('name')
+                                    <div class="col-4">
+                                        <label>the blog name ar</label>
+                                        <input type="text" name="name_ar" value="{{$blog->getTranslation('name','ar'),old('name_ar')}}"
+                                               class="form-control" required placeholder="enter blog name_ar here..."/>
+                                        @error('name_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
+                                    <div class="col-4">
+                                        <label>the blog name en</label>
+                                        <input type="text" name="name_en" value="{{$blog->getTranslation('name','en'),old('name_en')}}"
+                                               class="form-control" required placeholder="enter blog name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the blog name ur</label>
+                                        <input type="text" name="name_ur" value="{{$blog->getTranslation('name','ur'),old('name_ur')}}"
+                                               class="form-control" required placeholder="enter blog name_en here..."/>
+                                        @error('name_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <br>
-
+                                {{--                                des ar--}}
                                 <div class="row">
                                     <div class="col-12">
-                                        <label>blog description</label>
+                                        <label>blog description ar</label>
                                         <div>
-                                            <textarea name="description" class="form-control" rows="5" placeholder="enter the description here ...">{{$blog->description,old('description')}}</textarea>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$blog->getTranslation('description','ar'),old('description_ar')}}</textarea>
                                         </div>
-                                        @error('description')
+                                        @error('description_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
                                 </div>
+                                <br>
+                                {{--                                des en--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>blog description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$blog->getTranslation('description','en'),old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des ur--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>blog description ur</label>
+                                        <div>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$blog->getTranslation('description','ur'),old('description_ur')}}</textarea>
+                                        </div>
+                                        @error('description_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <hr>
+                                <hr>
 
 
 {{--                                <hr>--}}

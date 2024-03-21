@@ -108,20 +108,124 @@
                                     </div>
                                 </div>
                                 <br>
+
+                                {{--                                name --}}
                                 <div class="row">
-                                    <div class="col-12">
-                                        <label>trip name</label>
-                                        <input type="text" name="name" value="{{$trip->name,old('name')}}"
-                                               class="form-control"  placeholder="enter trip name here..."/>
-                                        @error('name')
+                                    <div class="col-4">
+                                        <label>the trip name ar</label>
+                                        <input type="text" name="name_ar" value="{{$trip->getTranslation('name','ar'),old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
+                                    <div class="col-4">
+                                        <label>the trip name en</label>
+                                        <input type="text" name="name_en" value="{{$trip->getTranslation('name','en'),old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the trip name ur</label>
+                                        <input type="text" name="name_ur" value="{{$trip->getTranslation('name','ur'),old('name_ur')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <br>
+                                {{--                                address --}}
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>the trip address ar</label>
+                                        <input type="text" name="address_ar" value="{{$trip->getTranslation('address','ar'),old('address_ar')}}"
+                                               class="form-control"  placeholder="enter company address_ar here..."/>
+                                        @error('address_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the trip address en</label>
+                                        <input type="text" name="address_en" value="{{$trip->getTranslation('address','en'),old('address_en')}}"
+                                               class="form-control"  placeholder="enter company address_en here..."/>
+                                        @error('address_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the trip address ur</label>
+                                        <input type="text" name="address_ur" value="{{$trip->getTranslation('address','ur'),old('address_ur')}}"
+                                               class="form-control"  placeholder="enter company address_en here..."/>
+                                        @error('address_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+
+                                {{--                                des ar--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>trip description ar</label>
+                                        <div>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$trip->getTranslation('trip_description','ar'),old('description_ar')}}</textarea>
+                                        </div>
+                                        @error('description_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des en--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>trip description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$trip->getTranslation('trip_description','en'),old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des ur--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>trip description ur</label>
+                                        <div>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$trip->getTranslation('trip_description','ur'),old('description_ur')}}</textarea>
+                                        </div>
+                                        @error('description_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <hr>
+                                <hr>
+
+
                                 <div class="row">
                                     <div class="col-12">
                                         <label>trip location</label>
@@ -376,23 +480,6 @@
                                 <hr>
 
 
-
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>Trip description</label>
-                                        <div>
-                                            <textarea name="trip_description" class="form-control" rows="5" placeholder="enter the trip_description here ...">{{$trip->trip_description,old('trip_description')}}</textarea>
-                                        </div>
-                                        @error('trip_description')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-
-                                </div>
-                                <br>
-                                <br>
 
 
                                 <div class="mb-0">

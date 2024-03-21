@@ -47,32 +47,85 @@
 
                                 <input type="hidden" name="id" value="{{$ourPartner->id}}">
 
+
+
+                                {{--                                name --}}
                                 <div class="row">
-                                    <!-- Country -->
-                                    <div class="col-12">
-                                        <label>ourPartner name</label>
-                                        <input type="text" name="name" value="{{$ourPartner->name,old('name')}}"
-                                               class="form-control" required placeholder="enter company name here..."/>
-                                        @error('name')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>ourPartner description</label>
-                                        <div>
-                                            <textarea name="description" class="form-control" rows="5" placeholder="enter the description here ...">{{$ourPartner->description,old('description')}}</textarea>
-                                        </div>
-                                        @error('description')
+                                    <div class="col-4">
+                                        <label>the ourPartner name ar</label>
+                                        <input type="text" name="name_ar" value="{{$ourPartner->getTranslation('name','ar'),old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
+                                    <div class="col-4">
+                                        <label>the ourPartner name en</label>
+                                        <input type="text" name="name_en" value="{{$ourPartner->getTranslation('name','en'),old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the ourPartner name ur</label>
+                                        <input type="text" name="name_ur" value="{{$ourPartner->getTranslation('name','ur'),old('name_ur')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des ar--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>ourPartner description ar</label>
+                                        <div>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$ourPartner->getTranslation('description','ar'),old('description_ar')}}</textarea>
+                                        </div>
+                                        @error('description_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des en--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>ourPartner description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$ourPartner->getTranslation('description','en'),old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des ur--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>ourPartner description ur</label>
+                                        <div>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$ourPartner->getTranslation('description','ur'),old('description_ur')}}</textarea>
+                                        </div>
+                                        @error('description_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <hr>
                                 <hr>

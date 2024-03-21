@@ -48,6 +48,7 @@
                                 <input type="hidden" name="id" value="{{$country->id}}">
 
 
+{{--                                name --}}
                                 <div class="row">
                                     <div class="col-4">
                                         <label>the country name ar</label>
@@ -81,6 +82,7 @@
                                     </div>
                                 </div>
                                 <br>
+{{--                                des ar--}}
                                 <div class="row">
                                     <div class="col-12">
                                         <label>country description ar</label>
@@ -95,6 +97,7 @@
                                     </div>
                                 </div>
                                 <br>
+{{--                                des en--}}
                                 <div class="row">
                                     <div class="col-12">
                                         <label>country description en</label>
@@ -109,6 +112,7 @@
                                     </div>
                                 </div>
                                 <br>
+{{--                                des ur--}}
                                 <div class="row">
                                     <div class="col-12">
                                         <label>country description ur</label>

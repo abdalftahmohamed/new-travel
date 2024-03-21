@@ -65,6 +65,89 @@
                                     </div>
                                 </div>
                                 <br>
+
+                                {{--                                name --}}
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label>the offer name ar</label>
+                                        <input type="text" name="name_ar" value="{{$offer->getTranslation('name','ar'),old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the offer name en</label>
+                                        <input type="text" name="name_en" value="{{$offer->getTranslation('name','en'),old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the offer name ur</label>
+                                        <input type="text" name="name_ur" value="{{$offer->getTranslation('name','ur'),old('name_ur')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des ar--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>offer description ar</label>
+                                        <div>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$offer->getTranslation('offer_description','ar'),old('description_ar')}}</textarea>
+                                        </div>
+                                        @error('description_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des en--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>offer description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$offer->getTranslation('offer_description','en'),old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                {{--                                des ur--}}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>offer description ur</label>
+                                        <div>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$offer->getTranslation('offer_description','ur'),old('description_ur')}}</textarea>
+                                        </div>
+                                        @error('description_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <hr>
+                                <hr>
+
+
                                 <div class="row">
                                     <div class="col-12">
                                         <label>offer status</label>
@@ -91,20 +174,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>offer name</label>
-                                        <input type="text" name="name" value="{{$offer->name,old('name')}}"
-                                               class="form-control"  placeholder="enter offer name here..."/>
-                                        @error('name')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
 
-                                </div>
-                                <br>
                                 <div class="row">
                                     <div class="col-6">
                                         <label>young price</label>
@@ -258,22 +328,6 @@
                                 <hr>
                                 <hr>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>Trip description</label>
-                                        <div>
-                                            <textarea name="offer_description" class="form-control" rows="5" placeholder="enter the offer_description here ...">{{$offer->offer_description,old('offer_description')}}</textarea>
-                                        </div>
-                                        @error('offer_description')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-
-                                </div>
-                                <br>
-                                <br>
 
                                 <div class="mb-0">
                                     <div>
