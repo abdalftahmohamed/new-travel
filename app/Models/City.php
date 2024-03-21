@@ -28,4 +28,9 @@ class City extends Model
     {
         return $this->hasMany(Company::class);
     }
+
+    public function companyTrip()
+    {
+        return $this->hasMany(Company::class);
+    }
 }

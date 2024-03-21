@@ -66,12 +66,33 @@
                                     </div>
                                 </div>
                                 <br>
+
                                 <div class="row">
-                                    <div class="col-12">
-                                        <label>the city name</label>
-                                        <input type="text" name="name" value="{{$city->name,old('name')}}"
-                                               class="form-control" required placeholder="enter company name here..."/>
-                                        @error('name')
+                                    <div class="col-4">
+                                        <label>the city name ar</label>
+                                        <input type="text" name="name_ar" value="{{$city->getTranslation('name','ar'),old('name_ar')}}"
+                                               class="form-control" required placeholder="enter company name_ar here..."/>
+                                        @error('name_ar')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the city name en</label>
+                                        <input type="text" name="name_en" value="{{$city->getTranslation('name','en'),old('name_en')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-4">
+                                        <label>the city name ur</label>
+                                        <input type="text" name="name_ur" value="{{$city->getTranslation('name','ur'),old('name_ur')}}"
+                                               class="form-control" required placeholder="enter company name_en here..."/>
+                                        @error('name_ur')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
@@ -81,17 +102,44 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-12">
-                                        <label>city description</label>
+                                        <label>city description ar</label>
                                         <div>
-                                            <textarea name="description" class="form-control" rows="5" placeholder="enter the description here ...">{{$city->description,old('description')}}</textarea>
+                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$city->getTranslation('description','ar'),old('description_ar')}}</textarea>
                                         </div>
-                                        @error('description')
+                                        @error('description_ar')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>city description en</label>
+                                        <div>
+                                            <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$city->getTranslation('description','en'),old('description_en')}}</textarea>
+                                        </div>
+                                        @error('description_en')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>city description ur</label>
+                                        <div>
+                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$city->getTranslation('description','ur'),old('description_ur')}}</textarea>
+                                        </div>
+                                        @error('description_ur')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <hr>
                                 <hr>

@@ -20,6 +20,7 @@ class DepartmentResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'imagePath' => $this->image_path,
+//            'trips' => TripResource::collection($this->trips),
         ];
     }
 

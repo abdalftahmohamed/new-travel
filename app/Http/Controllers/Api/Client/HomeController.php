@@ -132,7 +132,6 @@ class HomeController extends Controller
     public function bestTrip(LimitRequest $request)
     {
         $query = Trip::where([['status', 1], ['type', 'Best Trips']]);
-
         if ($request->filled(['start', 'limit'])) {
             $bestTrips = $query->offset($request->start)->limit($request->limit)->get();
         } else {
@@ -150,7 +149,6 @@ class HomeController extends Controller
     public function popularExperiencetrip(LimitRequest $request)
     {
         $query = Trip::where([['status', 1], ['type', 'Popular Experiences']]);
-
         if ($request->filled(['start', 'limit'])) {
             $popularExperiencetrips = $query->offset($request->start)->limit($request->limit)->get();
         } else {
@@ -174,7 +172,6 @@ class HomeController extends Controller
         }
 
         if ($request->filled(['start', 'limit'])) {
-//            $query->whereBetween('id', [$request->start, $request->limit]);
             $query->offset($request->start)->limit($request->limit);
         }
 
@@ -187,6 +184,32 @@ class HomeController extends Controller
             ]
         ]);
     }
+
+    public function tripCity(LimitRequest $request)
+    {
+        if ($request->filled('destination_id')) {
+            $city = City::findOrFail($request->destination_id);
+            $trips = collect();
+            foreach ($city->companies as $company) {
+                $trips = $trips->merge($company->tripsStatus);
+            }
+        }
+
+        if ($request->filled(['start'])||$request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $trips->count());
+            $trips = $trips->slice($start, $limit);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => __('transMessage.messSuccess'),
+            'data' => [
+                'trips' => TripResource::collection($trips),
+            ]
+        ]);
+    }
+
 
     public function blog(LimitRequest $request)
     {
@@ -227,14 +250,14 @@ class HomeController extends Controller
     {
         try {
             $query = Trip::where('status', 1);
-
             if ($request->filled('name')) {
-                $query->where('name', 'like', '%' . $request->name . '%');
-            }
-
-            $trip_search = $query->get();
-
-            if ($trip_search->isEmpty()) {
+                $trip_search = $query->searchByKeyword($request->name)->get();
+                return response()->json([
+                    'status' => true,
+                    'message' => __('transMessage.messSuccess'),
+                    'data' => \App\Http\Resources\Search\TripResource::collection($trip_search),
+                ]);
+            }else{
                 return response()->json([
                     'status' => false,
                     'message' => __('transMessage.messNotFound'),
@@ -242,11 +265,6 @@ class HomeController extends Controller
                 ]);
             }
 
-            return response()->json([
-                'status' => true,
-                'message' => __('transMessage.messSuccess'),
-                'data' => \App\Http\Resources\Home\TripResource::collection($trip_search),
-            ]);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -259,23 +277,20 @@ class HomeController extends Controller
     public function searchBlog(Request $request)
     {
         try {
-            $query = Blog::where('name', 'like', '%' . $request->name . '%');
-
-            $trip_search = $query->get();
-
-            if ($trip_search->isEmpty()) {
+            if ($request->filled('name')) {
+                $trip_search = Blog::searchByKeyword($request->name)->get();
+                return response()->json([
+                    'status' => true,
+                    'message' => __('transMessage.messSuccess'),
+                    'data' => \App\Http\Resources\Search\BlogResource::collection($trip_search),
+                ]);
+            }else{
                 return response()->json([
                     'status' => false,
                     'message' => __('transMessage.messNotFound'),
                     'data' => []
                 ], 200);
             }
-
-            return response()->json([
-                'status' => true,
-                'message' => __('transMessage.messSuccess'),
-                'data' => \App\Http\Resources\Home\BlogResource::collection($trip_search),
-            ]);
 
         } catch (\Exception $e) {
             return response()->json([

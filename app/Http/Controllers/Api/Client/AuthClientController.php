@@ -21,19 +21,22 @@ class AuthClientController extends Controller
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:clientApi', ['except' => ['login', 'register']]);
     }
+
     /**
      * Get a JWT via given credentials.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]
+                'email' => 'required|email',
+                'password' => 'required|string|min:6',
+            ]
 //            , [
 //            'email.required' => [
 //                'ar' => 'البريد الإلكتروني مطلوب',
@@ -60,15 +63,15 @@ class AuthClientController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status'=>false,
+                'status' => false,
                 'message' => $validator->errors()->first(),
             ], 400);
         }
 
-        if (! $token = auth('clientApi')->attempt($validator->validated())) {
+        if (!$token = auth('clientApi')->attempt($validator->validated())) {
             return response()->json([
-                'status'=>false,
-                'message'=>__('transMessage.messErrorPassword'),
+                'status' => false,
+                'message' => __('transMessage.messErrorPassword'),
             ], 400);
         }
         $client = auth('clientApi')->user();
@@ -83,19 +86,21 @@ class AuthClientController extends Controller
             ]
         ]);
     }
+
     /**
      * Register a User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request) {
+    public function register(Request $request)
+    {
         try {
             $validatedData = $request->validate([
                 'name_ar' => ['nullable', 'max:255'],
                 'name_en' => ['required', 'max:255'],
                 'name_ur' => ['nullable', 'max:255'],
                 'email' => ['required', 'email', 'unique:clients', 'max:150'],
-                'password' => ['required', 'string', 'confirmed', 'min:6'],
+                'password' => ['required', 'string', 'min:6'],
                 'phone' => 'nullable|integer',
                 'address_ar' => 'nullable|string',
                 'address_en' => 'nullable|string',
@@ -107,20 +112,20 @@ class AuthClientController extends Controller
 
             $clientData = [
                 'name' => [
-                    'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'] ,
+                    'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'],
                     'en' => $validatedData['name_en'],
                     'ur' => $validatedData['name_ur'] ?? $validatedData['name_en']
                 ],
                 'address' => [
-                    'ar' => $validatedData['address_ar'] ?? $validatedData['address_en'],
-                    'en' => $validatedData['address_en'],
-                    'ur' => $validatedData['address_ur'] ?? $validatedData['address_en']
+                    'ar' => $validatedData['address_ar'] ?? null,
+                    'en' => $validatedData['address_en'] ?? null,
+                    'ur' => $validatedData['address_ur'] ?? null
                 ],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'phone' => $validatedData['phone'],
-//                'status' => 1,
             ];
+
 
             $client = Client::create($clientData);
 
@@ -160,15 +165,16 @@ class AuthClientController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateProfile(Request $request) {
+    public function updateProfile(Request $request)
+    {
         try {
             $client = auth('clientApi')->user();
             $validatedData = $request->validate([
                 'name_ar' => ['nullable', 'max:255'],
                 'name_en' => ['required', 'max:255'],
                 'name_ur' => ['nullable', 'max:255'],
-                'email' => ['required', 'email', 'unique:clients,email,'.$client->id, 'max:150'],
-                'password' => ['nullable', 'string', 'confirmed', 'min:6'],
+                'email' => ['required', 'email', 'unique:clients,email,' . $client->id, 'max:150'],
+                'password' => ['nullable', 'string', 'min:6'],
                 'phone' => 'nullable|integer',
                 'address_ar' => 'nullable|string',
                 'address_en' => 'nullable|string',
@@ -177,26 +183,27 @@ class AuthClientController extends Controller
             ]);
             $clientData = [
                 'name' => [
-                    'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'],
-                    'en' => $validatedData['name_en'],
-                    'ur' => $validatedData['name_ur'] ?? $validatedData['name_en']
+                    'ar' => $validatedData['name_ar'] ?? $client->getTranslation('name', 'ar'),
+                    'en' => $validatedData['name_en'] ?? $client->getTranslation('name', 'en'),
+                    'ur' => $validatedData['name_ur'] ?? $client->getTranslation('name', 'ur')
                 ],
                 'address' => [
-                    'ar' => $validatedData['address_ar'] ?? $client->address['en'],
-                    'en' => $validatedData['address_en'] ?? $client->address['en'],
-                    'ur' => $validatedData['address_ur'] ?? $client->address['en']
+                    'ar' => $validatedData['address_ar'] ?? $client->getTranslation('address', 'ar'),
+                    'en' => $validatedData['address_en'] ?? $client->getTranslation('address', 'en'),
+                    'ur' => $validatedData['address_ur'] ?? $client->getTranslation('address', 'ur')
                 ],
                 'email' => $validatedData['email'],
                 'phone' => $validatedData['phone'],
             ];
-            if (isset($request->password)){
+
+            if (isset($request->password)) {
                 $clientData['password'] = Hash::make($validatedData['password']);
             }
             $client->update($clientData);
 
             // If image is provided, save it
             if ($request->hasFile('image_path')) {
-                $this->deleteFile('clients',$client->id);
+                $this->deleteFile('clients', $client->id);
                 $client_image = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
                 $client->image_path = $client_image;
                 $client->save();
@@ -226,19 +233,17 @@ class AuthClientController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteProfile() {
+    public function deleteProfile()
+    {
         try {
             $client = auth('clientApi')->user();
-            $this->deleteFile('clients',$client->id);
+            $this->deleteFile('clients', $client->id);
             $client->delete();
 
             // Return response with success message and client data
             return response()->json([
                 'status' => true,
-                'message' => __('transMessage.messSuccessUpdated'),
-                'data' => [
-                    'client' => new ClientResource($client)
-                ]
+                'message' => __('transMessage.messSuccessDeleted'),
             ]);
 
         } catch (\Exception $exception) {
@@ -251,36 +256,29 @@ class AuthClientController extends Controller
     }
 
 
-
-
-
-
-
-
-
-
-
-
     /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout() {
+    public function logout()
+    {
         auth()->guard('clientApi')->logout();
         return response()->json([
             'status' => true,
-            'message' =>__('transMessage.messSignedOut'),
+            'message' => __('transMessage.messSignedOut'),
         ]);
     }
+
     /**
      * Refresh a token.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh() {
+    public function refresh()
+    {
 //        return $this->createNewToken(auth('clientApi')->refresh());
-        $token=auth('clientApi')->refresh();
+        $token = auth('clientApi')->refresh();
         $client = auth('clientApi')->user();
 
         return response()->json([
@@ -294,17 +292,19 @@ class AuthClientController extends Controller
             ]
         ]);
     }
+
     /**
      * Get the authenticated User.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userProfile() {
+    public function userProfile()
+    {
         return response()->json([
             'status' => true,
             'message' => __('transMessage.messSuccess'),
             'data' => [
-                'client'=>new ClientResource(auth('clientApi')->user())
+                'client' => new ClientResource(auth('clientApi')->user())
             ]
         ]);
     }

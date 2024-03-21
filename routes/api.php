@@ -65,6 +65,7 @@ Route::group([
         Route::post('/refresh', 'refresh');
         Route::get('/user-profile', 'userProfile');
         Route::post('/updateProfile', 'updateProfile');
+        Route::delete('/deleteProfile', 'deleteProfile');
     });
 
     #password
@@ -104,6 +105,7 @@ Route::group([
         Route::get('/popularExperiencetrips', 'popularExperiencetrip');
         Route::get('/reviews', 'review');
         Route::get('/trips', 'trip');
+        Route::get('/tripDestination', 'tripCity');
         Route::get('/blogs', 'blog');
         Route::get('/offers', 'offer');
         Route::post('/subscriptionEmail', 'subscriptionEmail');

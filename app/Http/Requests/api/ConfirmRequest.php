@@ -30,7 +30,7 @@ class ConfirmRequest extends FormRequest
         $response = new JsonResponse([
             'status'=>false,
             'message'=> $validator->messages()->first(),
-        ], 422);
+        ], 400);
         throw new ValidationException($validator,$response);
     }
 }

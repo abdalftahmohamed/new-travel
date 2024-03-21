@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Translatable\HasTranslations;
@@ -53,6 +54,11 @@ class Company extends Authenticatable
     public function trips()
     {
         return $this->hasMany(Trip::class);
+    }
+
+    public function tripsStatus()
+    {
+        return $this->hasMany(Trip::class)->where('status',1);
     }
 
     public function departments()

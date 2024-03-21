@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\api\ConfirmRequest;
+use App\Http\Resources\Home\ClientResource;
 use App\Models\Client;
 use App\Notifications\ForgetPassword;
 use Carbon\Carbon;
@@ -37,34 +38,40 @@ class PasswordClientController extends Controller
 
     public function reset(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'code' => 'required|digits:6',
-        ]);
-        $currentDate = Carbon::now('Africa/Cairo');
-        $Client = Client::where([['email', $request->email], ['code', $request->code]])->first();
-        if (!$Client) {
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'code' => 'required|digits:6',
+            ]);
+            $currentDate = Carbon::now('Africa/Cairo');
+            $Client = Client::where([['email', $request->email], ['code', $request->code]])->first();
+            if (!$Client) {
+                return response()->json([
+                    'status' => false,
+                    'message' =>__('transMessage.messFailedSendCode'),
+                ], 400);
+            }
+
+            $token = auth('clientApi')->login($Client);
+
+            $Client->update([
+                'expire_at' => $currentDate->addMinutes(5),
+                'code'=>null
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' =>__('transMessage.messToken'),
+                'data'=>[
+                    'expire_at' => $currentDate->addMinutes(5),
+                    'token' => $token,
+                ]
+            ]);
+        }catch (\Exception $exception){
             return response()->json([
                 'status' => false,
-                'message' =>__('transMessage.messFailedSendCode'),
+                'message' =>$exception->getMessage(),
             ], 400);
         }
-
-        $token = auth('clientApi')->login($Client);
-
-        $Client->update([
-            'expire_at' => $currentDate->addMinutes(5),
-            'code'=>null
-        ]);
-        return response()->json([
-            'status' => true,
-            'message' =>__('transMessage.messToken'),
-            'data'=>[
-                'expire_at' => $currentDate->addMinutes(5),
-                'token' => $token,
-            ]
-        ]);
-
     }
 
     public function confirm(ConfirmRequest $request)
@@ -90,9 +97,14 @@ class PasswordClientController extends Controller
             'code' => null,
             'expire_at' => null,
         ]);
-        return response([
+        $token = auth('clientApi')->login($Client);
+        return response()->json([
             'status' => true,
             'message' => __('transMessage.messResetPassword'),
+            'data'=>[
+                'token' => $token,
+                'client' => new ClientResource($Client)
+            ]
         ]);
 
     }

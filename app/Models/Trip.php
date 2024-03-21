@@ -56,4 +56,11 @@ class Trip extends Model
         return $this->belongsToMany(Blog::class,'trips_blogs','trip_id','blog_id');
     }
 
+    public function scopeSearchByKeyword($query, $keyword)
+    {
+        return $query->where('name->ar', 'like', '%' . $keyword . '%')
+            ->orWhere('name->en', 'like', '%' . $keyword . '%')
+            ->orWhere('name->ur', 'like', '%' . $keyword . '%');
+    }
+
 }
