@@ -73,7 +73,7 @@
                                     <div class="col-12">
                                         <label for="trip_id">trip</label>
                                         <select id="trip_id" name="trip_id" class="form-control" >
-                                            <option value="" disabled selected>{{$blog->trip->name ??"Select Here"}}</option>
+                                            <option value="" disabled selected>{{$blog->tripShow()->value('name') ??"Select Here"}}</option>
                                             @foreach($trips as $trip)
                                                 <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>
                                             @endforeach

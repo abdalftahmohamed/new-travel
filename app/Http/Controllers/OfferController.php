@@ -129,27 +129,48 @@ class OfferController extends Controller
     public function update(Request $request)
     {
         try {
+            $offer = Offer::findOrFail($request->id);
             $validatedData = $request->validate([
-                'offer_date' => 'nullable|string',
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'old_price' => 'nullable|string',
                 'young_price' => 'nullable|string',
-                'name' => 'nullable|string',
-                'offer_description' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
                 'trip_id' => 'nullable|integer|exists:trips,id',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            $offer = Offer::findOrFail($request->id);
-            $offer->update($validatedData);
+            $offerData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $offer->name['ar'],
+                    'en' => $validatedData['name_en'] ?? $offer->name['en'],
+                    'ur' => $validatedData['name_ur'] ?? $offer->name['ur']
+                ],
+                'offer_description' => [
+                    'ar' => $validatedData['description_ar'] ?? $offer->offer_description['ar'],
+                    'en' => $validatedData['description_en'] ?? $offer->offer_description['en'],
+                    'ur' => $validatedData['description_ur'] ?? $offer->offer_description['ur']
+                ],
+                'old_price' => $validatedData['old_price'] ?? $offer->old_price,
+                'young_price' => $validatedData['young_price'] ?? $offer->young_price,
+                'status' => $validatedData['status'] ?? $offer->status,
+                'trip_id' => $validatedData['trip_id'] ?? $offer->trip_id
+            ];
+
+            $offer->update($offerData);
+
             if ($request->hasFile('image_path')) {
-                $this->deleteFile('offers',$request->id);
+                $this->deleteFile('offers', $request->id);
                 $offer_image = $this->saveImage($request->file('image_path'), 'attachments/offers/' . $offer->id);
                 $offer->image_path = $offer_image;
                 $offer->save();
             }
 
-            session()->flash('message', 'offer Updated Successfully');
+            session()->flash('message', 'Offer updated successfully');
             return redirect()->route('admin.offer.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

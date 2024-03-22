@@ -60,7 +60,11 @@ Route::get('/success/{checkout_id}', 'App\Http\Controllers\StripePaymentControll
 
 Route::middleware(['auth:web', 'verified','checkAdmin'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.index');
+
+        $clients = \App\Models\Client::whereStatus(1)->get();
+        $carts = \App\Models\Cart::get();
+        $blogs = \App\Models\Blog::get();
+        return view('admin.index',compact('clients','blogs','carts'));
     })->name('dashboard');
 
 

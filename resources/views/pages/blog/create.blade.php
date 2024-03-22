@@ -77,10 +77,10 @@
                                 @csrf
 
                                 <div class="row">
-                                    <!-- company -->
+                                    <!-- trip -->
                                     <div class="col-12">
                                         <label for="company_id">trip</label>
-                                        <select id="trip_id" name="trip_id" class="form-control" required>
+                                        <select id="trip_id" name="trip_id" class="form-control" >
                                             <option value="" disabled selected>Select Here</option>
                                             @foreach($trips as $trip)
                                                 <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>

@@ -86,7 +86,9 @@
                                         <td>{{$client->address}}</td>
 {{--                                        <td>{{$client->company->name}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($client->image_path)) ? asset('attachments/clients/'.$client->id.'/'.$client->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 "
+                                                 style="width: 150px; height: 150px;"
+                                                 src="{{(! empty($client->image_path)) ? asset('attachments/clients/'.$client->id.'/'.$client->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.client.show', $client->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">

@@ -100,16 +100,45 @@ class DepartmentController extends Controller
     public function update(Request $request)
     {
         try {
+            $department = Department::findOrFail($request->id);
             $validatedData = $request->validate([
-                'department_name' => 'required|string',
-                'department_description' => 'nullable|string'
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
+                'status' => 'nullable|integer',
+                'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            $department = Department::findOrFail($request->id);
-            $department->update($validatedData);
+            $departmentData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'],
+                    'en' => $validatedData['name_en'],
+                    'ur' => $validatedData['name_ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'] ?? $department->description['ar'],
+                    'en' => $validatedData['description_en'] ?? $department->description['en'],
+                    'ur' => $validatedData['description_ur'] ?? $department->description['ur']
+                ],
+                'status' => $validatedData['status']
+            ];
 
+            // Update department data
+            $department->update($departmentData);
 
-            session()->flash('message', 'department Updated Successfully');
+            // Handle image update if provided
+            if ($request->hasFile('image_path')) {
+                $this->deleteFile('departments', $request->id);
+                $image_path = $this->saveImage($request->file('image_path'), 'attachments/departments/' . $department->id);
+                $department->image_path = $image_path;
+                $department->save();
+            }
+
+            // Flash success message and redirect
+            session()->flash('message', 'Department updated successfully');
             return redirect()->route('admin.department.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

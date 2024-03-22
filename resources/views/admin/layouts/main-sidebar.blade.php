@@ -44,7 +44,7 @@
                         <p>
                             Country
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Country::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -54,7 +54,7 @@
                         <p>
                             City
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\City::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -64,7 +64,7 @@
                         <p>
                            Create Affiliate Co.
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Company::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -75,7 +75,7 @@
                         <p>
                             department
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Department::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -86,7 +86,7 @@
                         <p>
                             trip
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Trip::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -97,7 +97,7 @@
                         <p>
                             offer
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Offer::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -108,7 +108,7 @@
                         <p>
                             blog
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Blog::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -119,7 +119,7 @@
                         <p>
                             client
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Client::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -130,7 +130,7 @@
                         <p>
                             review
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Review::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -141,7 +141,7 @@
                         <p>
                             coupon
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\Coupon::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
@@ -151,7 +151,29 @@
                         <p>
                             Our Partner
                             <span
-                                class="badge badge-info right">20</span>
+                                class="badge badge-info right">{{\App\Models\OurPartner::get()->count()}}</span>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route('admin.ourPartner.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Messages Home
+                            <span
+                                class="badge badge-info right">{{\App\Models\OurPartner::get()->count()}}</span>
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route('admin.ourPartner.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Subscription Email
+                            <span
+                                class="badge badge-info right">{{\App\Models\OurPartner::get()->count()}}</span>
                         </p>
                     </a>
                 </li>

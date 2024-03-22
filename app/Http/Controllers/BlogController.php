@@ -69,7 +69,9 @@ class BlogController extends Controller
 
             $blog = Blog::create($blogData);
 
-            $blog->tripShow()->syncWithoutDetaching($validatedData['trip_id']);
+            if ($request->filled('trip_id')) {
+                $blog->tripShow()->syncWithoutDetaching($validatedData['trip_id']);
+            }
             if ($request->hasFile('image_path')) {
                 $blog_image = $this->saveImage($request->file('image_path'), 'attachments/blogs/' . $blog->id);
                 $blog->image_path = $blog_image;
@@ -164,18 +166,41 @@ class BlogController extends Controller
     public function update(Request $request)
     {
         try {
+            $blog = Blog::findOrFail($request->id);
             $validatedData = $request->validate([
-                'name' => 'nullable|string',
-                'description' => 'nullable|string',
-                'company_id' => 'nullable|integer|exists:companies,id',
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
+                'trip_id' => 'nullable|integer|exists:trips,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
-                'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
-                'videos[]' => 'nullable|mimetypes:video/*|max:50048',
-                'documents[]' => 'nullable|mimes:pdf,doc,docx|max:50048',
+                'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+                'videos.*' => 'nullable|mimetypes:video/*|max:50048',
+                'documents.*' => 'nullable|mimes:pdf,doc,docx|max:50048',
             ]);
 
-            $blog = Blog::findOrFail($request->id);
-            $blog->update($validatedData);
+            $blogData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $blog->name['ar'],
+                    'en' => $validatedData['name_en'] ?? $blog->name['en'],
+                    'ur' => $validatedData['name_ur'] ?? $blog->name['ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'] ?? $blog->description['ar'],
+                    'en' => $validatedData['description_en'] ?? $blog->description['en'],
+                    'ur' => $validatedData['description_ur'] ?? $blog->description['ur']
+                ],
+            ];
+
+            // Update blog data
+            $blog->update($blogData);
+            if ($request->filled('trip_id')) {
+                $blog->tripShow()->detach();
+                $blog->tripShow()->syncWithoutDetaching($validatedData['trip_id']);
+            }
+            // Handle image update if provided
             if ($request->hasFile('image_path')) {
                 $this->deleteFile('blogs', $request->id);
                 $blog_image = $this->saveImage($request->file('image_path'), 'attachments/blogs/' . $blog->id);
@@ -183,7 +208,7 @@ class BlogController extends Controller
                 $blog->save();
             }
 
-            session()->flash('message', 'blog Updated Successfully');
+            session()->flash('message', 'Blog updated successfully');
             return redirect()->route('admin.blog.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

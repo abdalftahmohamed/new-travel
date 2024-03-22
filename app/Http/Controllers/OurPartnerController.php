@@ -100,22 +100,42 @@ class OurPartnerController extends Controller
     public function update(Request $request)
     {
         try {
+            $ourPartner = OurPartner::findOrFail($request->id);
             $validatedData = $request->validate([
-                'name' => 'required|string',
-                'description' => 'nullable|string',
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            $ourPartner = OurPartner::findOrFail($request->id);
-            $ourPartner->update($validatedData);
+            $ourPartnerData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $ourPartner->name['ar'],
+                    'en' => $validatedData['name_en'] ?? $ourPartner->name['en'],
+                    'ur' => $validatedData['name_ur'] ?? $ourPartner->name['ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'] ?? $ourPartner->description['ar'],
+                    'en' => $validatedData['description_en'] ?? $ourPartner->description['en'],
+                    'ur' => $validatedData['description_ur'] ?? $ourPartner->description['ur']
+                ],
+            ];
+
+            // Update our partner data
+            $ourPartner->update($ourPartnerData);
+
+            // Handle image update if provided
             if ($request->hasFile('image_path')) {
-                $this->deleteFile('ourPartners',$request->id);
+                $this->deleteFile('ourPartners', $ourPartner->id);
                 $ourPartner_image = $this->saveImage($request->file('image_path'), 'attachments/ourPartners/' . $ourPartner->id);
                 $ourPartner->image_path = $ourPartner_image;
                 $ourPartner->save();
             }
 
-            session()->flash('message', 'ourPartner Updated Successfully');
+            session()->flash('message', 'Our partner updated successfully');
             return redirect()->route('admin.ourPartner.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

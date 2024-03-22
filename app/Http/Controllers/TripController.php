@@ -148,32 +148,64 @@ class TripController extends Controller
     public function update(Request $request)
     {
         try {
+            $trip = Trip::findOrFail($request->id);
+
             $validatedData = $request->validate([
-                'trip_date' => 'nullable|string',
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'old_price' => 'nullable|string',
                 'young_price' => 'nullable|string',
-                'name' => 'nullable|string',
                 'type' => 'nullable|string',
                 'location' => 'nullable|string',
-                'trip_description' => 'nullable|string',
-                'cus_rating' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
                 'department_id' => 'nullable|integer|exists:departments,id',
                 'company_id' => 'nullable|integer|exists:companies,id',
-                'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
+                'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
-
             ]);
 
-            $trip = Trip::findOrFail($request->id);
-            $trip->update($validatedData);
+            $tripData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $trip->name['ar'],
+                    'en' => $validatedData['name_en'] ?? $trip->name['en'],
+                    'ur' => $validatedData['name_ur'] ?? $trip->name['ur']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'] ?? $trip->address['ar'],
+                    'en' => $validatedData['address_en'] ?? $trip->address['en'],
+                    'ur' => $validatedData['address_ur'] ?? $trip->address['ur']
+                ],
+                'trip_description' => [
+                    'ar' => $validatedData['description_ar'] ?? $trip->trip_description['ar'],
+                    'en' => $validatedData['description_en'] ?? $trip->trip_description['en'],
+                    'ur' => $validatedData['description_ur'] ?? $trip->trip_description['ur']
+                ],
+                'old_price' => $validatedData['old_price'] ?? $trip->old_price,
+                'young_price' => $validatedData['young_price'] ?? $trip->young_price,
+                'type' => $validatedData['type'] ?? $trip->type,
+                'location' => $validatedData['location'] ?? $trip->location,
+                'status' => $validatedData['status'] ?? $trip->status,
+                'department_id' => $validatedData['department_id'] ?? $trip->department_id,
+                'company_id' => $validatedData['company_id'] ?? $trip->company_id,
+            ];
+
+            $trip->update($tripData);
+
             if ($request->hasFile('image_path')) {
-                $this->deleteFile('trips',$request->id);
+                $this->deleteFile('trips', $request->id);
                 $trip_image = $this->saveImage($request->file('image_path'), 'attachments/trips/' . $trip->id);
                 $trip->image_path = $trip_image;
                 $trip->save();
             }
-            session()->flash('message', 'trip Updated Successfully');
+
+            session()->flash('message', 'Trip updated successfully');
             return redirect()->route('admin.trip.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

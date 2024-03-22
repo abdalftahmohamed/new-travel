@@ -156,31 +156,55 @@ class ClientController extends Controller
     public function update(Request $request)
     {
         try {
+            $client = Client::findOrFail($request->id);
+
             $validatedData = $request->validate([
-                'name' => 'nullable|string',
-                'email' => 'nullable|email|unique:clients,email,'.$request->id,
-                'password' => ['nullable','confirmed',Password::default()],
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'address_ar' => 'nullable|string',
+                'address_en' => 'nullable|string',
+                'address_ur' => 'nullable|string',
+                'email' => 'nullable|email|unique:clients,email,' . $client->id,
+                'password' => 'nullable|string|min:6',
                 'phone' => 'nullable|string',
                 'address' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0,1])],
-//                'company_id' => 'nullable|integer|exists:companies,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            if ($request->filled('password')) {
-                $validatedData['password'] = Hash::make($request->input('password'));
-            }
-            $client = Client::findOrFail($request->id);
-            $client->update($validatedData);
+            $clientData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $client->name['ar'],
+                    'en' => $validatedData['name_en'] ?? $client->name['en'],
+                    'ur' => $validatedData['name_ur'] ?? $client->name['ur']
+                ],
+                'address' => [
+                    'ar' => $validatedData['address_ar'] ?? $client->address['ar'],
+                    'en' => $validatedData['address_en'] ?? $client->address['en'],
+                    'ur' => $validatedData['address_ur'] ?? $client->address['ur']
+                ],
+                'email' => $validatedData['email'] ?? $client->email,
+                'phone' => $validatedData['phone'] ?? $client->phone,
+                'status' => $validatedData['status'] ?? $client->status,
+            ];
 
-            // Check if an image was provided
+            // Update client data
+            if ($request->filled('password')) {
+                $clientData['password'] = Hash::make($validatedData['password']);
+            }
+            $client->update($clientData);
+
+            // Handle image update if provided
             if ($request->hasFile('image_path')) {
                 $this->deleteFile('clients', $request->id);
-                $client_image = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
-                $client->image_path = $client_image;
+                $image_path = $this->saveImage($request->file('image_path'), 'attachments/clients/' . $client->id);
+                $client->image_path = $image_path;
                 $client->save();
             }
-            session()->flash('message', 'client Updated Successfully');
+
+            // Flash success message and redirect
+            session()->flash('message', 'Client updated successfully');
             return redirect()->route('admin.client.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();

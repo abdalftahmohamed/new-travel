@@ -47,23 +47,23 @@
 
                                 <input type="hidden" name="id" value="{{$coupon->id}}">
 
-                                <div class="row">
-                                    <!-- trip -->
-                                    <div class="col-12">
-                                        <label for="trip_id">trip</label>
-                                        <select id="trip_id" name="trip_id" class="form-control" >
-                                            <option value="" disabled selected>{{$coupon->trip->name ?? "Select Here"}}</option>
-                                            @foreach($trips as $trip)
-                                                <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('trip_id')
-                                        <span class="text-danger" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                </div>
+{{--                                <div class="row">--}}
+{{--                                    <!-- trip -->--}}
+{{--                                    <div class="col-12">--}}
+{{--                                        <label for="trip_id">trip</label>--}}
+{{--                                        <select id="trip_id" name="trip_id" class="form-control" >--}}
+{{--                                            <option value="" disabled selected>{{$coupon->trip->name ?? "Select Here"}}</option>--}}
+{{--                                            @foreach($trips as $trip)--}}
+{{--                                                <option value="{{ $trip->id }}" {{ old('trip') == $trip ? 'selected' : '' }}>{{ $trip->name }}</option>--}}
+{{--                                            @endforeach--}}
+{{--                                        </select>--}}
+{{--                                        @error('trip_id')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                            <strong>{{ $message }}</strong>--}}
+{{--                                        </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <br>
                                 <div class="row">
                                     <div class="col-12">
@@ -99,7 +99,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <label>coupon start</label>
-                                        <input type="date" name="coupon_start" value="{{$coupon->coupon_start,old('coupon_start')}}"
+                                        <input type="datetime-local" name="coupon_start" value="{{$coupon->coupon_start,old('coupon_start')}}"
                                                class="form-control"  placeholder="enter coupon coupon start here..."/>
                                         @error('coupon_start')
                                         <span class="text-danger" role="alert">
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="col-6">
                                         <label>coupon end</label>
-                                        <input type="date" name="coupon_end" value="{{$coupon->coupon_end,old('coupon_end')}}"
+                                        <input type="datetime-local" name="coupon_end" value="{{$coupon->coupon_end,old('coupon_end')}}"
                                                class="form-control"  placeholder="enter coupon coupon end here..."/>
                                         @error('coupon_end')
                                         <span class="text-danger" role="alert">

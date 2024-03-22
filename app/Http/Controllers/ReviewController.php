@@ -124,27 +124,52 @@ class ReviewController extends Controller
     public function update(Request $request)
     {
         try {
+            $review = Review::findOrFail($request->id);
             $validatedData = $request->validate([
-                'name' => 'required|string',
+                'name_ar' => 'nullable|string',
+                'name_en' => 'nullable|string',
+                'name_ur' => 'nullable|string',
+                'description_ar' => 'nullable|string',
+                'description_en' => 'nullable|string',
+                'description_ur' => 'nullable|string',
                 'stars_numbers' => 'nullable|string',
-                'description' => 'nullable|string',
-                'client_id' => 'nullable|integer|exists:clients,id',
+                'client_id' => 'required|integer|exists:clients,id',
                 'trip_id' => 'nullable|integer|exists:trips,id',
                 'blog_id' => 'nullable|integer|exists:blogs,id',
                 'offer_id' => 'nullable|integer|exists:offers,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
 
-            $review = Review::findOrFail($request->id);
-            $review->update($validatedData);
+            $reviewData = [
+                'name' => [
+                    'ar' => $validatedData['name_ar'] ?? $review->name['ar'],
+                    'en' => $validatedData['name_en'] ?? $review->name['en'],
+                    'ur' => $validatedData['name_ur'] ?? $review->name['ur']
+                ],
+                'description' => [
+                    'ar' => $validatedData['description_ar'] ?? $review->description['ar'],
+                    'en' => $validatedData['description_en'] ?? $review->description['en'],
+                    'ur' => $validatedData['description_ur'] ?? $review->description['ur']
+                ],
+                'stars_numbers' => $validatedData['stars_numbers'] ?? $review->stars_numbers,
+                'client_id' => $validatedData['client_id'],
+                'trip_id' => $validatedData['trip_id'] ?? $review->trip_id,
+                'blog_id' => $validatedData['blog_id'] ?? $review->blog_id,
+                'offer_id' => $validatedData['offer_id'] ?? $review->offer_id,
+            ];
+
+            // Update review data
+            $review->update($reviewData);
+
+            // Handle image update if provided
             if ($request->hasFile('image_path')) {
-                $this->deleteFile('reviews',$review->id);
+                $this->deleteFile('reviews', $review->id);
                 $review_image = $this->saveImage($request->file('image_path'), 'attachments/reviews/' . $review->id);
                 $review->image_path = $review_image;
                 $review->save();
             }
 
-            session()->flash('message', 'review Updated Successfully');
+            session()->flash('message', 'Review updated successfully');
             return redirect()->route('admin.review.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
