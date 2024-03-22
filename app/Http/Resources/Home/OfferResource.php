@@ -23,7 +23,7 @@ class OfferResource extends JsonResource
             'imagePath' => $this->image_path,
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageOfferResource::collection($this->images),
-            'trip' => new \App\Http\Resources\Client\TripResource($this->trip),
+//            'trip' => new \App\Http\Resources\Client\TripResource($this->trip),
             ];
     }
 

@@ -23,10 +23,10 @@
                         <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Revein Total</span>
+                            <span class="info-box-text">Recently Total</span>
                             <span class="info-box-number">
-                  {{\App\Models\City::get()->count()}}
-{{--                  <small>%</small>--}}
+                  {{\App\Models\Cart::where([['status',1]])->get()->sum('total')}}
+                  <small>$</small>
                 </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -39,8 +39,11 @@
                         <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">Trips Active</span>
-                            <span class="info-box-number">{{\App\Models\Trip::whereStatus(1)->get()->count()}}</span>
+                            <span class="info-box-text">Recently Total Pending</span>
+                            <span class="info-box-number">
+                                {{\App\Models\Cart::where([['status',0]])->get()->sum('total')}}
+                             <small>$</small>
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -57,7 +60,10 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Booking</span>
-                            <span class="info-box-number">2</span>
+                            <span class="info-box-number">
+                       {{\App\Models\Cart::where([['status',0]])->get()->count()}}
+
+                            </span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -67,10 +73,9 @@
                 <div class="col-12 col-sm-6 col-md-3">
                     <div class="info-box mb-3">
                         <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-
                         <div class="info-box-content">
-                            <span class="info-box-text">Trips In Active</span>
-                            <span class="info-box-number">{{\App\Models\Trip::whereStatus(0)->get()->count()}}</span>
+                            <span class="info-box-text">Trips</span>
+                            <span class="info-box-number">{{\App\Models\Trip::whereStatus(1)->get()->count()}}</span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>

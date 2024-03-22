@@ -217,7 +217,8 @@ return [
         'available'             => 'مُتاح',
         'size'                  => 'الحجم',
         'trip_id'               => 'الرحلة',
-        'client_id'               => 'الرحلة',
+        'client_id'               => 'العميل',
+        'review_id'               => 'التقييم',
     ],
 ];
 

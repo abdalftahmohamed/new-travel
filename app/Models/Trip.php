@@ -33,7 +33,10 @@ class Trip extends Model
     {
         return $this->hasMany(Image::class,'trip_id');
     }
-
+    public function offers()
+    {
+        return $this->hasMany(Offer::class,'trip_id');
+    }
     public function cartClients()
     {
         return $this->belongsToMany(Client::class,'carts','trip_id','client_id')

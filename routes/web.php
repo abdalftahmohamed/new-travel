@@ -24,6 +24,9 @@ Route::get('/run-command/{command}',function ($command){
 
 Route::get('/',[\App\Http\Controllers\HomeController::class,'home'])->name('home');
 Route::get('/blog',[\App\Http\Controllers\HomeController::class,'blog'])->name('blog');
+Route::get('/blog/show/{id}',[\App\Http\Controllers\HomeController::class,'blogShow'])->name('blog.show');
+
+
 Route::get('/showTravelCity/{city_id}',[\App\Http\Controllers\HomeController::class,'showTravelCity'])->name('showTravelCity');
 Route::get('/showTravelDepartment/{department_id}',[\App\Http\Controllers\HomeController::class,'showTravelDepartment'])->name('showTravelDepartment');
 Route::get('/aboutUs',[\App\Http\Controllers\HomeController::class,'aboutUs'])->name('aboutUs');

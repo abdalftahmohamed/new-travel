@@ -28,7 +28,9 @@ return [
     'messFailedSendCode' => 'هذا الرمز غير صالح يرجي التحقق مره أحري',
     'messToken' => 'التوكن',
     'messExpirationTime' => 'انتهت صلاحية الرمز. يرجى طلب رمز جديد.',
-    'messResetPassword' => 'تم تغيير كلمة المرور بنجاح'
+    'messResetPassword' => 'تم تغيير كلمة المرور بنجاح',
+    'messCheckCouponFail' => 'عفوا هذا الكوبون غير صحيح حاول مره اخري!',
+    'messCheckCouponSuccess' => 'تم تطبيق الكوبون بنجاح',
 
 
 

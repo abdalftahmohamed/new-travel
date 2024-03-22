@@ -80,6 +80,16 @@ Route::group([
     Route::controller(\App\Http\Controllers\Api\Client\ClientController::class)->group(function () {
         Route::post('/favoriteTrip', 'favoriteTrip');
         Route::get('/myFavoriteTrip', 'myFavoriteTrip');
+        Route::post('/addReview', 'addReview');
+        Route::get('/myReviewTrip', 'myReviewTrip');
+        Route::get('/showReview', 'showReview');
+        Route::post('/updateReview', 'updateReview');
+        Route::delete('/deleteReview', 'deleteReview');
+
+        #checking
+        Route::get('/checkCoupon','checkCoupon');
+        Route::post('/checkoutTrip','checkoutTrip');
+
     });
 
 

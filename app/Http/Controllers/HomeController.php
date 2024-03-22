@@ -36,6 +36,15 @@ class HomeController extends Controller
         return view('home.blog',compact('blogs'));
 
     }
+    public function blogShow($id)
+    {
+        $blog = Blog::findOrFail($id);
+        $addresses = $blog->addresses()->get();
+        $attachments = $blog->attachments()->get();
+        return view('home.blogShow', compact('attachments', 'addresses', 'blog'));
+    }
+
+
 
     public function showTravelCity($city_id)
     {

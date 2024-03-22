@@ -46,7 +46,35 @@
                                 @method('PUT')
 
                                 <input type="hidden" name="id" value="{{$department->id}}">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>department status</label>
+                                        <select name="status" class="form-control" >
+                                            <option selected disabled value="">
+                                                @if($department->status === 1)
+                                                    active
+                                                @else
+                                                    inActive
+                                                @endif
 
+                                            </option>
+                                            <option
+                                                value="1" {{ old('status') == 'active' ? 'selected' : '' }}>
+                                                active
+                                            </option>
+                                            <option
+                                                value="0" {{ old('status') == 'inActive' ? 'selected' : '' }}>
+                                                inActive
+                                            </option>
+                                        </select>
+                                        @error('status')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <br>
                                 <div class="row">
                                     <div class="col-4">
                                         <label>the department name ar</label>

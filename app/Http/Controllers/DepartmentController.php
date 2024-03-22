@@ -99,6 +99,7 @@ class DepartmentController extends Controller
 
     public function update(Request $request)
     {
+//        return $request;
         try {
             $department = Department::findOrFail($request->id);
             $validatedData = $request->validate([
@@ -123,7 +124,7 @@ class DepartmentController extends Controller
                     'en' => $validatedData['description_en'] ?? $department->description['en'],
                     'ur' => $validatedData['description_ur'] ?? $department->description['ur']
                 ],
-                'status' => $validatedData['status']
+                'status' => $validatedData['status'] ?? $department->status
             ];
 
             // Update department data

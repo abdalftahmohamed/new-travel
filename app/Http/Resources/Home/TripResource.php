@@ -36,6 +36,7 @@ class TripResource extends JsonResource
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageTripResource::collection($this->images),
             'isFavourite' => $check,
+            'offers'=>OfferResource::collection($this->offers)
         ];
     }
 

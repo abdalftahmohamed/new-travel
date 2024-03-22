@@ -34,7 +34,7 @@
             @foreach($TopDestinationtrips->slice(-6) as $city)
                 <div class="col-16 col-md-4 col-lg-2 mb-5 mb-md-0">
                     <a class="product-item" href="{{route('showTravelCity',$city->id)}}">
-                        <img style="width: 250px; height: 250px"
+                        <img style="width: 250px; height: 250px; border-radius: 8px"
                              src="{{(! empty($city->image_path)) ? asset('attachments/citys/'.$city->id.'/'.$city->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$city->name}}</h3>
@@ -63,7 +63,7 @@
             @foreach($BestOfferstrips->slice(-3) as $trip)
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
                     <a class="product-item" href="{{ route('trip.show', $trip->id) }}">
-                        <img style="width: 300px; height: 300px"
+                        <img style="width: 300px; height: 300px; border-radius: 8px"
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
@@ -101,7 +101,7 @@
             @foreach($BestTripstrips->slice(-3) as $trip)
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
                     <a class="product-item" href="{{ route('trip.show', $trip->id) }}">
-                        <img style="width: 300px; height: 300px"
+                        <img style="width: 300px; height: 300px; border-radius: 8px"
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
@@ -139,7 +139,7 @@
             @foreach($PopularExperiencetrips->slice(-3) as $trip)
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
                     <a class="product-item" href="{{ route('trip.show', $trip->id) }}">
-                        <img style="width: 300px; height: 300px"
+                        <img style="width: 300px; height: 300px; border-radius: 8px"
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
@@ -175,7 +175,7 @@
                 <div class="col-12 col-md-4 col-lg-2 mb-5 mb-md-0">
                     <a class="product-item" href="{{route('showTravelDepartment',$department->id)}}">
                         <img
-                            style="width: 150px; height: 150px"
+                            style="width: 150px; height: 150px; border-radius: 8px"
                             src="{{(! empty($department->image_path)) ? asset('attachments/departments/'.$department->id.'/'.$department->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                             class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$department->name}}</h3>
@@ -249,7 +249,7 @@
 
                 <div class="col-lg-5">
                     <div class="img-wrap">
-                        <img src="{{ URL::asset('admin/home/images/rehlatyuai-foter-1.jpg') }}" alt="Image" class="img-fluid">
+                        <img src="{{ URL::asset('admin/home/images/Rehlatiuae-foter-1.jpg') }}" alt="Image" class="img-fluid">
                     </div>
                 </div>
 
@@ -264,9 +264,9 @@
             <div class="row justify-content-between">
                 <div class="col-lg-7 mb-5 mb-lg-0">
                     <div class="imgs-grid">
-                        <div class="grid grid-1"><img src="{{ URL::asset('admin/home/images/rehlatyuai-foter-4.jpg') }}" alt="Untree.co"></div>
-                        <div class="grid grid-2"><img src="{{ URL::asset('admin/home/images/rehlatyuai-foter-3.jpg') }}" alt="Untree.co"></div>
-                        <div class="grid grid-3"><img src="{{ URL::asset('admin/home/images/rehlatyuai-foter-2.jpg') }}" alt="Untree.co"></div>
+                        <div class="grid grid-1"><img src="{{ URL::asset('admin/home/images/Rehlatiuae-foter-4.jpg') }}" alt="Untree.co"></div>
+                        <div class="grid grid-2"><img src="{{ URL::asset('admin/home/images/Rehlatiuae-foter-3.jpg') }}" alt="Untree.co"></div>
+                        <div class="grid grid-3"><img src="{{ URL::asset('admin/home/images/Rehlatiuae-foter-2.jpg') }}" alt="Untree.co"></div>
                     </div>
                 </div>
                 <div class="col-lg-5 ps-lg-5">
@@ -399,7 +399,7 @@
                                                 <div class="author-info">
                                                     <div class="author-pic">
                                                         <img
-                                                            style="width: 80px; height: 80px"
+                                                            style="width: 80px; height: 80px; border-radius: 8px"
                                                             src="{{(! empty($review->client->image_path)) ? asset('attachments/clients/'.$review->client->id.'/'.$review->client->image_path ) : asset('admin/dist/img/no_image.jpg') }}"
                                                             alt="Maria Jones" class="img-fluid">
                                                     </div>
@@ -432,7 +432,7 @@
                     <h2 class="section-title">Recent Blog</h2>
                 </div>
                 <div class="col-md-6 text-start text-md-end">
-                    <a href="#" class="more">View All</a>
+                    <a href="{{route('blog')}}" class="more">View All</a>
                 </div>
             </div>
 
@@ -440,7 +440,7 @@
                 @foreach($blogs->slice(-3) as $blog)
                 <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
                     <div class="post-entry">
-                        <a href="#" class="post-thumbnail"><img style="width: 600px; height: 300px; border-radius: 8px"
+                        <a href="{{route('blog.show',$blog->id)}}" class="post-thumbnail"><img style="width: 600px; height: 300px; border-radius: 8px"
                                 src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path) : asset('admin/dist/img/no_image.jpg') }}"                                alt="Image" class="img-fluid"></a>
                         <div class="post-content-entry">
                             <h3><a href="#">{{$blog->name}}</a></h3>
@@ -495,7 +495,9 @@
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active" data-mdb-interval="2000">
-                        <img src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp" class="d-block w-100" alt="Wild Landscape"/>
+                        <img
+                            style="border-radius: 8px"
+                            src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp" class="d-block w-100" alt="Wild Landscape"/>
                         <div class="carousel-caption d-none d-md-block">
                             <h5>First slide label</h5>
                             <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
@@ -504,7 +506,7 @@
                     @foreach($ourPartners->slice(-6) as $ourPartner)
                     <div class="carousel-item" data-mdb-interval="2000">
                         <img
-                            style="width: 1280px; aspect-ratio: auto 1280 / 564; height: 564px;"
+                            style="width: 1280px; aspect-ratio: auto 1280 / 564; height: 564px; border-radius: 8px"
                             src="{{(! empty($ourPartner->image_path)) ? asset('attachments/ourPartners/'.$ourPartner->id.'/'.$ourPartner->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                             class="d-block " alt="Camera"/>
                         <div class="carousel-caption d-none d-md-block">

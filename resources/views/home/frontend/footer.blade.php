@@ -2,7 +2,7 @@
     <div class="container relative">
 
         <div class="sofa-img">
-            <img src="{{ URL::asset('admin/home/images/rehlatyuai-foter.png') }}" alt="Image" class="img-fluid">
+            <img src="{{ URL::asset('admin/home/images/Rehlatiuae-foter.png') }}" alt="Image" class="img-fluid">
         </div>
 
         <div class="row">
@@ -32,7 +32,7 @@
 
         <div class="row g-5 mb-5">
             <div class="col-lg-4">
-                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Rehlatyuai<span>.</span></a></div>
+                <div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Rehlatiuae<span>.</span></a></div>
                 <p class="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl dapibus
                     malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor tristique.
                     Pellentesque habitant</p>
@@ -60,7 +60,7 @@
                     <div class="col-6 col-sm-6 col-md-3">
                         <ul class="list-unstyled">
                             <li><a href="#">About Us</a></li>
-                            <li><a href="#">Rehlatyuai Story</a></li>
+                            <li><a href="#">Rehlatiuae Story</a></li>
                             <li><a href="#">Faq's</a></li>
                         </ul>
                     </div>
@@ -69,7 +69,7 @@
                         <ul class="list-unstyled">
                             <li><a href="{{route('privacyPolicy')}}">Privacy Policy</a></li>
                             <li><a href="{{route('terms')}}">Terms of use</a></li>
-                            <li><a href="#">Rehlatyuai Blog</a></li>
+                            <li><a href="#">Rehlatiuae Blog</a></li>
                             <li><a href="#">Our Team</a></li>
                         </ul>
                     </div>

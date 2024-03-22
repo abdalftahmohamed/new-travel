@@ -38,6 +38,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+//        return $request;
         try {
             DB::beginTransaction();
             $validatedData = $request->validate([

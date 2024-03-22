@@ -76,7 +76,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <h4>
-                                        <i class="fas fa-globe"></i> Rehlatyuai
+                                        <i class="fas fa-globe"></i> Rehlatiuae
                                         <small class="float-right">Date: {{ date('d:m:Y', strtotime($trip->created_at)) }}</small>
                                     </h4>
                                 </div>

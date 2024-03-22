@@ -46,7 +46,7 @@
             </div>
             <div class="col-lg-7">
                 <div class="hero-img-wrap">
-                    <img src="{{ URL::asset('admin/home/images/rehlatyuai-header.png') }}" class="img-fluid">
+                    <img src="{{ URL::asset('admin/home/images/Rehlatiuae-header.png') }}" class="img-fluid">
                 </div>
             </div>
 

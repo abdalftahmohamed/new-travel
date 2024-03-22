@@ -1,6 +1,6 @@
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>Copyright &copy; 2023-2030 <a href="http://constractor.space">Constructor</a>.</strong>
+    <strong>Copyright &copy; 2024-2025 <a href="https://rehlatiuae.com/">Rehlatiuae</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 3.2.0

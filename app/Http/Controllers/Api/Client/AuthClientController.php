@@ -97,13 +97,13 @@ class AuthClientController extends Controller
         try {
             $validatedData = $request->validate([
                 'name_ar' => ['nullable', 'max:255'],
-                'name_en' => ['required', 'max:255'],
+                'name' => ['required', 'max:255'],
                 'name_ur' => ['nullable', 'max:255'],
                 'email' => ['required', 'email', 'unique:clients', 'max:150'],
                 'password' => ['required', 'string', 'min:6'],
                 'phone' => 'nullable|integer',
                 'address_ar' => 'nullable|string',
-                'address_en' => 'nullable|string',
+                'address' => 'nullable|string',
                 'address_ur' => 'nullable|string',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
@@ -112,13 +112,13 @@ class AuthClientController extends Controller
 
             $clientData = [
                 'name' => [
-                    'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'],
-                    'en' => $validatedData['name_en'],
-                    'ur' => $validatedData['name_ur'] ?? $validatedData['name_en']
+                    'ar' => $validatedData['name_ar'] ?? $validatedData['name'],
+                    'en' => $validatedData['name'],
+                    'ur' => $validatedData['name_ur'] ?? $validatedData['name']
                 ],
                 'address' => [
                     'ar' => $validatedData['address_ar'] ?? null,
-                    'en' => $validatedData['address_en'] ?? null,
+                    'en' => $validatedData['address'] ?? null,
                     'ur' => $validatedData['address_ur'] ?? null
                 ],
                 'email' => $validatedData['email'],
@@ -171,25 +171,25 @@ class AuthClientController extends Controller
             $client = auth('clientApi')->user();
             $validatedData = $request->validate([
                 'name_ar' => ['nullable', 'max:255'],
-                'name_en' => ['required', 'max:255'],
+                'name' => ['required', 'max:255'],
                 'name_ur' => ['nullable', 'max:255'],
                 'email' => ['required', 'email', 'unique:clients,email,' . $client->id, 'max:150'],
                 'password' => ['nullable', 'string', 'min:6'],
                 'phone' => 'nullable|integer',
                 'address_ar' => 'nullable|string',
-                'address_en' => 'nullable|string',
+                'address' => 'nullable|string',
                 'address_ur' => 'nullable|string',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
             $clientData = [
                 'name' => [
                     'ar' => $validatedData['name_ar'] ?? $client->getTranslation('name', 'ar'),
-                    'en' => $validatedData['name_en'] ?? $client->getTranslation('name', 'en'),
+                    'en' => $validatedData['name'] ?? $client->getTranslation('name', 'en'),
                     'ur' => $validatedData['name_ur'] ?? $client->getTranslation('name', 'ur')
                 ],
                 'address' => [
                     'ar' => $validatedData['address_ar'] ?? $client->getTranslation('address', 'ar'),
-                    'en' => $validatedData['address_en'] ?? $client->getTranslation('address', 'en'),
+                    'en' => $validatedData['address'] ?? $client->getTranslation('address', 'en'),
                     'ur' => $validatedData['address_ur'] ?? $client->getTranslation('address', 'ur')
                 ],
                 'email' => $validatedData['email'],
