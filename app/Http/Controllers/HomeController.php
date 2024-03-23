@@ -6,13 +6,17 @@ use App\Models\Blog;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Client;
+use App\Models\Contact;
 use App\Models\Country;
 use App\Models\Coupon;
 use App\Models\Department;
 use App\Models\OurPartner;
 use App\Models\Review;
+use App\Models\SupscripeEmail;
 use App\Models\Trip;
+use App\Notifications\MailClient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -160,8 +164,6 @@ class HomeController extends Controller
         return view('home.trip.showCheckout',compact('checkout'));
     }
 
-
-
     public function cart()
     {
         $client = Client::findOrFail(auth('client')->user()->id);
@@ -225,6 +227,7 @@ class HomeController extends Controller
         return view('home.PrivacyPolicy');
 
     }
+
     public function terms()
     {
         return view('home.TermsConditions');
@@ -263,5 +266,42 @@ class HomeController extends Controller
 //        $carts = $client->cartTrips()->get();
         return view('home.trip.checkoutNow',compact('checkout','request'));
     }
+
+    public function subscriptionEmail(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+        ]);
+        $subscripe = SupscripeEmail::create($validatedData);
+        session()->flash('message', 'Subscription Email Send Successfully');
+        toastr()->success('Data has been saved successfully!');
+
+        return redirect()->route('home');
+    }
+
+
+    public function contactNewUs()
+    {
+        return view('home.ContactNewUs');
+    }
+
+    public function storeMessage(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'description' => 'nullable|string',
+        ]);
+        $Contact = Contact::create($validatedData);
+//        Mail::to($Contact->email)->send(new MailClient($Contact));
+        $Contact->notify(new MailClient);
+
+        session()->flash('message', 'Subscription Email Send Successfully');
+        toastr()->success('Data has been saved successfully!');
+
+        return redirect()->route('home');
+    }
+
 
 }

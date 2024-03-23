@@ -157,23 +157,23 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('admin.ourPartner.index')}}" class="nav-link">
+                    <a href="{{route('admin.contact.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Messages Home
                             <span
-                                class="badge badge-info right">{{\App\Models\OurPartner::get()->count()}}</span>
+                                class="badge badge-info right">{{\App\Models\Contact::get()->count()}}</span>
                         </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route('admin.ourPartner.index')}}" class="nav-link">
+                    <a href="{{route('admin.subscriptionEmail.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Subscription Email
                             <span
-                                class="badge badge-info right">{{\App\Models\OurPartner::get()->count()}}</span>
+                                class="badge badge-info right">{{\App\Models\SupscripeEmail::get()->count()}}</span>
                         </p>
                     </a>
                 </li>

@@ -111,6 +111,7 @@ class CityController extends Controller
             DB::commit();
 
             session()->flash('message', 'City Created Successfully');
+            toastr()->success('Data has been saved successfully!');
             return redirect()->route('admin.city.index');
         } catch (ValidationException $e) {
             DB::rollback();

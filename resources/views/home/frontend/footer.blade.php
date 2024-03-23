@@ -12,17 +12,16 @@
                                 src="{{ URL::asset('admin/home/images/envelope-outline.svg') }}" alt="Image"
                                 class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
 
-                    <form action="#" class="row g-3">
+                    <form action="{{route('subscriptionEmail.client')}}" method="POST" class="row g-3">
+                        @csrf
                         <div class="col-auto">
-                            <input type="text" class="form-control" placeholder="Enter your name">
+                            <input type="text" name="name" required class="form-control" placeholder="Enter your name">
                         </div>
                         <div class="col-auto">
-                            <input type="email" class="form-control" placeholder="Enter your email">
+                            <input type="email" name="email" required class="form-control" placeholder="Enter your email">
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-primary">
-                                <span class="fa fa-paper-plane"></span>
-                            </button>
+                            <input  type="submit" class="btn btn-primary fa fa-paper-plane">
                         </div>
                     </form>
 

@@ -30,6 +30,9 @@ Route::get('/blog/show/{id}',[\App\Http\Controllers\HomeController::class,'blogS
 Route::get('/showTravelCity/{city_id}',[\App\Http\Controllers\HomeController::class,'showTravelCity'])->name('showTravelCity');
 Route::get('/showTravelDepartment/{department_id}',[\App\Http\Controllers\HomeController::class,'showTravelDepartment'])->name('showTravelDepartment');
 Route::get('/aboutUs',[\App\Http\Controllers\HomeController::class,'aboutUs'])->name('aboutUs');
+
+Route::get('/contactNewUs',[\App\Http\Controllers\HomeController::class,'contactNewUs'])->name('contactNewUs');
+
 Route::get('/privacyPolicy',[\App\Http\Controllers\HomeController::class,'privacyPolicy'])->name('privacyPolicy');
 Route::get('/terms',[\App\Http\Controllers\HomeController::class,'terms'])->name('terms');
 Route::get('/shop',[\App\Http\Controllers\HomeController::class,'shop'])->name('shop');
@@ -54,14 +57,15 @@ Route::get('/success/{checkout_id}', 'App\Http\Controllers\StripePaymentControll
 
 
 
-//https://jsonplaceholder.typicode.com/posts?_start=$startIndex&_limit=$limi
+#Message Routes
+Route::post('/subscriptionEmail',[\App\Http\Controllers\HomeController::class,'subscriptionEmail'])->name('subscriptionEmail.client');
+Route::post('/storeMessage',[\App\Http\Controllers\HomeController::class,'storeMessage'])->name('storeMessage.client');
 
 
 
 
 
-
-Route::middleware(['auth:web', 'verified','checkAdmin'])->prefix('admin')->as('admin.')->group(function () {
+Route::middleware(['auth:web', 'verified','checkAdmin','api_localization'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
 
         $clients = \App\Models\Client::whereStatus(1)->get();
@@ -190,6 +194,18 @@ Route::middleware(['auth:web', 'verified','checkAdmin'])->prefix('admin')->as('a
         Route::get('/edit/{coupon}', 'edit')->name('edit');
         Route::get('/show/{coupon}', 'show')->name('show');
         Route::put('/update', 'update')->name('update');
+        Route::delete('/delete', 'destroy')->name('destroy');
+    });
+
+    //contact Routes
+    Route::controller(\App\Http\Controllers\ContactController::class)->prefix('contact')->as('contact.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::delete('/delete', 'destroy')->name('destroy');
+    });
+
+    //subscriptionEmail Routes
+    Route::controller(\App\Http\Controllers\SubscriptionEmailController::class)->prefix('subscriptionEmail')->as('subscriptionEmail.')->group(function () {
+        Route::get('/', 'index')->name('index');
         Route::delete('/delete', 'destroy')->name('destroy');
     });
 

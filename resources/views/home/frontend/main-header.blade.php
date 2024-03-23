@@ -18,7 +18,7 @@
                 <li @yield('aboutUs')><a class="nav-link" href="{{ route('aboutUs') }}">About us</a></li>
                 <li @yield('blog')><a class="nav-link" href="{{route('blog')}}">Blog</a></li>
 {{--                <li @yield('Services')><a class="nav-link" href="{{ URL::asset('admin/home/services.html') }}">Services</a></li>--}}
-                <li @yield('Contact us')><a class="nav-link" href="{{ URL::asset('admin/home/contact.html') }}">Contact us</a></li>
+                <li @yield('Contact us')><a class="nav-link" href="{{route('contactNewUs') }}">Contact us</a></li>
                 @if (Route::has('login'))
                     <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                         @auth('web')

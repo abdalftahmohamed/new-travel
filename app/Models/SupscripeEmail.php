@@ -9,5 +9,6 @@ class SupscripeEmail extends Model
 {
     use HasFactory;
     protected $guarded;
+    protected $table='supscripe_emails';
 
 }

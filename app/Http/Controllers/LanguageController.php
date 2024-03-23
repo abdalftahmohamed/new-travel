@@ -11,7 +11,6 @@ class LanguageController extends Controller
     {
         Session::put('lang',$lang);
         return back();
-
     }
 
 
