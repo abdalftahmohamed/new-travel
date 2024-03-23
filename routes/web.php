@@ -23,6 +23,7 @@ Route::get('/run-command/{command}',function ($command){
 })->middleware(['auth:web', 'verified','authenticate.command']);
 
 Route::get('/',[\App\Http\Controllers\HomeController::class,'home'])->name('home');
+Route::get('/search-trip',[\App\Http\Controllers\HomeController::class,'searchTrip'])->name('searchTripWeb');
 Route::get('/blog',[\App\Http\Controllers\HomeController::class,'blog'])->name('blog');
 Route::get('/blog/show/{id}',[\App\Http\Controllers\HomeController::class,'blogShow'])->name('blog.show');
 

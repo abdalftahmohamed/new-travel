@@ -93,6 +93,39 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="country_id">Country</label>
+                                        <select id="country_id" name="country_id" class="form-control" required onchange="getCities()">
+                                            <option value="" disabled selected>Choose Country</option>
+                                            @foreach($countries as $country)
+                                                <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
+                                                    {{ $country->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('country_id')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+
+                                    <!-- City -->
+                                    <div class="col-6">
+                                        <label for="city_id">City</label>
+                                        <select id="city_id" name="city_id" class="form-control" required>
+                                        </select>
+                                        @error('city_id')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <br>
                                 <br>
                                 <div class="row">
                                     <div class="col-12">
@@ -191,27 +224,59 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <br>
                                 <div class="row">
                                     <div class="col-6">
-                                        <label>young price</label>
+                                        <label>children price</label>
                                         <input type="number" name="young_price" value="{{old('young_price')}}"
-                                               class="form-control" required placeholder="enter offer young_price here..."/>
+                                               class="form-control" required placeholder="enter trip children price here..."/>
                                         @error('young_price')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
                                         @enderror
                                     </div>
-
                                     <div class="col-6">
-                                        <label>old price</label>
+                                        <label>adult new price</label>
+                                        <input type="number" name="old_new_price" value="{{old('old_new_price')}}"
+                                               class="form-control" required placeholder="enter  old new price here..."/>
+                                        @error('old_new_price')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
+
+
+                                </div>
+
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label>adult price</label>
                                         <input type="number" name="old_price" value="{{old('old_price')}}"
                                                class="form-control" required placeholder="enter  old price here..."/>
                                         @error('old_price')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
+                                        @enderror
+                                    </div>
+
+
+                                    <div class="col-6">
+                                        <label>saving <small>%</small></label>
+                                        <select name="saving" class="form-control" required>
+                                            <option value="" selected disabled>Select Saving Here...</option>
+                                            @for ($i = 1; $i <= 100; $i++)
+                                                <option value="{{ $i }}" {{ old('saving') == $i ? 'selected' : '' }}>{{ $i }} %</option>
+                                            @endfor
+                                        </select>
+                                        @error('saving')
+                                        <span class="text-danger" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
 
@@ -529,7 +594,5 @@
 @endsection
 @section('js')
 @include('pages.offer.scripts')
-
-    <!-- DataTables  & Plugins -->
 
 @endsection

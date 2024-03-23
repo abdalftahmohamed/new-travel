@@ -59,11 +59,11 @@
                                 <tr>
                                     <th>#</th>
                                     <th>status</th>
-                                    <th>name</th>
+                                    <th>trip name</th>
 {{--                                    <th>trip date</th>--}}
-                                    <th>price1</th>
-                                    <th>price2</th>
-                                    <th>trip description</th>
+                                    <th>adult</th>
+                                    <th>children</th>
+{{--                                    <th>trip description</th>--}}
 {{--                                    <th>customer rating</th>--}}
                                     <th>Image</th>
                                     <th>Show</th>
@@ -85,11 +85,11 @@
 {{--                                        <td>{{$trip->trip_date}}</td>--}}
                                         <td>{{$trip->old_price}}</td>
                                         <td>{{$trip->young_price}}</td>
-                                        <td>{{mb_substr($trip->trip_description,0,40). '...'}}</td>
+{{--                                        <td>{{mb_substr($trip->trip_description,0,40). '...'}}</td>--}}
 {{--                                        <td>{{$trip->cus_rating}}</td>--}}
-                                        <td>{{$trip->company->name}}</td>
+{{--                                        <td>{{$trip->company->name}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.trip.show', $trip->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">

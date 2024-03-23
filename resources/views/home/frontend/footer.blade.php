@@ -117,7 +117,7 @@
             <div class="row pt-4">
                 <div class="col-lg-6">
                     <p class="mb-2 text-center text-lg-start">Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        . All Rights Reserved. &mdash; <a href="#">Rehlatyuae.</a>
+                        . All Rights Reserved. &mdash; <a href="{{route('home')}}">Rehlatyuae.</a>
                     </p>
                 </div>
 

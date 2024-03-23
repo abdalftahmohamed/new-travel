@@ -358,7 +358,7 @@
                     data.cities.forEach(function (city) {
                         var option = document.createElement('option');
                         option.value = city.id;
-                        option.text = city.name;
+                        option.text = city.name.en;
                         citySelect.appendChild(option);
                     });
                 },

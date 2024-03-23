@@ -20,6 +20,16 @@ class Trip extends Model
         return $this->belongsTo(Company::class);
     }
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);

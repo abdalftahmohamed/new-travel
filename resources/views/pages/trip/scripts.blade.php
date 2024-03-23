@@ -135,6 +135,34 @@
 </script>
 
 
+
+
+<script>
+    function getCities() {
+        var countryId = document.getElementById('country_id').value;
+
+        // Use Ajax to fetch cities based on the selected country
+        $.ajax({
+            url: '/admin/company/get-cities/' + countryId, // Replace with your actual endpoint
+            type: 'GET',
+            success: function (data) {
+                var citySelect = document.getElementById('city_id');
+                citySelect.innerHTML = '';
+
+                data.cities.forEach(function (city) {
+                    var option = document.createElement('option');
+                    option.value = city.id;
+                    option.text = city.name.en;
+                    citySelect.appendChild(option);
+                });
+            },
+            error: function (error) {
+                console.log('Error fetching cities: ', error);
+            }
+        });
+    }
+</script>
+
 {{--image--}}
 {{--<script>--}}
 {{--    $(document).ready(function () {--}}

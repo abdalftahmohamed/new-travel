@@ -73,7 +73,7 @@
                     <a href="{{route('admin.department.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            department
+                            Category
                             <span
                                 class="badge badge-info right">{{\App\Models\Department::get()->count()}}</span>
                         </p>

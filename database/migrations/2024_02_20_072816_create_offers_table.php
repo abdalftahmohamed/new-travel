@@ -20,6 +20,18 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->longText('offer_description')->nullable();
             $table->boolean('status')->default(true);
+
+            $table->string('old_new_price')->nullable();
+            $table->string('saving')->nullable();
+
+            $table->bigInteger('country_id')->unsigned()->nullable();
+            $table->foreign('country_id')->references('id')->on('countries')
+                ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->bigInteger('city_id')->unsigned()->nullable();
+            $table->foreign('city_id')->references('id')->on('cities')
+                ->onDelete('cascade')->onUpdate('cascade');
+
 //            $table->string('cus_rating')->nullable();
 //            $table->string('country')->nullable();
 //            $table->string('city')->nullable();

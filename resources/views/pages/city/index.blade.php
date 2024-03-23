@@ -60,7 +60,7 @@
                                     <th>#</th>
                                     <th>country</th>
                                     <th>name</th>
-                                    <th>description</th>
+{{--                                    <th>description</th>--}}
                                     <th>image</th>
                                     <th>Show</th>
                                     <th>Actions</th>
@@ -72,9 +72,9 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$city->country->name}}</td>
                                         <td>{{$city->name}}</td>
-                                        <td>{{mb_substr($city->description,0,40). '...'}}</td>
+{{--                                        <td>{{mb_substr($city->description,0,40). '...'}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($city->image_path)) ? asset('attachments/citys/'.$city->id.'/'.$city->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($city->image_path)) ? asset('attachments/citys/'.$city->id.'/'.$city->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.city.show', $city->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">

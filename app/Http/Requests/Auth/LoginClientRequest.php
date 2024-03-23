@@ -40,13 +40,23 @@ class LoginClientRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
+        $credentials = $this->only('email', 'password');
+        $credentials['status'] = 1;
 
-        if (! Auth::guard('client')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => 'يوجد خطأ في الايميل كلمة المرور', // Error message for the email field
-            ]);
+        if (!Auth::guard('client')->attempt($credentials, $this->boolean('remember'))) {
+            if (!Auth::guard('client')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
+                toastr()->error(' يوجد خطأ في الايميل كلمة المرور او غير مفعل');
+                throw ValidationException::withMessages([
+                    'email' => 'يوجد خطأ في الايميل كلمة المرور',
+                ]);
+            }else{
+                RateLimiter::hit($this->throttleKey());
+                toastr()->error(' انت غير مفعل');
+                throw ValidationException::withMessages([
+                    'email' => 'انت غير مفعل',
+                ]);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());
@@ -59,7 +69,7 @@ class LoginClientRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -80,6 +90,6 @@ class LoginClientRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->input('email')) . '|' . $this->ip());
     }
 }

@@ -7,9 +7,28 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{{route('searchTripWeb')}}" method="GET">
+                    @csrf
+                    <div class="row g-3">
+                        <div class="col-auto">
+                            <input type="search" name="name" class="form-control form-control-lg" placeholder="Search by activities and destinations...">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn-lg btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
 
         <div class="collapse navbar-collapse" id="navbarsFurni">
             <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
+
 {{--                class="nav-item active"--}}
                 <li @yield('home')>
                     <a class="nav-link" href="{{ route('home') }}">Home</a>

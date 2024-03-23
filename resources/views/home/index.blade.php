@@ -24,6 +24,38 @@
     <!-- Start Product Section -->
 {{--    /*<link href="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.2.0/css/mdb.min.css" rel="stylesheet">*/--}}
 
+
+    <!-- Start Hero Section -->
+    <div class="hero">
+
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-5">
+                    <div class="intro-excerpt">
+                        <h1>@yield('title1')<span clsas="d-block">@yield('title2')</span></h1>
+                        <p class="mb-4">@yield('description')</p>
+                        <p><a href="{{route('home')}}" class="btn btn-secondary me-2">Top Destinations</a><a href="{{route('home')}}" class="btn btn-white-outline">Explore</a></p>
+
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="hero-img-wrap">
+                        <img src="{{ URL::asset('admin/home/images/Rehlatiuae-header.png') }}" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- End Hero Section -->
+
+
+
+
+
+
+
     <div class="product-section">
         <h1>Explore World's Top Destinations</h1>
         <hr>

@@ -61,9 +61,9 @@
                                     <th>status</th>
                                     <th>name</th>
                                     <th>email</th>
-                                    <th>phone</th>
+{{--                                    <th>phone</th>--}}
                                     <th>address</th>
-                                    <th>link</th>
+{{--                                    <th>link</th>--}}
                                     <th>image</th>
                                     <th>Show</th>
                                     <th>Actions</th>
@@ -82,11 +82,11 @@
                                         </td>
                                         <td>{{$company->name}}</td>
                                         <td>{{$company->email}}</td>
-                                        <td>{{$company->phone}}</td>
+{{--                                        <td>{{$company->phone}}</td>--}}
                                         <td>{{$company->address}}</td>
-                                        <td>{{$company->url}}</td>
+{{--                                        <td>{{$company->url}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 100px; height: 100px;" src="{{(! empty($company->image_path)) ? asset('attachments/companys/'.$company->id.'/'.$company->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 rounded-circle" style="width: 70px; height: 70px;" src="{{(! empty($company->image_path)) ? asset('attachments/companys/'.$company->id.'/'.$company->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.company.show', $company->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">

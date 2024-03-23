@@ -219,7 +219,7 @@
                                 <div class="row">
                                     <div class="col-md-auto">
                                         <div class="DocumentSection_section__3WaJL">
-                                            <div class="DocumentSection_sectionTitle__1rl5y">Company Photo
+                                            <div class="DocumentSection_sectionTitle__1rl5y">Client Photo
                                                 <svg fill="none" viewBox="0 0 64 20"
                                                      class="DocumentEditForm_icon__3iujO">
                                                     <title>pro_icon</title>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Traits\ImageTrait;
 use App\Models\Address;
 use App\Models\Company;
+use App\Models\Country;
 use App\Models\Department;
 use App\Models\Image;
 use App\Models\Trip;
@@ -29,14 +30,16 @@ class TripController extends Controller
 
     public function create()
     {
+        $countries =Country::all();
         $companys = Company::all();
         $departments = Department::all();
-        return view('pages.trip.create', compact('companys','departments'));
+        return view('pages.trip.create', compact('companys','departments','countries'));
     }
 
 
     public function store(Request $request)
     {
+//        return $request;
         try {
             DB::beginTransaction();
             $validatedData = $request->validate([
@@ -56,6 +59,10 @@ class TripController extends Controller
                 'status' => ['nullable', Rule::in([0, 1])],
                 'department_id' => 'nullable|integer|exists:departments,id',
                 'company_id' => 'nullable|integer|exists:companies,id',
+                'old_new_price' => 'nullable|string',
+                'saving' => 'nullable|string',
+                'country_id' => 'nullable|integer|exists:countries,id',
+                'city_id' => 'nullable|integer|exists:cities,id',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
@@ -76,13 +83,18 @@ class TripController extends Controller
                     'en' => $validatedData['description_en'],
                     'ur' => $validatedData['description_ur']
                 ],
-                'old_price' => $validatedData['old_price'],
+                'old_price' => $validatedData['old_price'],#السعر الجديد
+
                 'young_price' => $validatedData['young_price'],
                 'type' => $validatedData['type'],
                 'location' => $validatedData['location'],
                 'status' => $validatedData['status'],
                 'department_id' => $validatedData['department_id'],
                 'company_id' => $validatedData['company_id'],
+                'old_new_price' => $validatedData['old_new_price'] ?? null,#fake price
+                'saving' => $validatedData['saving'] ?? null,#fake saving
+                'country_id' => $validatedData['country_id'],
+                'city_id' => $validatedData['city_id'],
             ];
 
             $trip = Trip::create($tripData);
@@ -140,9 +152,10 @@ class TripController extends Controller
     public function edit($id)
     {
         $trip = Trip::findOrFail($id);
+        $countries =Country::all();
         $companys = Company::all();
         $departments = Department::all();
-        return view('pages.trip.edit', compact('trip','companys','departments'));
+        return view('pages.trip.edit', compact('trip','companys','departments','countries'));
     }
 
     public function update(Request $request)
@@ -165,6 +178,10 @@ class TripController extends Controller
                 'type' => 'nullable|string',
                 'location' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
+                'old_new_price' => 'nullable|string',
+                'saving' => 'nullable|string',
+                'country_id' => 'nullable|integer|exists:countries,id',
+                'city_id' => 'nullable|integer|exists:cities,id',
                 'department_id' => 'nullable|integer|exists:departments,id',
                 'company_id' => 'nullable|integer|exists:companies,id',
                 'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
@@ -194,6 +211,10 @@ class TripController extends Controller
                 'status' => $validatedData['status'] ?? $trip->status,
                 'department_id' => $validatedData['department_id'] ?? $trip->department_id,
                 'company_id' => $validatedData['company_id'] ?? $trip->company_id,
+                'old_new_price' => $validatedData['old_new_price'] ?? $trip->old_new_price,#fake price
+                'saving' => $validatedData['saving'] ?? $trip->saving,#fake saving
+                'country_id' => $validatedData['country_id'] ?? $trip->country_id,
+                'city_id' => $validatedData['city_id'] ?? $trip->city_id,
             ];
 
             $trip->update($tripData);

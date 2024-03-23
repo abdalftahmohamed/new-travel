@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Traits\ImageTrait;
 use App\Models\Address;
 use App\Models\Company;
+use App\Models\Country;
 use App\Models\Image;
 use App\Models\Offer;
 use App\Models\Trip;
@@ -30,7 +31,8 @@ class OfferController extends Controller
     public function create()
     {
         $trips = Trip::all();
-        return view('pages.offer.create', compact('trips'));
+        $countries =Country::all();
+        return view('pages.offer.create', compact('countries','trips'));
     }
 
 
@@ -48,6 +50,10 @@ class OfferController extends Controller
                 'old_price' => 'nullable|string',
                 'young_price' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
+                'old_new_price' => 'nullable|string',
+                'saving' => 'nullable|string',
+                'country_id' => 'nullable|integer|exists:countries,id',
+                'city_id' => 'nullable|integer|exists:cities,id',
                 'trip_id' => 'nullable|integer|exists:trips,id',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
@@ -66,6 +72,10 @@ class OfferController extends Controller
                 'old_price' => $validatedData['old_price'],
                 'young_price' => $validatedData['young_price'],
                 'status' => $validatedData['status'],
+                'old_new_price' => $validatedData['old_new_price'] ?? null,#fake price
+                'saving' => $validatedData['saving'] ?? null,#fake saving
+                'country_id' => $validatedData['country_id'],
+                'city_id' => $validatedData['city_id'],
                 'trip_id' => $validatedData['trip_id']
             ];
 
@@ -123,7 +133,8 @@ class OfferController extends Controller
     {
         $offer = Offer::findOrFail($id);
         $trips = Trip::all();
-        return view('pages.offer.edit', compact('trips','offer'));
+        $countries =Country::all();
+        return view('pages.offer.edit', compact('countries','trips','offer'));
     }
 
     public function update(Request $request)
@@ -140,6 +151,10 @@ class OfferController extends Controller
                 'old_price' => 'nullable|string',
                 'young_price' => 'nullable|string',
                 'status' => ['nullable', Rule::in([0, 1])],
+                'old_new_price' => 'nullable|string',
+                'saving' => 'nullable|string',
+                'country_id' => 'nullable|integer|exists:countries,id',
+                'city_id' => 'nullable|integer|exists:cities,id',
                 'trip_id' => 'nullable|integer|exists:trips,id',
                 'images[]' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
@@ -158,7 +173,11 @@ class OfferController extends Controller
                 'old_price' => $validatedData['old_price'] ?? $offer->old_price,
                 'young_price' => $validatedData['young_price'] ?? $offer->young_price,
                 'status' => $validatedData['status'] ?? $offer->status,
-                'trip_id' => $validatedData['trip_id'] ?? $offer->trip_id
+                'trip_id' => $validatedData['trip_id'] ?? $offer->trip_id,
+                'old_new_price' => $validatedData['old_new_price'] ?? $offer->old_new_price,#fake price
+                'saving' => $validatedData['saving'] ?? $offer->saving,#fake saving
+                'country_id' => $validatedData['country_id'] ?? $offer->country_id,
+                'city_id' => $validatedData['city_id'] ?? $offer->city_id,
             ];
 
             $offer->update($offerData);

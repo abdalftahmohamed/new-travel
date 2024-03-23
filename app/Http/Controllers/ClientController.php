@@ -50,6 +50,19 @@ class ClientController extends Controller
         return redirect()->intended(RouteServiceProvider::CLIENT);
     }
 
+//    public function storeLogin1(Request $request)
+//    {
+//        $this->validate($request,[
+//            'email' => ['required', 'string', 'email'],
+//            'password' => ['required', 'string'],
+//        ]);
+//        if (Auth::guard('client')->attempt(['status'=>1, 'email'=>$request->email, 'password'=>$request->password,])){
+//            $request->session()->regenerate();
+//            return redirect()->intended(RouteServiceProvider::CLIENT);
+//        }
+//        return redirect()->back()->withInput($request->only('email','remember'));
+//    }
+
 
     public function logout(Request $request)
     {
@@ -175,20 +188,23 @@ class ClientController extends Controller
 
             $clientData = [
                 'name' => [
-                    'ar' => $validatedData['name_ar'] ?? $client->name['ar'],
-                    'en' => $validatedData['name_en'] ?? $client->name['en'],
-                    'ur' => $validatedData['name_ur'] ?? $client->name['ur']
+                    'ar' => $validatedData['name_ar'] ?? $client->getTranslation('name','ar'),
+                    'en' => $validatedData['name_en'] ?? $client->getTranslation('name','en'),
+                    'ur' => $validatedData['name_ur'] ?? $client->getTranslation('name','ur')
                 ],
-                'address' => [
-                    'ar' => $validatedData['address_ar'] ?? $client->address['ar'],
-                    'en' => $validatedData['address_en'] ?? $client->address['en'],
-                    'ur' => $validatedData['address_ur'] ?? $client->address['ur']
-                ],
+
                 'email' => $validatedData['email'] ?? $client->email,
                 'phone' => $validatedData['phone'] ?? $client->phone,
                 'status' => $validatedData['status'] ?? $client->status,
             ];
 
+            if ($request->filled('address_en')||$request->filled('address_ar')||$request->filled('address_ur')){
+             $clientData['address']=[
+                     'ar' => $validatedData['address_ar'] ?? $client->getTranslation('address','ar'),
+                     'en' => $validatedData['address_en'] ?? $client->getTranslation('address','en'),
+                     'ur' => $validatedData['address_ur'] ?? $client->getTranslation('address','ur')
+             ];
+            }
             // Update client data
             if ($request->filled('password')) {
                 $clientData['password'] = Hash::make($validatedData['password']);
@@ -242,7 +258,7 @@ class ClientController extends Controller
                 'name_en' => ['required', 'max:255'],
                 'name_ur' => ['nullable', 'max:255'],
                 'email' => ['required', 'email', 'unique:clients', 'max:150'],
-                'password' => ['required', 'string', 'confirmed', 'min:6'],
+                'password' => ['required', 'string', 'min:6'],
                 'phone' => 'nullable|integer',
                 'address_ar' => 'nullable|string',
                 'address_en' => 'nullable|string',
@@ -266,7 +282,6 @@ class ClientController extends Controller
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
 //                'phone' => $validatedData['phone'],
-//                'status' => 1, // Assuming 'status' is always 1 for new registrations
             ];
 
             $client = Client::create($clientData);
@@ -281,15 +296,12 @@ class ClientController extends Controller
             event(new Registered($client));
 
             auth('client')->login($client);
-
+            toastr()->success('تم تسجسل الدخول بنجاح');
             return redirect(RouteServiceProvider::CLIENT);
 
         } catch (\Exception $exception) {
-            // Log or handle the exception appropriately
-            return response()->json([
-                'status' => false,
-                'message' => $exception->getMessage() // Optionally, include the exception message for debugging
-            ], 400);
+            toastr()->error($exception->getMessage());
+            return redirect()->back();
         }
     }
 

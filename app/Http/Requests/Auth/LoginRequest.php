@@ -43,6 +43,7 @@ class LoginRequest extends FormRequest
 
         if (! Auth::guard('web')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
+            toastr()->error('يوجد خطأ في الايميل كلمة المرور');
 
             throw ValidationException::withMessages([
                 'email' => 'يوجد خطأ في الايميل كلمة المرور', // Error message for the email field

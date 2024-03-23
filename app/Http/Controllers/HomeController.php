@@ -17,6 +17,7 @@ use App\Models\Trip;
 use App\Notifications\MailClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use function PHPUnit\Framework\isEmpty;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,7 @@ class HomeController extends Controller
         return view('home.blog',compact('blogs'));
 
     }
+
     public function blogShow($id)
     {
         $blog = Blog::findOrFail($id);
@@ -235,7 +237,7 @@ class HomeController extends Controller
 
     public function shop()
     {
-        $trips = Trip::get();
+        $trips = Trip::where('status',1)->get();
         return view('home.shop',compact('trips'));
     }
 
@@ -301,6 +303,28 @@ class HomeController extends Controller
         toastr()->success('Data has been saved successfully!');
 
         return redirect()->route('home');
+    }
+
+    public function searchTrip(Request $request)
+    {
+        try {
+            $query = Trip::where('status', 1);
+            if ($request->filled('name')) {
+                $trip_search = $query->searchByKeyword($request->name)->get();
+                if ($trip_search->isEmpty()) {
+                    toastr()->warning('عفوا لا توجد بيانات بهذا الاسم');
+                    return redirect()->route('home');
+                }
+
+                return view('home.searchTripWeb',compact('trip_search'));
+
+            }else{
+                toastr()->error('عفوا لم يتم ادخال بيانات');
+                return redirect()->route('home');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('home');
+        }
     }
 
 

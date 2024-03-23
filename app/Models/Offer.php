@@ -26,4 +26,15 @@ class Offer extends Model
     {
         return $this->hasMany(Image::class,'offer_id');
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
 }

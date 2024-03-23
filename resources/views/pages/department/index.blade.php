@@ -9,13 +9,13 @@
 
 
     @section('title')
-        Create department
+        Create Category
     @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
     @section('PageTitle')
-        Create department
+        Create Category
     @stop
     <!-- breadcrumb -->
 @endsection
@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <h4>
                                 <a href="{{route('admin.department.create')}}"
-                                   class="btn btn-primary waves-effect waves-light float-end mb-4">Create department</a>
+                                   class="btn btn-primary waves-effect waves-light float-end mb-4">Create Category</a>
                             </h4>
 
                             @if(session('message'))
@@ -59,8 +59,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>status</th>
-                                    <th>department name</th>
-                                    <th>department description</th>
+                                    <th>Category name</th>
+{{--                                    <th>Category description</th>--}}
 {{--                                    <th>company</th>--}}
                                     <th>image</th>
                                     <th>Show</th>
@@ -79,9 +79,9 @@
                                             @endif
                                         </td>
                                         <td>{{$department->name}}</td>
-                                        <td>{{mb_substr($department->description,0,40). '...'}}</td>
+{{--                                        <td>{{mb_substr($department->description,0,40). '...'}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($department->image_path)) ? asset('attachments/departments/'.$department->id.'/'.$department->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="department image">
+                                            <img class="img-fluid mb-2 rounded-circle" style="width: 70px; height: 70px;" src="{{(! empty($department->image_path)) ? asset('attachments/departments/'.$department->id.'/'.$department->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="department image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.department.show', $department->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
