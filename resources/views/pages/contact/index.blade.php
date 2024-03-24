@@ -54,8 +54,8 @@
                                 <tr>
                                     <th>#</th>
                                     <th>contact name</th>
-                                    <th>contact email</th>
                                     <th>contact description</th>
+                                    <th>contact email</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -64,8 +64,8 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$contact->name}}</td>
+                                        <td>{{mb_substr($contact->description,0,100). '...'}}</td>
                                         <td>{{$contact->email}}</td>
-                                        <td>{{mb_substr($contact->description,0,60). '...'}}</td>
                                         <td>
                                             <div class="margin">
                                                 <div class="btn-group">

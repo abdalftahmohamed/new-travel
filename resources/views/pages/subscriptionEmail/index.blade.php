@@ -53,8 +53,8 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>subscriptionEmail name</th>
-                                    <th>subscriptionEmail email</th>
+                                    <th>name</th>
+                                    <th>email</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>

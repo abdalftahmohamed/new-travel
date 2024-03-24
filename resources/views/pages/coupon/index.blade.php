@@ -63,7 +63,7 @@
                                     <th>coupon amount</th>
                                     <th>coupon start</th>
                                     <th>coupon end</th>
-                                    <th>Show</th>
+{{--                                    <th>Show</th>--}}
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -82,16 +82,16 @@
                                         <td>{{$coupon->coupon_amount}}</td>
                                         <td>{{$coupon->coupon_start}}</td>
                                         <td>{{$coupon->coupon_end}}</td>
-                                        <td>
-                                            <a class="dropdown-item" href="{{ route('admin.coupon.show', $coupon->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
-                                                <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <g id="show-icon">
-                                                        <path id="eye" d="M12 2C6.485 2 2 6.485 2 12s4.485 10 10 10 10-4.485 10-10S17.515 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#7DB00E"/>
-                                                        <path id="pupil" d="M12 4c1.74 0 3.41.56 4.79 1.59c.24.22.24.58 0 .8C15.41 7.44 13.75 8 12 8s-3.41-.56-4.79-1.61c-.24-.22-.24-.58 0-.8C8.59 4.56 10.25 4 12 4zm0 10c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z" fill="#7DB00E"/>
-                                                    </g>
-                                                </svg>
-                                            </a>
-                                        </td>
+{{--                                        <td>--}}
+{{--                                            <a class="dropdown-item" href="{{ route('admin.coupon.show', $coupon->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">--}}
+{{--                                                <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                                    <g id="show-icon">--}}
+{{--                                                        <path id="eye" d="M12 2C6.485 2 2 6.485 2 12s4.485 10 10 10 10-4.485 10-10S17.515 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#7DB00E"/>--}}
+{{--                                                        <path id="pupil" d="M12 4c1.74 0 3.41.56 4.79 1.59c.24.22.24.58 0 .8C15.41 7.44 13.75 8 12 8s-3.41-.56-4.79-1.61c-.24-.22-.24-.58 0-.8C8.59 4.56 10.25 4 12 4zm0 10c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z" fill="#7DB00E"/>--}}
+{{--                                                    </g>--}}
+{{--                                                </svg>--}}
+{{--                                            </a>--}}
+{{--                                        </td>--}}
                                         <td>
                                             <div class="margin">
                                                 <div class="btn-group">

@@ -210,6 +210,12 @@ Route::middleware(['auth:web', 'verified','checkAdmin','api_localization'])->pre
         Route::delete('/delete', 'destroy')->name('destroy');
     });
 
+    //invitation Routes
+    Route::controller(\App\Http\Controllers\InvitationController::class)->prefix('invitation')->as('invitation.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::delete('/delete', 'destroy')->name('destroy');
+    });
+
 });
 
 

@@ -74,7 +74,7 @@
                                         <td>{{mb_substr($blog->description,0,40). '...'}}</td>
 {{--                                        <td>{{$blog->cus_rating}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.blog.show', $blog->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">

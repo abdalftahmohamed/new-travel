@@ -15,16 +15,9 @@
 {{--/*<!-- Theme style -->*/--}}
 {{--<link rel="stylesheet" href="{{URL::asset('admin/dist/css/adminlte.min.css')}}">--}}
 <link rel="stylesheet" href="{{URL::asset('admin/dist/css/alt/adminlte.light.css')}}">
+{{--<link rel="stylesheet" href="{{URL::asset('admin/plugins/summernote/summernote-bs4.min.css')}}">--}}
 <!-- Font Awesome -->
 <!-- Theme style -->
-
-
-
-
-
-
-
-
 
 
 

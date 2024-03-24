@@ -62,7 +62,7 @@
                                     <th>client name</th>
                                     <th>client email</th>
                                     <th>client phone</th>
-                                    <th>client address</th>
+{{--                                    <th>client address</th>--}}
 {{--                                    <th>company</th>--}}
                                     <th>image</th>
                                     <th>Show</th>
@@ -83,7 +83,7 @@
                                         <td>{{$client->name}}</td>
                                         <td>{{$client->email}}</td>
                                         <td>{{$client->phone}}</td>
-                                        <td>{{$client->address}}</td>
+{{--                                        <td>{{$client->address}}</td>--}}
 {{--                                        <td>{{$client->company->name}}</td>--}}
                                         <td>
                                             <img class="img-fluid mb-2 rounded-circle "

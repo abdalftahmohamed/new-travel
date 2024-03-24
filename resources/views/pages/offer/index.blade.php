@@ -61,12 +61,14 @@
                                     <th>status</th>
                                     <th>name</th>
 {{--                                    <th>offer date</th>--}}
-                                    <th>price1</th>
-                                    <th>price2</th>
-                                    <th>offer description</th>
+                                    <th>Adult</th>
+                                    <th>Children</th>
+{{--                                    <th>offer description</th>--}}
                                     <th>trip name</th>
 {{--                                    <th>customer rating</th>--}}
+                                    <th>Image</th>
                                     <th>Show</th>
+
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
@@ -88,6 +90,9 @@
                                         <td>{{mb_substr($offer->offer_description,0,40). '...'}}</td>
 {{--                                        <td>{{$offer->cus_rating}}</td>--}}
                                         <td>{{$offer->trip->name}}</td>
+                                        <td>
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($offer->image_path)) ? asset('attachments/offers/'.$offer->id.'/'.$offer->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                        </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.offer.show', $offer->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
                                                 <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

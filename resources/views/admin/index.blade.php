@@ -169,8 +169,8 @@
                                     @foreach($carts as $cart)
                                         <tr>
                                             <td><a href="admin/pages/examples/invoice.html">OR9842</a></td>
-                                            <td>{{$cart->client->name}}</td>
-                                            <td>{{$cart->client->email}}</td>
+                                            <td>{{$cart->client->name ?? 'name'}}</td>
+                                            <td>{{$cart->client->email ?? 'email'}}</td>
                                             <td>{{$cart->trip->name}}</td>
                                             <td>
                                                 <img class="img-fluid mb-2 rounded-circle" style="width: 100px; height: 100px;" src="{{(! empty($cart->trip->image_path)) ? asset('attachments/trips/'.$cart->trip->id.'/'.$cart->trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">

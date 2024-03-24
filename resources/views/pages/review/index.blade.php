@@ -78,7 +78,7 @@
                                         <td>{{$review->client->name}}</td>
                                         <td>{{$review->trip->name}}</td>
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($review->image_path)) ? asset('attachments/reviews/'.$review->id.'/'.$review->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="review image">
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($review->image_path)) ? asset('attachments/reviews/'.$review->id.'/'.$review->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="review image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('admin.review.show', $review->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">

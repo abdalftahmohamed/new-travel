@@ -69,9 +69,9 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$ourPartner->name}}</td>
-                                        <td>{{mb_substr($ourPartner->description,0,40). '...'}}</td>
+                                        <td>{{mb_substr($ourPartner->description,0,50). '...'}}</td>
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($ourPartner->image_path)) ? asset('attachments/ourPartners/'.$ourPartner->id.'/'.$ourPartner->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($ourPartner->image_path)) ? asset('attachments/ourPartners/'.$ourPartner->id.'/'.$ourPartner->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
 {{--                                        <td>--}}
 {{--                                            <a class="dropdown-item" href="{{ route('admin.ourPartner.show', $ourPartner->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">--}}
