@@ -214,7 +214,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-6">
-                                        <label>children price</label>
+                                        <label>children price*</label>
                                         <input type="number" name="young_price" value="{{$offer->young_price,old('young_price')}}"
                                                class="form-control" required placeholder="enter offer children price here..."/>
                                         @error('young_price')
@@ -223,24 +223,9 @@
                                     </span>
                                         @enderror
                                     </div>
+
                                     <div class="col-6">
-                                        <label>adult new price</label>
-                                        <input type="number" name="old_new_price" value="{{$offer->old_new_price,old('old_new_price')}}"
-                                               class="form-control" required placeholder="enter  old new price here..."/>
-                                        @error('old_new_price')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-
-
-                                </div>
-
-                                <br>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label>adult price</label>
+                                        <label>adult price*</label>
                                         <input type="number" name="old_price" value="{{$offer->old_price,old('old_price')}}"
                                                class="form-control" required placeholder="enter  old price here..."/>
                                         @error('old_price')
@@ -250,6 +235,21 @@
                                         @enderror
                                     </div>
 
+                                </div>
+
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-6">
+                                        <label>adult Old price</label>
+                                        <input type="number" name="old_new_price" value="{{$offer->old_new_price,old('old_new_price')}}"
+                                               class="form-control" required placeholder="enter  old old price here..."/>
+                                        @error('old_new_price')
+                                        <span class="text-danger" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
 
                                     <div class="col-6">
                                         <label>saving <small>%</small></label>

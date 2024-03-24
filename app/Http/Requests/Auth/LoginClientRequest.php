@@ -46,13 +46,13 @@ class LoginClientRequest extends FormRequest
         if (!Auth::guard('client')->attempt($credentials, $this->boolean('remember'))) {
             if (!Auth::guard('client')->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
                 RateLimiter::hit($this->throttleKey());
-                toastr()->error(' يوجد خطأ في الايميل كلمة المرور او غير مفعل');
+//                toastr()->error(' يوجد خطأ في الايميل كلمة المرور او غير مفعل');
                 throw ValidationException::withMessages([
                     'email' => 'يوجد خطأ في الايميل كلمة المرور',
                 ]);
             }else{
                 RateLimiter::hit($this->throttleKey());
-                toastr()->error(' انت غير مفعل');
+//                toastr()->error(' انت غير مفعل');
                 throw ValidationException::withMessages([
                     'email' => 'انت غير مفعل',
                 ]);

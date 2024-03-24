@@ -296,7 +296,7 @@ class ClientController extends Controller
             event(new Registered($client));
 
             auth('client')->login($client);
-            toastr()->success('تم تسجسل الدخول بنجاح');
+//            toastr()->success('تم تسجسل الدخول بنجاح');
             return redirect(RouteServiceProvider::CLIENT);
 
         } catch (\Exception $exception) {

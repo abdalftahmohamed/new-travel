@@ -238,10 +238,10 @@
                                         @enderror
                                     </div>
                                     <div class="col-6">
-                                        <label>adult new price</label>
-                                        <input type="number" name="old_new_price" value="{{old('old_new_price')}}"
-                                               class="form-control" required placeholder="enter  old new price here..."/>
-                                        @error('old_new_price')
+                                        <label>adult price*</label>
+                                        <input type="number" name="old_price" value="{{old('old_price')}}"
+                                               class="form-control" required placeholder="enter  old price here..."/>
+                                        @error('old_price')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>
@@ -253,11 +253,12 @@
 
                                 <br>
                                 <div class="row">
+
                                     <div class="col-6">
-                                        <label>adult price</label>
-                                        <input type="number" name="old_price" value="{{old('old_price')}}"
-                                               class="form-control" required placeholder="enter  old price here..."/>
-                                        @error('old_price')
+                                        <label>adult Old price</label>
+                                        <input type="number" name="old_new_price" value="{{old('old_new_price')}}"
+                                               class="form-control" required placeholder="enter  old Old price here..."/>
+                                        @error('old_new_price')
                                         <span class="text-danger" role="alert">
                                         <strong>{{$message}}</strong>
                                     </span>

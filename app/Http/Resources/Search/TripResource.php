@@ -33,6 +33,8 @@ class TripResource extends JsonResource
             'description' => $this->trip_description,
             'oldPrice' => $this->old_price,
             'childPrice' => $this->young_price,
+            'beforePrice' => $this->old_new_price,
+            'saving' => $this->saving,
             'imagePath' => $this->image_path,
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageTripResource::collection($this->images),
