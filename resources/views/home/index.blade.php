@@ -1,6 +1,29 @@
 @extends('home.frontend.master')
 @section('css')
+    <style>
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
 
+        .badge-danger {
+            color: #fff;
+            background-color: #dc3545;
+        }
+
+        .badge-success {
+            color: #fff;
+            background-color: #3dad1e;
+        }
+    </style>
 
 @endsection
 {{--@section('page-header')--}}
@@ -99,7 +122,11 @@
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
-                        <strong class="product-price">${{$trip->old_price}}</strong>
+                        <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
+        {{--
+{{--<strong class="product-price">${{$trip->old_price}}</strong>--}}
 
                         <span class="icon-cross">
 								<img src="{{ URL::asset('admin/home/images/cross.svg') }}" class="img-fluid">
@@ -137,7 +164,10 @@
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
-                        <strong class="product-price">${{$trip->old_price}}</strong>
+                                <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
+{{--                        <strong class="product-price">${{$trip->old_price}}</strong>--}}
 
                         <span class="icon-cross">
 								<img src="{{ URL::asset('admin/home/images/cross.svg') }}" class="img-fluid">
@@ -175,7 +205,10 @@
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
-                        <strong class="product-price">${{$trip->old_price}}</strong>
+                                <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
+{{--                        <strong class="product-price">${{$trip->old_price}}</strong>--}}
 
                         <span class="icon-cross">
 								<img src="{{ URL::asset('admin/home/images/cross.svg') }}" class="img-fluid">
@@ -469,13 +502,13 @@
             </div>
 
             <div class="row">
-                @foreach($blogs->slice(-3) as $blog)
-                <div class="col-12 col-sm-6 col-md-4 mb-4 mb-md-0">
+                @foreach($blogs->slice(-4) as $blog)
+                <div class="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
                     <div class="post-entry">
                         <a href="{{route('blog.show',$blog->id)}}" class="post-thumbnail"><img style="width: 600px; height: 300px; border-radius: 8px"
                                 src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path) : asset('admin/dist/img/no_image.jpg') }}"                                alt="Image" class="img-fluid"></a>
                         <div class="post-content-entry">
-                            <h3><a href="#">{{$blog->name}}</a></h3>
+                            <h5><a href="#">{{$blog->name}}</a></h5>
                             <p>{{mb_substr($blog->description,0,80). '...'}}<a href="#">Read More</a></p>
 {{--                            <div class="meta">--}}
 {{--                                <span>by <a href="#">Kristin Watson</a></span> <span>on <a href="#">Dec 19, 2021</a></span>--}}

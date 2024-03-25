@@ -69,7 +69,7 @@ Route::post('/storeMessage',[\App\Http\Controllers\HomeController::class,'storeM
 Route::middleware(['auth:web', 'verified','checkAdmin','api_localization'])->prefix('admin')->as('admin.')->group(function () {
     Route::get('/dashboard', function () {
 
-        $clients = \App\Models\Client::whereStatus(1)->get();
+        $clients = \App\Models\Client::get();
         $carts = \App\Models\Cart::get();
         $blogs = \App\Models\Blog::get();
         return view('admin.index',compact('clients','blogs','carts'));
@@ -213,6 +213,7 @@ Route::middleware(['auth:web', 'verified','checkAdmin','api_localization'])->pre
     //invitation Routes
     Route::controller(\App\Http\Controllers\InvitationController::class)->prefix('invitation')->as('invitation.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/send', 'send')->name('send');
         Route::delete('/delete', 'destroy')->name('destroy');
     });
 

@@ -59,6 +59,11 @@ class Trip extends Model
             ->withPivot(['name', 'stars_numbers', 'description','image_path']);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class,'trip_id');
+    }
+
     public function favoriteClients()
     {
         return $this->belongsToMany(Client::class,'trips_clients_favorites','trip_id','client_id');

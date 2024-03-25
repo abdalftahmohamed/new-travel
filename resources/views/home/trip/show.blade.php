@@ -1,5 +1,29 @@
 @extends('home.frontend.master')
 @section('css')
+    <style>
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.4em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .badge-danger {
+            color: #fff;
+            background-color: #dc3545;
+        }
+
+        .badge-success {
+            color: #fff;
+            background-color: #3dad1e;
+        }
+    </style>
 
 @endsection
 {{--@section('page-header')--}}
@@ -44,7 +68,7 @@
             <div class="row trip-info">
                 <!-- /.col -->
                 <div class="col-sm-9 trip-col">
-                        <img class="img-fluid mb-2 " style="width: 100%; height: 93%;"
+                        <img class="img-fluid mb-2 " style="width: 850px; height: 700px;"
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="trip image">
                 </div>
                 <!-- /.col -->
@@ -52,9 +76,22 @@
                         <div class="row mb-5">
                         <div class="col-md-12">
                             <div class="border p-4 rounded" role="alert">
-                                <h2 class="mb-4 section-title">{{$trip->name ?? "name"}}</h2>
+                                <strong class="mb-4 section-title">{{$trip->name ?? "name"}}</strong>
+
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <strong><span class="right badge badge-success">{{50+$trip->reviewClients()->count() ?? "50"}}</span></strong>
+                                </div>
                                 <hr>
-                                <p class="mb-4">USD   {{$trip->old_price ?? "Older"}}</p>
+                                <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                                <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                                <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
+
+{{--                                <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}}</strong>/person</p>--}}
                                 <p><a href="{{route('trip.book',$trip->id)}}" class="btn">Book Now</a></p>
                             </div>
                         </div>
@@ -176,7 +213,7 @@
                                 <div class="carousel-inner">
 
                                     <div class="carousel-item active">
-                                        <img class="d-block w-100" style="width: 500px;height: 550px;"
+                                        <img class="d-block w-100" style="width: 500px;height: 500px;"
                                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}"                                             alt="First slide">
                                     </div>
                                     @foreach($images as $image)
@@ -347,12 +384,14 @@
             @foreach($BestOfferstrips->slice(-3) as $trip)
                 <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
                     <a class="product-item" href="{{ route('trip.show', $trip->id) }}">
-                        <img style="width: 300px; height: 300px"
+                        <img style="width: 300px; height: 300px; border-radius: 8px; "
                              src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
-                             class="img-fluid product-thumbnail">
+                             class="img-fluid product-thumbnailb ">
                         <h3 class="product-title">{{$trip->name}}</h3>
-                        <strong class="product-price">${{$trip->old_price}}</strong>
 
+                        <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
                         <span class="icon-cross">
 								<img src="{{ URL::asset('admin/home/images/cross.svg') }}" class="img-fluid">
 							</span>

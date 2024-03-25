@@ -7,6 +7,7 @@ use App\Http\Requests\api\LimitRequest;
 use App\Http\Resources\CountryResource;
 use App\Http\Resources\Home\BlogResource;
 use App\Http\Resources\Home\CityResource;
+use App\Http\Resources\Home\CityTripsResource;
 use App\Http\Resources\Home\DepartmentResource;
 use App\Http\Resources\Home\OfferResource;
 use App\Http\Resources\Home\OurPartnerResource;
@@ -65,10 +66,17 @@ class HomeController extends Controller
 
     public function topDestination(LimitRequest $request)
     {
-        if ($request->filled(['start', 'limit'])) {
-            $topDestinations = City::offset($request->start)->limit($request->limit)->get();
-        } else {
-            $topDestinations = City::get();
+        $topDestinations = City::get();
+
+//        if ($request->filled(['start', 'limit'])) {
+//            $topDestinations = City::offset($request->start)->limit($request->limit)->get();
+//        } else {
+//            $topDestinations = City::get();
+//        }
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $topDestinations->count());
+            $topDestinations = $topDestinations->slice($start, $limit);
         }
         return response()->json([
             'status' => true,
@@ -81,10 +89,16 @@ class HomeController extends Controller
 
     public function category(LimitRequest $request)
     {
-        if ($request->filled(['start', 'limit'])) {
-            $categories = Department::offset($request->start)->limit($request->limit)->get();
-        } else {
-            $categories = Department::get();
+        $categories = Department::get();
+//        if ($request->filled(['start', 'limit'])) {
+//            $categories = Department::offset($request->start)->limit($request->limit)->get();
+//        } else {
+//            $categories = Department::get();
+//        }
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $categories->count());
+            $categories = $categories->slice($start, $limit);
         }
         return response()->json([
             'status' => true,
@@ -97,10 +111,18 @@ class HomeController extends Controller
 
     public function review(LimitRequest $request)
     {
-        if ($request->filled(['start', 'limit'])) {
-            $reviews = Review::offset($request->start)->limit($request->limit)->get();
-        } else {
-            $reviews = Review::get();
+        $reviews = Review::get();
+
+
+//        if ($request->filled(['start', 'limit'])) {
+//            $reviews = Review::offset($request->start)->limit($request->limit)->get();
+//        } else {
+//            $reviews = Review::get();
+//        }
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $reviews->count());
+            $reviews = $reviews->slice($start, $limit);
         }
         return response()->json([
             'status' => true,
@@ -114,11 +136,16 @@ class HomeController extends Controller
     public function bestOffer(LimitRequest $request)
     {
         $query = Trip::where([['status', 1], ['type', 'Best Offers']]);
-
-        if ($request->filled(['start', 'limit'])) {
-            $bestOffers = $query->offset($request->start)->limit($request->limit)->get();
-        } else {
-            $bestOffers = $query->get();
+        $bestOffers = $query->get();
+//        if ($request->filled(['start', 'limit'])) {
+//            $bestOffers = $query->offset($request->start)->limit($request->limit)->get();
+//        } else {
+//            $bestOffers = $query->get();
+//        }
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $bestOffers->count());
+            $bestOffers = $bestOffers->slice($start, $limit);
         }
         return response()->json([
             'status' => true,
@@ -132,10 +159,18 @@ class HomeController extends Controller
     public function bestTrip(LimitRequest $request)
     {
         $query = Trip::where([['status', 1], ['type', 'Best Trips']]);
-        if ($request->filled(['start', 'limit'])) {
-            $bestTrips = $query->offset($request->start)->limit($request->limit)->get();
-        } else {
-            $bestTrips = $query->get();
+        $bestTrips = $query->get();
+
+//        if ($request->filled(['start', 'limit'])) {
+//            $bestTrips = $query->offset($request->start)->limit($request->limit)->get();
+//        } else {
+//            $bestTrips = $query->get();
+//        }
+
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $bestTrips->count());
+            $bestTrips = $bestTrips->slice($start, $limit);
         }
         return response()->json([
             'status' => true,
@@ -149,10 +184,16 @@ class HomeController extends Controller
     public function popularExperiencetrip(LimitRequest $request)
     {
         $query = Trip::where([['status', 1], ['type', 'Popular Experiences']]);
-        if ($request->filled(['start', 'limit'])) {
-            $popularExperiencetrips = $query->offset($request->start)->limit($request->limit)->get();
-        } else {
-            $popularExperiencetrips = $query->get();
+        $popularExperiencetrips = $query->get();
+//        if ($request->filled(['start', 'limit'])) {
+//            $popularExperiencetrips = $query->offset($request->start)->limit($request->limit)->get();
+//        } else {
+//            $popularExperiencetrips = $query->get();
+//        }
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $popularExperiencetrips->count());
+            $popularExperiencetrips = $popularExperiencetrips->slice($start, $limit);
         }
         return response()->json([
             'status' => true,
@@ -170,12 +211,19 @@ class HomeController extends Controller
         if ($request->filled('category_id')) {
             $query->where('department_id', $request->category_id);
         }
+        $trips = $query->get();
 
-        if ($request->filled(['start', 'limit'])) {
-            $query->offset($request->start)->limit($request->limit);
+//        if ($request->filled(['start', 'limit'])) {
+//            $query->offset($request->start)->limit($request->limit);
+//        }
+
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $trips->count());
+            $trips = $trips->slice($start, $limit);
         }
 
-        $trips = $query->get();
+
         return response()->json([
             'status' => true,
             'message' => __('transMessage.messSuccess'),
@@ -189,23 +237,24 @@ class HomeController extends Controller
     {
         if ($request->filled('destination_id')) {
             $city = City::findOrFail($request->destination_id);
-            $trips = collect();
-            foreach ($city->companies as $company) {
-                $trips = $trips->merge($company->tripsStatus);
-            }
+//            return $city;
+//            $trips = collect();
+//            foreach ($city->companies as $company) {
+//                $trips = $trips->merge($company->tripsStatus);
+//            }
         }
 
-        if ($request->filled(['start'])||$request->filled(['limit'])) {
-            $start = $request->input('start', 0);
-            $limit = $request->input('limit', $trips->count());
-            $trips = $trips->slice($start, $limit);
-        }
+//        if ($request->filled(['start'])||$request->filled(['limit'])) {
+//            $start = $request->input('start', 0);
+//            $limit = $request->input('limit', $trips->count());
+//            $trips = $trips->slice($start, $limit);
+//        }
 
         return response()->json([
             'status' => true,
             'message' => __('transMessage.messSuccess'),
             'data' => [
-                'trips' => TripResource::collection($trips),
+                'trips' => new CityTripsResource($city),
             ]
         ]);
     }
@@ -213,13 +262,20 @@ class HomeController extends Controller
 
     public function blog(LimitRequest $request)
     {
-        if ($request->filled(['start', 'limit'])) {
-            $query = Blog::offset($request->start)->limit($request->limit);
-            $blogs = $query->get();
-        } else {
-            $blogs = Blog::get();
-        }
+        $blogs = Blog::get();
 
+//        if ($request->filled(['start', 'limit'])) {
+//            $query = Blog::offset($request->start)->limit($request->limit);
+//            $blogs = $query->get();
+//        } else {
+//            $blogs = Blog::get();
+//        }
+
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $blogs->count());
+            $blogs = $blogs->slice($start, $limit);
+        }
         return response()->json([
             'status' => true,
             'message' => __('transMessage.messSuccess'),
@@ -231,11 +287,19 @@ class HomeController extends Controller
 
     public function offer(LimitRequest $request)
     {
-        if ($request->filled(['start', 'limit'])) {
-            $query = Offer::where('status',1)->offset($request->start)->limit($request->limit);
-            $offers = $query->get();
-        } else {
-            $offers = Offer::where('status',1)->get();
+        $offers = Offer::where('status',1)->get();
+
+//        if ($request->filled(['start', 'limit'])) {
+//            $query = Offer::where('status',1)->offset($request->start)->limit($request->limit);
+//            $offers = $query->get();
+//        } else {
+//            $offers = Offer::where('status',1)->get();
+//        }
+
+        if ($request->filled(['start']) || $request->filled(['limit'])) {
+            $start = $request->input('start', 0);
+            $limit = $request->input('limit', $offers->count());
+            $offers = $offers->slice($start, $limit);
         }
         return response()->json([
             'status' => true,

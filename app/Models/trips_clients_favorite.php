@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class trips_clients_favorite extends Model
 {
     use HasFactory;
+
 }

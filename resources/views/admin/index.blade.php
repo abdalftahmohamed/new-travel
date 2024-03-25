@@ -26,7 +26,8 @@
                             <span class="info-box-text">Recently Total</span>
                             <span class="info-box-number">
                   {{\App\Models\Cart::where([['status',1]])->get()->sum('total')}}
-                  <small>$</small>
+                                           <small>$</small>
+
                 </span>
                         </div>
                         <!-- /.info-box-content -->
@@ -83,7 +84,141 @@
                 </div>
                 <!-- /.col -->
             </div>
+            <!-- Info boxes -->
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
+                        <div class="info-box-content">
+                            <span class="info-box-text">All Subscriptions</span>
+                            <span class="info-box-number">
+                  {{\App\Models\Client::get()->count()}}
+
+                </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Active Users</span>
+                            <span class="info-box-number">
+                                {{\App\Models\Client::where([['status',1]])->get()->count()}}
+
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">All Coupons</span>
+                            <span class="info-box-number">
+                       {{\App\Models\Coupon::where([['status',1]])->get()->count()}}
+
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Review Trips</span>
+                            <span class="info-box-number">{{\App\Models\Review::where('trip_id','!=',null)->get()->count()}}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+            </div>
+
+            <!-- Info boxes -->
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">All Favourite</span>
+                            <span class="info-box-number">
+                  {{\App\Models\trips_clients_favorite::get()->count()}}
+
+                </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">All Affiliate Company</span>
+                            <span class="info-box-number">
+                                {{\App\Models\Company::get()->count()}}
+
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+
+                <!-- fix for small devices only -->
+                <div class="clearfix hidden-md-up"></div>
+
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">All Affiliate Marketing</span>
+                            <span class="info-box-number">
+                       {{\App\Models\Coupon::where([['status',1]])->get()->count()}}
+
+                            </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box mb-3">
+                        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">All Payment Affiliate Marketing</span>
+                            <span class="info-box-number">{{\App\Models\Review::where('blog_id','!=',null)->get()->count()}}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+            </div>
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
@@ -111,15 +246,29 @@
                                 <!-- /.card-header -->
                                 <div class="card-body p-0">
                                     <ul class="users-list clearfix">
-                                        @foreach($clients->slice(-12) as $client)
-                                            <li>
-                                                <img
-                                                    style="width: 150px; height: 150px;"
-                                                    src="{{(! empty($client->image_path)) ? asset('attachments/clients/'.$client->id.'/'.$client->image_path ) : asset('admin/dist/img/no_image.jpg') }}"                                                    alt="User Image">
-                                                <a class="users-list-name" href="#">{{$client->name}}</a>
-                                                <span class="users-list-date">{{$client->created_at}}</span>
-                                            </li>
-                                        @endforeach
+                                        <div class="row">
+                                            @foreach($clients->slice(-12) as $client)
+                                                <div class="col-2" style="padding-left: 30px">
+                                                    <li>
+                                                        <img
+                                                            style="width: 100px; height: 100px; border-radius: 100px"
+                                                            src="{{(! empty($client->image_path)) ? asset('attachments/clients/'.$client->id.'/'.$client->image_path ) : asset('admin/dist/img/no_image.jpg') }}"
+                                                            alt="User Image">
+                                                        <br>
+                                                        @if($client->status === 1)
+                                                            <span class="badge badge-success">active</span>
+                                                        @else
+                                                            <span class="badge badge-danger">inActive</span>
+                                                        @endif
+                                                        <strong><a class="users-list-name" href="#">{{$client->name}}</a></strong>
+                                                        <a class="users-list-name" href="#">{{$client->email}}</a>
+                                                        <span class="users-list-date">{{$client->created_at}}</span>
+                                                    </li>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+
                                     </ul>
                                     <!-- /.users-list -->
                                 </div>
