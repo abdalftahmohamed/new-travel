@@ -40,13 +40,13 @@ class HomeController extends Controller
         #للحصول علي اخر خمس عناصر
         $topDestinations = City::get()->slice(-9);
 
-        $categories = Department::get()->slice(-8);
+        $categories = Department::get()->slice(-9);
         $bestOffers = Trip::where([['status', 1], ['type', 'Best Offers']])->get()->slice(-9);
         $BestTripstrips = Trip::where([['status', 1], ['type', 'Best Trips']])->get()->slice(-9);
         $PopularExperiencetrips = Trip::where([['status', 1], ['type', 'Popular Experiences']])->get()->slice(-9);
         $blogs = Blog::get()->slice(-9);
         $ourPartners = OurPartner::get();
-        $reviews = Review::whereIn('stars_numbers', [3, 4, 5])->get();
+        $reviews = Review::whereIn('stars_numbers', [3, 4, 5])->get()->slice(-9);
 
         return response()->json([
             'status' => true,
@@ -90,11 +90,6 @@ class HomeController extends Controller
     public function category(LimitRequest $request)
     {
         $categories = Department::get();
-//        if ($request->filled(['start', 'limit'])) {
-//            $categories = Department::offset($request->start)->limit($request->limit)->get();
-//        } else {
-//            $categories = Department::get();
-//        }
         if ($request->filled(['start']) || $request->filled(['limit'])) {
             $start = $request->input('start', 0);
             $limit = $request->input('limit', $categories->count());
@@ -111,14 +106,8 @@ class HomeController extends Controller
 
     public function review(LimitRequest $request)
     {
-        $reviews = Review::get();
+        $reviews = Review::whereIn('stars_numbers', [3, 4, 5])->get();
 
-
-//        if ($request->filled(['start', 'limit'])) {
-//            $reviews = Review::offset($request->start)->limit($request->limit)->get();
-//        } else {
-//            $reviews = Review::get();
-//        }
         if ($request->filled(['start']) || $request->filled(['limit'])) {
             $start = $request->input('start', 0);
             $limit = $request->input('limit', $reviews->count());

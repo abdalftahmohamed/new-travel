@@ -61,7 +61,7 @@ class Trip extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class,'trip_id');
+        return $this->hasMany(Review::class,'trip_id')->whereIn('stars_numbers', [3, 4, 5]);
     }
 
     public function favoriteClients()

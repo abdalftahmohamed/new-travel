@@ -21,7 +21,7 @@ class ReviewResource extends JsonResource
             'description' => $this->description,
             'imagePath' => $this->image_path,
             'client' => new ClientResource($this->client),
-            'trip' => new \App\Http\Resources\Client\TripResource($this->trip),
+//            'trip' => new \App\Http\Resources\Client\TripResource($this->trip),
         ];
     }
 

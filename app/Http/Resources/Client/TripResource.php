@@ -6,6 +6,8 @@ use App\Http\Resources\Home\AddressResource;
 use App\Http\Resources\Home\ClientResource;
 use App\Http\Resources\Home\DepartmentResource;
 use App\Http\Resources\Home\ImageTripResource;
+use App\Http\Resources\Home\OfferResource;
+use App\Http\Resources\Home\ReviewResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -32,6 +34,8 @@ class TripResource extends JsonResource
             'imagePath' => $this->image_path,
             'addresses' => AddressResource::collection($this->addresses),
             'images' => ImageTripResource::collection($this->images),
+            'offers'=>OfferResource::collection($this->offers),
+            'reviews'=>ReviewResource::collection($this->reviews),
         ];
     }
 }
