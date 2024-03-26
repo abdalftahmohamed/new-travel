@@ -9,13 +9,13 @@
 
 
     @section('title')
-         Trips
+        blogs
     @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
     @section('PageTitle')
-         Trips
+        blogs
     @stop
     <!-- breadcrumb -->
 @endsection
@@ -29,56 +29,49 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-{{--                        <div class="card-header">--}}
-{{--                            @if(session('message'))--}}
-{{--                                <div class="alert alert-success">--}}
-{{--                                    {{session('message')}}--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                            @if ($errors->any())--}}
-{{--                                <div class="alert alert-danger">--}}
-{{--                                    <ul>--}}
-{{--                                        @foreach ($errors->all() as $error)--}}
-{{--                                            <li>{{ $error }}</li>--}}
-{{--                                        @endforeach--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                        </div>--}}
+                        <div class="card-header">
+                            @if(session('message'))
+                                <div class="alert alert-success">
+                                    {{session('message')}}
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
 
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-sbloged">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
-{{--                                    <th>trip date</th>--}}
-                                    <th>priceOlder</th>
-                                    <th>priceChild</th>
-                                    <th>trip description</th>
-                                    <th>Company</th>
-                                    <th>Image</th>
+                                    <th>blog name</th>
+                                    <th>blog description</th>
+                                    <th>image</th>
                                     <th>Show</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($trips as $trip)
+                                @foreach($blogs as $blog)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$trip->name}}</td>
-{{--                                        <td>{{$trip->trip_date}}</td>--}}
-                                        <td>{{$trip->old_price}}</td>
-                                        <td>{{$trip->young_price}}</td>
-                                        <td>{{mb_substr($trip->trip_description,0,40). '...'}}</td>
-                                        <td>{{$trip->company->name}}</td>
+                                        <td>{{$blog->name}}</td>
+                                        <td>{{mb_substr($blog->description,0,40). '...'}}</td>
+{{--                                        <td>{{$blog->cus_rating}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
-                                            <a class="dropdown-item" href="{{ route('trip.show', $trip->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
+                                            <a class="dropdown-item" href="{{ route('blog.show', $blog->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
                                                 <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g id="show-icon">
                                                         <path id="eye" d="M12 2C6.485 2 2 6.485 2 12s4.485 10 10 10 10-4.485 10-10S17.515 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#7DB00E"/>
@@ -99,21 +92,17 @@
                                                     </button>
                                                     <div class="dropdown-menu" role="menu">
                                                         <a class="dropdown-item"
-                                                           href="{{route('client.trip.rate', $trip->id)}}">Rating Now</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item"
-                                                           href="{{route('trip.book', $trip->id)}}">Book Now</a>
-                                                        <div class="dropdown-divider"></div>
-{{--                                                        <form action="{{route('admin.trip.destroy')}}" method="POST"--}}
-{{--                                                              style="display: inline-block;">--}}
-{{--                                                            @csrf--}}
-{{--                                                            @method('DELETE')--}}
-{{--                                                            <input type="hidden" name="id" value="{{$trip->id}}">--}}
-{{--                                                            <button type="submit"--}}
-{{--                                                                    onclick="return confirm('Are You Sure')"--}}
-{{--                                                                    class="dropdown-item">Delete--}}
-{{--                                                            </button>--}}
-{{--                                                        </form>--}}
+                                                           href="{{route('client.blog.rate', $blog->id)}}">Rating Now</a>                                                        <div class="dropdown-divider"></div>
+                                                        <form action="#" method="POST"
+                                                              style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="id" value="{{$blog->id}}">
+                                                            <button type="submit"
+                                                                    onclick="return confirm('Are You Sure')"
+                                                                    class="dropdown-item">#####
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

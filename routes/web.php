@@ -242,9 +242,40 @@ Route::middleware(['auth:client'])->prefix('client')->as('client.')->group(funct
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{trip}', 'edit')->name('edit');
+        Route::get('/rate/{trip}', 'rate')->name('rate');
         Route::get('/show/{trip}', 'show')->name('show');
+        Route::put('/updateRate', 'updateRate')->name('updateRate');
         Route::put('/update', 'update')->name('update');
         Route::delete('/delete', 'destroy')->name('destroy');
+    });
+
+    //review Routes
+    Route::controller(\App\Http\Controllers\Client\ReviewController::class)->prefix('review')->as('review.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{review}', 'edit')->name('edit');
+        Route::get('/show/{review}', 'show')->name('show');
+        Route::put('/update', 'update')->name('update');
+        Route::delete('/delete', 'destroy')->name('destroy');
+    });
+
+    //blog Routes
+    Route::controller(\App\Http\Controllers\Client\BlogController::class)->prefix('blog')->as('blog.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{blog}', 'edit')->name('edit');
+        Route::get('/rate/{blog}', 'rate')->name('rate');
+        Route::get('/show/{blog}', 'show')->name('show');
+        Route::put('/updateRate', 'updateRate')->name('updateRate');
+        Route::put('/update', 'update')->name('update');
+        Route::delete('/delete', 'destroy')->name('destroy');
+    });
+
+    //cart Routes
+    Route::controller(\App\Http\Controllers\Client\CartController::class)->prefix('cart')->as('cart.')->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 });
 

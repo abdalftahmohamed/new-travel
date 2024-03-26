@@ -44,7 +44,7 @@
                              <div class="col-12 col-md-4 col-lg-3 mb-5">
                             <a class="product-item" href="{{ route('trip.show', $trip->id) }}">
                                 <img
-                                    style="width: 250px; height: 250px;"
+                                    style="width: 250px; height: 250px; border-radius: 8px"
                                      src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                                      class="img-fluid product-thumbnail">
                                 <h3 class="product-title">{{$trip->name}}</h3>

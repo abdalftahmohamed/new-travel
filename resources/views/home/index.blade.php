@@ -123,7 +123,7 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
                         <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
-                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <strong class="mb-4"> <span class="right badge badge-success">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
                         <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
         {{--
 {{--<strong class="product-price">${{$trip->old_price}}</strong>--}}
@@ -165,7 +165,7 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
                                 <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
-                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <strong class="mb-4"> <span class="right badge badge-success">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
                         <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
 {{--                        <strong class="product-price">${{$trip->old_price}}</strong>--}}
 
@@ -206,7 +206,7 @@
                              class="img-fluid product-thumbnail">
                         <h3 class="product-title">{{$trip->name}}</h3>
                                 <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
-                        <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                        <strong class="mb-4"> <span class="right badge badge-success">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
                         <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
 {{--                        <strong class="product-price">${{$trip->old_price}}</strong>--}}
 
@@ -369,7 +369,11 @@
                         </div>
                         <div class="pt-3">
                             <h3>{{$trip->name}}</h3>
-                            <p>{{mb_substr($trip->trip_description,0,100). '...'}}</p>
+                            <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                            <strong class="mb-4"> <span class="right badge badge-success">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                            <br>
+                            <label class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></label>
+{{--                            <p>{{mb_substr($trip->trip_description,0,100). '...'}}</p>--}}
                             <p><a href="{{route('trip.book',$trip->id)}}">Book Now</a></p>
                         </div>
                     </div>

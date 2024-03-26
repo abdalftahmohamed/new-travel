@@ -9,13 +9,13 @@
 
 
     @section('title')
-         Trips
+        Orders
     @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
     @section('PageTitle')
-         Trips
+        Orders
     @stop
     <!-- breadcrumb -->
 @endsection
@@ -29,64 +29,57 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-{{--                        <div class="card-header">--}}
-{{--                            @if(session('message'))--}}
-{{--                                <div class="alert alert-success">--}}
-{{--                                    {{session('message')}}--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                            @if ($errors->any())--}}
-{{--                                <div class="alert alert-danger">--}}
-{{--                                    <ul>--}}
-{{--                                        @foreach ($errors->all() as $error)--}}
-{{--                                            <li>{{ $error }}</li>--}}
-{{--                                        @endforeach--}}
-{{--                                    </ul>--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                        </div>--}}
+                        <div class="card-header">
+                            @if(session('message'))
+                                <div class="alert alert-success">
+                                    {{session('message')}}
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                        </div>
 
 
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-scarted">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
-{{--                                    <th>trip date</th>--}}
-                                    <th>priceOlder</th>
-                                    <th>priceChild</th>
-                                    <th>trip description</th>
-                                    <th>Company</th>
-                                    <th>Image</th>
-                                    <th>Show</th>
+                                    <th>status</th>
+                                    <th>trip name</th>
+                                    <th>price</th>
+                                    <th>description</th>
+                                    <th>date</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($trips as $trip)
+                                @foreach($carts as $cart)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$trip->name}}</td>
-{{--                                        <td>{{$trip->trip_date}}</td>--}}
-                                        <td>{{$trip->old_price}}</td>
-                                        <td>{{$trip->young_price}}</td>
-                                        <td>{{mb_substr($trip->trip_description,0,40). '...'}}</td>
-                                        <td>{{$trip->company->name}}</td>
-                                        <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
-                                        </td>
-                                        <td>
-                                            <a class="dropdown-item" href="{{ route('trip.show', $trip->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
-                                                <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <g id="show-icon">
-                                                        <path id="eye" d="M12 2C6.485 2 2 6.485 2 12s4.485 10 10 10 10-4.485 10-10S17.515 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#7DB00E"/>
-                                                        <path id="pupil" d="M12 4c1.74 0 3.41.56 4.79 1.59c.24.22.24.58 0 .8C15.41 7.44 13.75 8 12 8s-3.41-.56-4.79-1.61c-.24-.22-.24-.58 0-.8C8.59 4.56 10.25 4 12 4zm0 10c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z" fill="#7DB00E"/>
-                                                    </g>
-                                                </svg>
-                                            </a>
-                                        </td>
+                                        <td>{{$cart->status}}</td>
+                                        <td>{{$cart->trip->name}}</td>
+                                        <td>{{$cart->total}}</td>
+                                        <td>{{mb_substr($cart->description,0,40). '...'}}</td>
+                                        <td>{{$cart->date}}</td>
+{{--                                        <td>--}}
+{{--                                            <a class="dropdown-item" href="{{ route('client.cart.show', $cart->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">--}}
+{{--                                                <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                                    <g id="show-icon">--}}
+{{--                                                        <path id="eye" d="M12 2C6.485 2 2 6.485 2 12s4.485 10 10 10 10-4.485 10-10S17.515 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#7DB00E"/>--}}
+{{--                                                        <path id="pupil" d="M12 4c1.74 0 3.41.56 4.79 1.59c.24.22.24.58 0 .8C15.41 7.44 13.75 8 12 8s-3.41-.56-4.79-1.61c-.24-.22-.24-.58 0-.8C8.59 4.56 10.25 4 12 4zm0 10c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z" fill="#7DB00E"/>--}}
+{{--                                                    </g>--}}
+{{--                                                </svg>--}}
+{{--                                            </a>--}}
+{{--                                        </td>--}}
                                         <td>
                                             <div class="margin">
                                                 <div class="btn-group">
@@ -99,21 +92,18 @@
                                                     </button>
                                                     <div class="dropdown-menu" role="menu">
                                                         <a class="dropdown-item"
-                                                           href="{{route('client.trip.rate', $trip->id)}}">Rating Now</a>
+                                                           href="#">##########</a>
                                                         <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item"
-                                                           href="{{route('trip.book', $trip->id)}}">Book Now</a>
-                                                        <div class="dropdown-divider"></div>
-{{--                                                        <form action="{{route('admin.trip.destroy')}}" method="POST"--}}
-{{--                                                              style="display: inline-block;">--}}
-{{--                                                            @csrf--}}
-{{--                                                            @method('DELETE')--}}
-{{--                                                            <input type="hidden" name="id" value="{{$trip->id}}">--}}
-{{--                                                            <button type="submit"--}}
-{{--                                                                    onclick="return confirm('Are You Sure')"--}}
-{{--                                                                    class="dropdown-item">Delete--}}
-{{--                                                            </button>--}}
-{{--                                                        </form>--}}
+                                                        <form action="#" method="POST"
+                                                              style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="id" value="{{$cart->id}}">
+                                                            <button type="submit"
+                                                                    onclick="return confirm('Are You Sure')"
+                                                                    class="dropdown-item">##########
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>

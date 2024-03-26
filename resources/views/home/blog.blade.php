@@ -33,9 +33,9 @@
                                 <img style="width: 300px; height: 300px" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                                     alt="Image" class="img-fluid"></a>
                             <div class="post-content-entry">
-                                <h3><a href="#">{{$blog->name}}</a></h3>
+                                <h3><a href="#">{{mb_substr($blog->name,0,32). '...'}}</a></h3>
                                 <div class="meta">
-                                    <span>by <a href="#">Kristin Watson</a></span> <span>on<a href="#">Dec 19, 2021</a></span>
+                                    <span>by <a href="#">{{$blog->tripShow()->value('name') ?? 'trip name'}}</a></span> <span>on<a href="#">{{ date('d:m:Y', strtotime($blog->created_at)) }}</a></span>
                                 </div>
                             </div>
                         </div>

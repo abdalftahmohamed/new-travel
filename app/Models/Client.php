@@ -70,6 +70,11 @@ class Client extends Authenticatable implements JWTSubject
         return $this->hasMany(Review::class);
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     public function cartTrips()
     {
         return $this->belongsToMany(Trip::class,'carts','client_id','trip_id')

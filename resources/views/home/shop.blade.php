@@ -1,6 +1,16 @@
 @extends('home.frontend.master')
 @section('css')
+<style>
+    .badge-danger {
+        color: #fff;
+        background-color: #dc3545;
+    }
 
+    .badge-success {
+        color: #fff;
+        background-color: #3dad1e;
+    }
+</style>
 @endsection
 {{--@section('page-header')--}}
 <!-- breadcrumb -->
@@ -44,11 +54,13 @@
                              <div class="col-12 col-md-4 col-lg-3 mb-5">
                             <a class="product-item" href="{{ route('trip.show', $trip->id) }}">
                                 <img
-                                    style="width: 250px; height: 250px;"
+                                    style="width: 250px; height: 250px; border-radius: 8px"
                                      src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path) : asset('admin/dist/img/no_image.jpg') }}"
                                      class="img-fluid product-thumbnail">
                                 <h3 class="product-title">{{$trip->name}}</h3>
-                                <strong class="product-price">${{$trip->old_price}}</strong>
+                                <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                                <strong class="mb-4"> <span class="right badge badge-success">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                                <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
 
                                 <span class="icon-cross">
                                         <img src="{{ URL::asset('admin/home/images/cross.svg') }}" class="img-fluid">

@@ -4,57 +4,27 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\ImageTrait;
-use App\Models\Address;
+use App\Models\Blog;
 use App\Models\Company;
 use App\Models\Department;
-use App\Models\Image;
 use App\Models\Review;
 use App\Models\Trip;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 
-class TripController extends Controller
+class ReviewController extends Controller
 {
 
     use ImageTrait;
 
     public function index()
     {
-        $trips = Trip::whereStatus(1)->get();
-        return view('client.pages.trip.index', compact('trips'));
-    }
-
-
-
-    public function cartOlder(Request $request)
-    {
-        $trip = Trip::findOrFail($request->trip_id);
-//        attach
-        $trip->cartClients()->syncWithoutDetaching([
-            auth('client')->user()->id => [
-                'total' => $request->price,
-                'date' => $request->date,
-            ],
-        ]);
-        session()->flash('message', 'Trip Added To Cart Successfully');
-        return redirect()->route('client.trip.show',$trip->id);
-    }
-
-    public function cartYounger(Request $request)
-    {
-        $trip = Trip::findOrFail($request->trip_id);
-//        attach
-        $trip->cartClients()->syncWithoutDetaching([
-            auth('client')->user()->id => [
-                'total' => $request->young_price,
-            ],
-        ]);
-        session()->flash('message', 'Trip Added To Cart Successfully');
-        return redirect()->route('client.trip.show',$trip->id);
+        $client = auth('client')->user();
+        $reviews = $client->reviws()->get();
+        return view('client.pages.review.index', compact('reviews'));
     }
 
 
@@ -62,7 +32,7 @@ class TripController extends Controller
     {
         $companys = Company::all();
         $departments = Department::all();
-        return view('client.pages.trip.create', compact('companys','departments'));
+        return view('client.pages.review.create', compact('companys','departments'));
     }
 
     public function store(Request $request)
@@ -72,8 +42,8 @@ class TripController extends Controller
 
             DB::commit();
 
-            session()->flash('message', 'Trip Created Successfully');
-            return redirect()->route('admin.trip.index');
+            session()->flash('message', 'Review Created Successfully');
+            return redirect()->route('admin.review.index');
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (Exception $e) {
@@ -86,27 +56,23 @@ class TripController extends Controller
 
     public function show($id)
     {
-        $trip = Trip::findOrFail($id);
-        $addresses = $trip->addresses()->get();
-        $images = $trip->images()->get();
-        return view('client.pages.trip.show', compact('images', 'addresses', 'trip'));
+        $review = Review::findOrFail($id);
+        $addresses = $review->addresses()->get();
+        $images = $review->images()->get();
+        return view('client.pages.review.show', compact('images', 'addresses', 'review'));
     }
 
 
-    public function rate($id)
+    public function edit($id)
     {
-        $trip = Trip::findOrFail($id);
-        $client = auth('client')->user();
-        $review=Review::where([['client_id',$client->id],['trip_id',$trip->id]])->first();
-        if ($review){
-            return view('client.pages.trip.rateEdit', compact('trip','review'));
-        }else{
-            return view('client.pages.trip.rateCreate', compact('trip'));
-        }
+        $review = Review::findOrFail($id);
+        $trips = Trip::whereStatus(1)->get();
+        $blogs = Blog::get();
+        return view('client.pages.review.edit', compact('review','trips','blogs'));
     }
 
 
-    public function updateRate(Request $request)
+    public function update(Request $request)
     {
         try {
             $validatedData = $request->validate([
@@ -118,11 +84,10 @@ class TripController extends Controller
                 'description_ur' => 'nullable|string',
                 'stars_numbers' => 'nullable|string',
                 'trip_id' => 'nullable|integer|exists:trips,id',
+                'blog_id' => 'nullable|integer|exists:blogs,id',
                 'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:50048',
             ]);
-
-            if (isset($request->review_id)){
-                $review =Review::findOrFail($request->review_id);
+                $review =Review::findOrFail($request->id);
                 $reviewDataUpdate = [
                     'name' => [
                         'ar' => $validatedData['name_ar'] ?? $review->name['ar'],
@@ -140,6 +105,7 @@ class TripController extends Controller
                     'offer_id' => $validatedData['offer_id'] ?? $review->offer_id,
                 ];
                 $review->update($reviewDataUpdate);
+
                 if ($request->hasFile('image_path')) {
                     $this->deleteFile('reviews', $review->id);
                     $review_image = $this->saveImage($request->file('image_path'), 'attachments/reviews/' . $review->id);
@@ -147,32 +113,10 @@ class TripController extends Controller
                     $review->save();
                 }
 
-            }else{
-                $reviewDataCrete = [
-                    'name' => [
-                        'ar' => $validatedData['name_ar'],
-                        'en' => $validatedData['name_en'],
-                        'ur' => $validatedData['name_ur']
-                    ],
-                    'description' => [
-                        'ar' => $validatedData['description_ar'],
-                        'en' => $validatedData['description_en'],
-                        'ur' => $validatedData['description_ur']
-                    ],
-                    'stars_numbers' => $validatedData['stars_numbers'],
-                    'trip_id' => $validatedData['trip_id'],
-                    'client_id' => auth('client')->user()->id,
-                ];
-                $review = Review::create($reviewDataCrete);
-                if ($request->hasFile('image_path')) {
-                    $review_image = $this->saveImage($request->file('image_path'), 'attachments/reviews/' . $review->id);
-                    $review->image_path = $review_image;
-                    $review->save();
-                }
-            }
+
             toastr()->success('Review Added successfully');
             session()->flash('message', 'Review Added successfully');
-            return redirect()->route('client.trip.index');
+            return redirect()->route('client.review.index');
 
         } catch (ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -184,7 +128,12 @@ class TripController extends Controller
 
     public function destroy(Request $request)
     {
-
+        $review = Review::findOrFail($request->id);
+        $this->deleteFile('reviews',$request->id);
+        $review->delete();
+        toastr()->error('Review Deleted Successfully');
+        session()->flash('message', 'Review Deleted Successfully');
+        return redirect()->route('client.review.index');
     }
 
 }
