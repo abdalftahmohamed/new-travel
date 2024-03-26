@@ -169,6 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Yoeunes\Toastr\ToastrServiceProvider::class,
+        Flasher\Laravel\FlasherServiceProvider::class,
 
     ])->toArray(),
 
@@ -187,6 +189,8 @@ return [
         // 'Example' => App\Facades\Example::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        'Toastr' => Yoeunes\Toastr\Facades\Toastr::class,
+        'Flasher' => Flasher\Laravel\Facade\Flasher::class,
     ])->toArray(),
 
 ];
