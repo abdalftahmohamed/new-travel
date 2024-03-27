@@ -1,115 +1,155 @@
 @extends('admin.layouts.master')
 @section('css')
     {{--/*<!-- DataTables -->*/--}}
-{{--    <link rel="stylesheet" href="{{URL::asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">--}}
-{{--    <link rel="stylesheet"--}}
-{{--          href="{{URL::asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">--}}
-    <link rel="stylesheet" href="{{URL::asset('admin/plugins/summernote/summernote-bs4.min.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet"
+          href="{{URL::asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 
 
 
     @section('title')
-        Invatation
+        Create invitation
     @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
     @section('PageTitle')
-        Invatation
+        Create invitation
     @stop
     <!-- breadcrumb -->
 @endsection
 @section('content')
+    <!-- row -->
+
 
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            @if(session('message'))
-                <div class="alert alert-success">
-                    {{session('message')}}
-                </div>
-            @endif
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <div class="row">
-                <!-- /.col -->
-                <div class="col-md-12">
-                    <form method="POST" action="{{route('admin.invitation.send')}}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="card card-primary card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">Compose New Message</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                               <div class="row">
-                                   <div class="col-6">
-                                       <div class="form-group">
-                                           <input class="form-control"  type="email"  name="email" placeholder="To:">
-                                       </div>
-                                   </div>
-                                   <div class="col-6">
-                                       <div class="form-group">
-                                           <input class="form-control"  type="text"  name="name" placeholder="Name:">
-                                       </div>
-                                   </div>
-                               </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="subject" placeholder="Subject:">
-                                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>
+                                <a href="{{route('admin.invitation.create')}}"
+                                   class="btn btn-primary waves-effect waves-light float-end mb-4">Create invitation</a>
+                            </h4>
 
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="8" type="text" name="description" placeholder="Object:"></textarea>
+                            @if(session('message'))
+                                <div class="alert alert-success">
+                                    {{session('message')}}
                                 </div>
-                                <div class="form-group">
-                                    <div class="btn btn-default btn-file">
-                                        <i class="fas fa-paperclip"></i> Attachment
-                                        <input type="file" multiple name="attachment[]">
-                                    </div>
-                                    <p class="help-block">Max. 32MB</p>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <div class="float-right">
-                                    <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
-                                    <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
-                                </div>
-                                <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
-                            </div>
-                            <!-- /.card-footer -->
+                            @endif
                         </div>
-                    </form>
+
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-sinvitationed">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>name</th>
+                                    <th>email</th>
+                                    <th>subject</th>
+                                    <th>description</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($invitations as $invitation)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$invitation->name}}</td>
+                                        <td>{{$invitation->email}}</td>
+                                        <td>{{$invitation->subject}}</td>
+                                        <td>{{mb_substr($invitation->description,0,60). '...'}}</td>
+                                        {{--                                        <td>--}}
+                                        {{--                                            <a class="dropdown-item" href="{{ route('admin.invitation.show', $invitation->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">--}}
+                                        {{--                                                <svg width="35"  height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+                                        {{--                                                    <g id="show-icon">--}}
+                                        {{--                                                        <path id="eye" d="M12 2C6.485 2 2 6.485 2 12s4.485 10 10 10 10-4.485 10-10S17.515 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#7DB00E"/>--}}
+                                        {{--                                                        <path id="pupil" d="M12 4c1.74 0 3.41.56 4.79 1.59c.24.22.24.58 0 .8C15.41 7.44 13.75 8 12 8s-3.41-.56-4.79-1.61c-.24-.22-.24-.58 0-.8C8.59 4.56 10.25 4 12 4zm0 10c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3z" fill="#7DB00E"/>--}}
+                                        {{--                                                    </g>--}}
+                                        {{--                                                </svg>--}}
+                                        {{--                                            </a>--}}
+                                        {{--                                        </td>--}}
+                                        <td>
+                                            <div class="margin">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary "
+                                                            data-toggle="dropdown">Action
+                                                    </button>
+                                                    <button type="button" class="btn btn-success dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <a class="dropdown-item"
+                                                           href="#">Show</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <form action="{{route('admin.invitation.destroy')}}" method="POST"
+                                                              style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="id" value="{{$invitation->id}}">
+                                                            <button type="submit"
+                                                                    onclick="return confirm('Are You Sure')"
+                                                                    class="dropdown-item">Delete
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
                     <!-- /.card -->
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
     </section>
+
     <!-- /.content -->
+
+
+
     <!-- row closed -->
 @endsection
 @section('js')
 
-    <!-- Summernote -->
-    <script src="{{URL::asset('admin/plugins/summernote/summernote-bs4.min.js')}}"></script>
-    <!-- Page specific script -->
-    <script>
-        $(function () {
-            //Add text editor
-            $('#compose-textarea').summernote()
-        })
-    </script>
-
-
+    <!-- DataTables  & Plugins -->
+    <script src="{{URL::asset('admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/jszip/jszip.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/pdfmake/pdfmake.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/pdfmake/vfs_fonts.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{URL::asset('admin/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 
     <script>
         $(function () {

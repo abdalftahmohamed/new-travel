@@ -97,7 +97,7 @@
                     <div>
                         <div class="row mb-5">
                             <h2>Select A Date</h2>
-                            <input type="datetime-local" name="date" value="{{old('date')}}"
+                            <input type="date" name="date" value="{{old('date')}}"
                                    class="form-control" required placeholder="enter date  here..."/>
                             @error('date')
                             <span class="text-danger" role="alert">

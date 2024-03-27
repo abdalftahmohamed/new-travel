@@ -30,6 +30,7 @@
                                 <th class="product-price">Price</th>
                                 <th class="product-quantity">Date</th>
                                 <th class="product-quantity">status</th>
+                                <th class="product-quantity">Action</th>
 {{--                                <th class="product-remove">Remove</th>--}}
                             </tr>
                             </thead>
@@ -54,6 +55,29 @@
                                         <span>active</span>
                                     @else
                                         <span>inActive</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($cart->pivot->status === 1)
+                                        <div class="margin">
+                                            <div class="btn-group">
+                                                <form action="#" method="POST" >
+                                                    @csrf
+                                                    <input type="hidden" name="checkout_id" value="{{$cart->pivot->id}}">
+                                                    <button type="submit"  class="btn btn-lg btn-outline-primary">Show</button>
+                                                </form >
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="margin">
+                                            <div class="btn-group">
+                                                <form action="{{route('checkoutNow')}}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="checkout_id" value="{{$cart->pivot->id}}">
+                                                    <button type="submit"  class="btn btn-lg btn-outline-primary">Checkout Now</button>
+                                                </form >
+                                            </div>
+                                        </div>
                                     @endif
                                 </td>
 {{--                                <td><a href="#" class="btn btn-black btn-sm">X</a></td>--}}

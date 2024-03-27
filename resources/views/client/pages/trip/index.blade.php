@@ -53,15 +53,16 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
+                                    <th>trip name</th>
 {{--                                    <th>trip date</th>--}}
-                                    <th>priceOlder</th>
-                                    <th>priceChild</th>
+                                    <th>adult</th>
+{{--                                    <th>children</th>--}}
                                     <th>trip description</th>
-                                    <th>Company</th>
-                                    <th>Image</th>
+                                    <th>city</th>
+                                    <th>image</th>
+                                    <th>Booking</th>
+                                    <th>Rating</th>
                                     <th>Show</th>
-                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -70,12 +71,35 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$trip->name}}</td>
 {{--                                        <td>{{$trip->trip_date}}</td>--}}
-                                        <td>{{$trip->old_price}}</td>
-                                        <td>{{$trip->young_price}}</td>
+                                        <td>USD {{$trip->old_price}}</td>
+{{--                                        <td>{{$trip->young_price}}</td>--}}
                                         <td>{{mb_substr($trip->trip_description,0,40). '...'}}</td>
-                                        <td>{{$trip->company->name}}</td>
+                                        <td>{{$trip->city->name}}</td>
                                         <td>
-                                            <img class="img-fluid mb-2 " style="width: 150px; height: 150px;" src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2 " style="width: 100px; height: 100px; border-radius: 8px" src="{{(! empty($trip->image_path)) ? asset('attachments/trips/'.$trip->id.'/'.$trip->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                        </td>
+
+                                        <td>
+                                            <div class="margin">
+                                                <div class="btn-group">
+                                                    <form action="{{route('trip.book', $trip->id)}}">
+                                                        @csrf
+                                                        <button type="submit" value="Book Now" class="btn btn-lg btn-outline-success">Book Now</button>
+                                                    </form >
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            <div class="margin">
+                                                <div class="btn-group">
+                                                    <form action="{{route('client.trip.rate', $trip->id)}}">
+                                                        @csrf
+                                                        <button type="submit" value="Book Now" class="btn btn-lg btn-outline-primary">Rate Now</button>
+                                                    </form >
+                                                </div>
+                                            </div>
+
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('trip.show', $trip->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
@@ -86,38 +110,6 @@
                                                     </g>
                                                 </svg>
                                             </a>
-                                        </td>
-                                        <td>
-                                            <div class="margin">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary "
-                                                            data-toggle="dropdown">Action
-                                                    </button>
-                                                    <button type="button" class="btn btn-success dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <div class="dropdown-menu" role="menu">
-                                                        <a class="dropdown-item"
-                                                           href="{{route('client.trip.rate', $trip->id)}}">Rating Now</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item"
-                                                           href="{{route('trip.book', $trip->id)}}">Book Now</a>
-                                                        <div class="dropdown-divider"></div>
-{{--                                                        <form action="{{route('admin.trip.destroy')}}" method="POST"--}}
-{{--                                                              style="display: inline-block;">--}}
-{{--                                                            @csrf--}}
-{{--                                                            @method('DELETE')--}}
-{{--                                                            <input type="hidden" name="id" value="{{$trip->id}}">--}}
-{{--                                                            <button type="submit"--}}
-{{--                                                                    onclick="return confirm('Are You Sure')"--}}
-{{--                                                                    class="dropdown-item">Delete--}}
-{{--                                                            </button>--}}
-{{--                                                        </form>--}}
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </td>
                                     </tr>
                                 @endforeach

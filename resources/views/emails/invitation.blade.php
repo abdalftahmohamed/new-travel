@@ -13,6 +13,7 @@
     <p>Attachments:</p>
     <ul>
         @foreach ($attachmentUrls as $url)
+            <img src="{{$url}}" class="img-fluid mb-2 " style="width: 850px; height: 700px;" alt="no image">
             <li><a href="{{ $url }}">{{ $url }}</a></li>
         @endforeach
     </ul>

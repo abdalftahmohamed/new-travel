@@ -38,18 +38,20 @@
                 <li @yield('blog')><a class="nav-link" href="{{route('blog')}}">Blog</a></li>
 {{--                <li @yield('Services')><a class="nav-link" href="{{ URL::asset('admin/home/services.html') }}">Services</a></li>--}}
                 <li @yield('Contact us')><a class="nav-link" href="{{route('contactNewUs') }}">Contact us</a></li>
-                @if (Route::has('login'))
-                    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                        @auth('web')
-                            <li><a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-                        @else
-                            <li><a class="nav-link" href="{{ route('login') }}">Log In</a></li>
-                            {{--                            @if (Route::has('register'))--}}
-                            {{--                                <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>--}}
-                            {{--                            @endif--}}
-                        @endauth
-                    </div>
-                @endif
+{{--                @if (Route::has('login'))--}}
+{{--                    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">--}}
+{{--                        @auth('web')--}}
+{{--                            <li><a class="nav-link" href="{{ url('/admin/dashboard') }}">Dashboard</a></li>--}}
+{{--                        @else--}}
+{{--                            <li><a class="nav-link" href="{{ route('login') }}">Log In</a></li>--}}
+{{--                            --}}{{--                            @if (Route::has('register'))--}}
+{{--                            --}}{{--                                <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>--}}
+{{--                            --}}{{--                            @endif--}}
+{{--                        @endauth--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+
+
 {{--                @if (Route::has('login.client'))--}}
 {{--                    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">--}}
 {{--                        @auth('client')--}}

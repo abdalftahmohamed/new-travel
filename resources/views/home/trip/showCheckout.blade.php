@@ -96,7 +96,7 @@
                     <div>
                         <div class="row mb-5">
                             <h2>Date</h2>
-                            <input type="datetime-local" disabled name="date" value="{{$checkout->date,old('date')}}"
+                            <input type="text" disabled name="date" value="{{ date('d:m:Y', strtotime($checkout->date)),old('date')}}"
                                    class="form-control"/>
                         </div>
                     </div>

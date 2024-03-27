@@ -110,9 +110,9 @@ class TripController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name_ar' => 'required|string',
+                'name_ar' => 'nullable|string',
                 'name_en' => 'required|string',
-                'name_ur' => 'required|string',
+                'name_ur' => 'nullable|string',
                 'description_ar' => 'nullable|string',
                 'description_en' => 'nullable|string',
                 'description_ur' => 'nullable|string',
@@ -125,14 +125,14 @@ class TripController extends Controller
                 $review =Review::findOrFail($request->review_id);
                 $reviewDataUpdate = [
                     'name' => [
-                        'ar' => $validatedData['name_ar'] ?? $review->name['ar'],
-                        'en' => $validatedData['name_en'] ?? $review->name['en'],
-                        'ur' => $validatedData['name_ur'] ?? $review->name['ur']
+                        'ar' => $validatedData['name_ar'] ?? $review->name['ar'] ?? null,
+                        'en' => $validatedData['name_en'] ?? $review->name['en'] ?? null,
+                        'ur' => $validatedData['name_ur'] ?? $review->name['ur'] ?? null
                     ],
                     'description' => [
-                        'ar' => $validatedData['description_ar'] ?? $review->description['ar'],
-                        'en' => $validatedData['description_en'] ?? $review->description['en'],
-                        'ur' => $validatedData['description_ur'] ?? $review->description['ur']
+                        'ar' => $validatedData['description_ar'] ?? $review->description['ar'] ?? null,
+                        'en' => $validatedData['description_en'] ?? $review->description['en'] ?? null,
+                        'ur' => $validatedData['description_ur'] ?? $review->description['ur'] ?? null
                     ],
                     'stars_numbers' => $validatedData['stars_numbers'] ?? $review->stars_numbers,
                     'trip_id' => $validatedData['trip_id'] ?? $review->trip_id,
@@ -150,14 +150,14 @@ class TripController extends Controller
             }else{
                 $reviewDataCrete = [
                     'name' => [
-                        'ar' => $validatedData['name_ar'],
-                        'en' => $validatedData['name_en'],
-                        'ur' => $validatedData['name_ur']
+                        'ar' => $validatedData['name_ar'] ?? $validatedData['name_en'] ?? null ,
+                        'en' => $validatedData['name_en'] ?? null,
+                        'ur' => $validatedData['name_ur'] ?? $validatedData['name_en'] ?? null
                     ],
                     'description' => [
-                        'ar' => $validatedData['description_ar'],
-                        'en' => $validatedData['description_en'],
-                        'ur' => $validatedData['description_ur']
+                        'ar' => $validatedData['description_ar'] ?? $validatedData['description_en'] ?? null,
+                        'en' => $validatedData['description_en'] ?? null,
+                        'ur' => $validatedData['description_ur'] ?? $validatedData['description_en'] ?? null
                     ],
                     'stars_numbers' => $validatedData['stars_numbers'],
                     'trip_id' => $validatedData['trip_id'],

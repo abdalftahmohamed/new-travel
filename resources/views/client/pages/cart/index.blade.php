@@ -65,7 +65,13 @@
                                 @foreach($carts as $cart)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$cart->status}}</td>
+                                        <td>
+                                            @if($cart->status === 1)
+                                                <span class="badge badge-success">Paid</span>
+                                            @else
+                                                <span class="badge badge-danger">unPaid</span>
+                                            @endif
+                                        </td>
                                         <td>{{$cart->trip->name}}</td>
                                         <td>{{$cart->total}}</td>
                                         <td>{{mb_substr($cart->description,0,40). '...'}}</td>
@@ -80,31 +86,15 @@
 {{--                                                </svg>--}}
 {{--                                            </a>--}}
 {{--                                        </td>--}}
+
                                         <td>
                                             <div class="margin">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary "
-                                                            data-toggle="dropdown">Action
-                                                    </button>
-                                                    <button type="button" class="btn btn-success dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <div class="dropdown-menu" role="menu">
-                                                        <a class="dropdown-item"
-                                                           href="#">##########</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <form action="#" method="POST"
-                                                              style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="hidden" name="id" value="{{$cart->id}}">
-                                                            <button type="submit"
-                                                                    onclick="return confirm('Are You Sure')"
-                                                                    class="dropdown-item">##########
-                                                            </button>
-                                                        </form>
-                                                    </div>
+                                                    <form action="{{route('checkoutNow')}}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="checkout_id" value="{{$cart->id}}">
+                                                        <button type="submit"  class="btn btn-lg btn-outline-primary">Checkout Now</button>
+                                                    </form >
                                                 </div>
                                             </div>
 

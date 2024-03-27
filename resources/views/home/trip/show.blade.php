@@ -87,8 +87,8 @@
                                     <strong><span class="right badge badge-success">{{50+$trip->reviewClients()->count() ?? "50"}}</span></strong>
                                 </div>
                                 <hr>
-                                <strong class="mb-4" >USD<del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
-                                <strong class="mb-4"> <span class="right badge badge-danger">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
+                                <strong class="mb-4" >USD   <del><strong style="color: #8F93A2;">{{$trip->old_new_price ?? "0"}}</strong> </del></strong>
+                                <strong class="mb-4"> <span class="right badge badge-success">save{{$trip->saving ?? "0"}}<small>%</small></span></strong>
                                 <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}} </strong>/person<small></small></p>
 
 {{--                                <p class="mb-4"><strong>USD   {{$trip->old_price ?? "Older"}}</strong>/person</p>--}}

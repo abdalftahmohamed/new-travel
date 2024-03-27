@@ -57,7 +57,7 @@
                                     <th>blog description</th>
                                     <th>image</th>
                                     <th>Show</th>
-                                    <th>Actions</th>
+{{--                                    <th>Actions</th>--}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -68,7 +68,7 @@
                                         <td>{{mb_substr($blog->description,0,40). '...'}}</td>
 {{--                                        <td>{{$blog->cus_rating}}</td>--}}
                                         <td>
-                                            <img class="img-fluid mb-2 rounded-circle " style="width: 70px; height: 70px;" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
+                                            <img class="img-fluid mb-2  " style="width: 100px; height: 100px; border-radius: 8px" src="{{(! empty($blog->image_path)) ? asset('attachments/blogs/'.$blog->id.'/'.$blog->image_path ) : asset('admin/dist/img/no_image.jpg') }}" alt="client image">
                                         </td>
                                         <td>
                                             <a class="dropdown-item" href="{{ route('blog.show', $blog->id) }}" style="display: flex;padding-top: 20px; justify-content: center; align-items: center;">
@@ -80,34 +80,34 @@
                                                 </svg>
                                             </a>
                                         </td>
-                                        <td>
-                                            <div class="margin">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary "
-                                                            data-toggle="dropdown">Action
-                                                    </button>
-                                                    <button type="button" class="btn btn-success dropdown-toggle"
-                                                            data-toggle="dropdown">
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <div class="dropdown-menu" role="menu">
-                                                        <a class="dropdown-item"
-                                                           href="{{route('client.blog.rate', $blog->id)}}">Rating Now</a>                                                        <div class="dropdown-divider"></div>
-                                                        <form action="#" method="POST"
-                                                              style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="hidden" name="id" value="{{$blog->id}}">
-                                                            <button type="submit"
-                                                                    onclick="return confirm('Are You Sure')"
-                                                                    class="dropdown-item">#####
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+{{--                                        <td>--}}
+{{--                                            <div class="margin">--}}
+{{--                                                <div class="btn-group">--}}
+{{--                                                    <button type="button" class="btn btn-primary "--}}
+{{--                                                            data-toggle="dropdown">Action--}}
+{{--                                                    </button>--}}
+{{--                                                    <button type="button" class="btn btn-success dropdown-toggle"--}}
+{{--                                                            data-toggle="dropdown">--}}
+{{--                                                        <span class="sr-only">Toggle Dropdown</span>--}}
+{{--                                                    </button>--}}
+{{--                                                    <div class="dropdown-menu" role="menu">--}}
+{{--                                                        <a class="dropdown-item"--}}
+{{--                                                           href="{{route('client.blog.rate', $blog->id)}}">Rating Now</a>                                                        <div class="dropdown-divider"></div>--}}
+{{--                                                        <form action="#" method="POST"--}}
+{{--                                                              style="display: inline-block;">--}}
+{{--                                                            @csrf--}}
+{{--                                                            @method('DELETE')--}}
+{{--                                                            <input type="hidden" name="id" value="{{$blog->id}}">--}}
+{{--                                                            <button type="submit"--}}
+{{--                                                                    onclick="return confirm('Are You Sure')"--}}
+{{--                                                                    class="dropdown-item">#####--}}
+{{--                                                            </button>--}}
+{{--                                                        </form>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
 
-                                        </td>
+{{--                                        </td>--}}
                                     </tr>
                                 @endforeach
 

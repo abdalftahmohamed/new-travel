@@ -213,6 +213,7 @@ Route::middleware(['auth:web', 'verified','checkAdmin','api_localization'])->pre
     //invitation Routes
     Route::controller(\App\Http\Controllers\InvitationController::class)->prefix('invitation')->as('invitation.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
         Route::post('/send', 'send')->name('send');
         Route::delete('/delete', 'destroy')->name('destroy');
     });
@@ -274,7 +275,7 @@ Route::middleware(['auth:client'])->prefix('client')->as('client.')->group(funct
     });
 
     //cart Routes
-    Route::controller(\App\Http\Controllers\Client\CartController::class)->prefix('cart')->as('cart.')->group(function () {
+    Route::controller(\App\Http\Controllers\Client\CartController::class)->prefix('cartClient')->as('cartClient.')->group(function () {
         Route::get('/', 'index')->name('index');
     });
 });

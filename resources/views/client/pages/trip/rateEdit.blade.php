@@ -86,18 +86,18 @@
 
                                 {{--                                name --}}
                                 <div class="row">
-                                    <div class="col-4">
-                                        <label>the review name ar</label>
-                                        <input type="text" name="name_ar" value="{{$review->getTranslation('name','ar'),old('name_ar')}}"
-                                               class="form-control" required placeholder="enter company name_ar here..."/>
-                                        @error('name_ar')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                    <div class="col-4">
-                                        <label>the review name en</label>
+{{--                                    <div class="col-4">--}}
+{{--                                        <label>the review name ar</label>--}}
+{{--                                        <input type="text" name="name_ar" value="{{$review->getTranslation('name','ar'),old('name_ar')}}"--}}
+{{--                                               class="form-control" required placeholder="enter company name_ar here..."/>--}}
+{{--                                        @error('name_ar')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                        <strong>{{$message}}</strong>--}}
+{{--                                    </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+                                    <div class="col-12">
+                                        <label>the review name</label>
                                         <input type="text" name="name_en" value="{{$review->getTranslation('name','en'),old('name_en')}}"
                                                class="form-control" required placeholder="enter company name_en here..."/>
                                         @error('name_en')
@@ -106,37 +106,37 @@
                                     </span>
                                         @enderror
                                     </div>
-                                    <div class="col-4">
-                                        <label>the review name ur</label>
-                                        <input type="text" name="name_ur" value="{{$review->getTranslation('name','ur'),old('name_ur')}}"
-                                               class="form-control" required placeholder="enter company name_en here..."/>
-                                        @error('name_ur')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
+{{--                                    <div class="col-4">--}}
+{{--                                        <label>the review name ur</label>--}}
+{{--                                        <input type="text" name="name_ur" value="{{$review->getTranslation('name','ur'),old('name_ur')}}"--}}
+{{--                                               class="form-control" required placeholder="enter company name_en here..."/>--}}
+{{--                                        @error('name_ur')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                        <strong>{{$message}}</strong>--}}
+{{--                                    </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
                                 </div>
                                 <br>
                                 {{--                                des ar--}}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>review description ar</label>
-                                        <div>
-                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$review->getTranslation('description','ar'),old('description_ar')}}</textarea>
-                                        </div>
-                                        @error('description_ar')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <br>
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-12">--}}
+{{--                                        <label>review description ar</label>--}}
+{{--                                        <div>--}}
+{{--                                            <textarea name="description_ar" class="form-control" rows="5" placeholder="enter the description ar here ...">{{$review->getTranslation('description','ar'),old('description_ar')}}</textarea>--}}
+{{--                                        </div>--}}
+{{--                                        @error('description_ar')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                        <strong>{{$message}}</strong>--}}
+{{--                                    </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <br>--}}
                                 {{--                                des en--}}
                                 <div class="row">
                                     <div class="col-12">
-                                        <label>review description en</label>
+                                        <label>review description</label>
                                         <div>
                                             <textarea name="description_en" class="form-control" rows="5" placeholder="enter the description en here ...">{{$review->getTranslation('description','en'),old('description_en')}}</textarea>
                                         </div>
@@ -149,19 +149,19 @@
                                 </div>
                                 <br>
                                 {{--                                des ur--}}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>review description ur</label>
-                                        <div>
-                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$review->getTranslation('description','ur'),old('description_ur')}}</textarea>
-                                        </div>
-                                        @error('description_ur')
-                                        <span class="text-danger" role="alert">
-                                        <strong>{{$message}}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
-                                </div>
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-12">--}}
+{{--                                        <label>review description ur</label>--}}
+{{--                                        <div>--}}
+{{--                                            <textarea name="description_ur" class="form-control" rows="5" placeholder="enter the description or here ...">{{$review->getTranslation('description','ur'),old('description_ur')}}</textarea>--}}
+{{--                                        </div>--}}
+{{--                                        @error('description_ur')--}}
+{{--                                        <span class="text-danger" role="alert">--}}
+{{--                                        <strong>{{$message}}</strong>--}}
+{{--                                    </span>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                                 <hr>
                                 <hr>
 

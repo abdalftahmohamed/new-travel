@@ -7,6 +7,7 @@ use App\Mail\InvitationEmail;
 
 use App\Models\File;
 use App\Models\Invitation;
+use App\Notifications\InviteClientNotification;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -20,7 +21,12 @@ class InvitationController extends Controller
 
     public function index()
     {
-        return view('pages.invitation.index');
+        $invitations = Invitation::get();
+        return view('pages.invitation.index',compact('invitations'));
+    }
+    public function create()
+    {
+        return view('pages.invitation.create');
     }
 
     public function send(Request $request)
@@ -37,7 +43,6 @@ class InvitationController extends Controller
             ]);
 
             $invitation =Invitation::create($validatedData);
-            $attachmentUrls = [];
 
             // insert attachment
             if ($request->hasfile('attachment')) {
@@ -48,36 +53,18 @@ class InvitationController extends Controller
                     $image->invitation_id = $invitation->id;
                     $image->file_path = $file_path;
                     $image->save();
-                    $attachmentUrls[] = url::asset('attachments/files/'. $invitation->id.'/'.$file_path);
                 }
-
             }
 
-            // Extract data from the request
-            $email = $validatedData['email'];
-            $name = $validatedData['name'];
-            $subject = $validatedData['subject'];
-            $description = $validatedData['description'];
+            $invitation->notify(new InviteClientNotification($invitation));
 
+//            if ($request->hasfile('attachment')) {
+//              $this->deleteFile('files',$invitation->id);
+//            }
+//            $invitation->delete();
 
-            Mail::to($email)->send(new InvitationEmail($subject,$name, $description, $attachmentUrls));
-
-//            $data = [
-//                'email' => $validatedData['email'],
-//                'name' => $validatedData['name'],
-//                'subject' => $validatedData['subject'],
-//                'description' => $validatedData['description'],
-//            ];
-//
-//            Mail::send('emails.myTestMail', $data, function ($message) use ($data, $attachmentUrls) {
-//                $message->to($data['email'])
-//                    ->subject($data['subject']);
-//                foreach ($attachmentUrls as $file) {
-//                    $message->attach($file);
-//                }
-//            });
             toastr()->success('Email Send Successfully');
-            return redirect()->back()->with('message', 'Invitation email sent successfully!');
+            return redirect()->route('admin.invitation.index')->with('message', 'Invitation email sent successfully!');
         }catch (\Exception $exception){
             toastr()->error('There Is A Error..!!');
             return $exception->getMessage();
@@ -88,19 +75,23 @@ class InvitationController extends Controller
 
 
 
-//    public function destroy(Request $request)
-//    {
-//        try {
-//            // Find the invitation by ID
-//            $invitation = SupscripeEmail::findOrFail($request->id);
-//            // Delete the invitation
-//            $invitation->delete();
-////            session()->flash('message', 'invitation Deleted Successfully');
-//            toastr()->error('invitation Deleted Successfully');
-//            return redirect()->route('admin.invitation.index');
-//        } catch (Exception $e) {
-//            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
-//        }
-//    }
+
+
+
+    public function destroy(Request $request)
+    {
+        try {
+            // Find the invitation by ID
+            $invitation = Invitation::findOrFail($request->id);
+            $this->deleteFile('files',$request->id);
+            // Delete the invitation
+            $invitation->delete();
+//            session()->flash('message', 'invitation Deleted Successfully');
+            toastr()->error('invitation Deleted Successfully');
+            return redirect()->route('admin.invitation.index');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
 
 }

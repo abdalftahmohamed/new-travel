@@ -28,7 +28,15 @@
           </span>
                     <h2 class="display-3 text-black">Thank you!</h2>
                     <p class="lead mb-5">You order was successfuly completed.</p>
-                    <p><a href="shop.html" class="btn btn-sm btn-outline-black">Back to shop</a></p>
+                    <p>
+                        Shortly after the completion of booking, you will receive a mail with a link to download your tickets<br>
+                        Print this ticket or show its mobile version to exchange it for your physical tickets once you arrive at the destination
+                    </p>
+                    <p>
+                        بعد وقت قصير من الانتهاء من الحجز، ستتلقى رسالة بريدية تحتوي على رابط لتنزيل التذاكر الخاصة بك
+                        اطبع هذه التذكرة<br> أو أظهر نسخة الهاتف المحمول الخاصة بها لاستبدالها بتذاكرك المادية بمجرد وصولك إلى الوجهة
+                    </p>
+                    <p><a href="{{route('home')}}" class="btn btn-sm btn-outline-black">Back to shop</a></p>
                 </div>
             </div>
         </div>
