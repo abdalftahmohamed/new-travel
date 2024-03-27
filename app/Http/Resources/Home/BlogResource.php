@@ -20,6 +20,7 @@ class BlogResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'imagePath' => $this->image_path,
+            'created_at' => $this->created_at,
             'trip' => \App\Http\Resources\Client\TripResource::collection($this->tripShow) ?? [],
         ];
     }}
